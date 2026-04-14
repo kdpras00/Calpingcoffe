@@ -1,0 +1,66 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Lato', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-heading: 'Playfair Display', serif;
+    
+    /* Tuku-Exact Palette */
+    --color-coffee-50: #ffffff;
+    --color-coffee-100: #fafafa;
+    --color-coffee-200: #F5F5F3; /* Tuku Main Beige */
+    --color-coffee-300: #e0e0e0;
+    --color-coffee-400: #bdbdbd;
+    --color-coffee-500: #9e9e9e;
+    --color-coffee-600: #757575;
+    --color-coffee-700: #616161;
+    --color-coffee-800: #424242;
+    --color-coffee-900: #1a1a1a; /* Tuku Black */
+    
+    /* Accents */
+    --color-tuku-mustard: #E5A124; /* Tuku Fire Bush */
+    
+    /* Typography */
+    --font-heading: 'Tuku Handwriting', 'Quicksand', sans-serif; /* Placeholder for custom, fallback to Quicksand */
+    --font-mono: 'DM Mono', monospace;
+    --color-cream-200: #f5f1e8;
+    --color-cream-300: #e8e2d2;
+    --color-cream-400: #dcd0b8;
+    --color-cream-500: #cbbba0;
+    
+    /* Typography Overrides */
+    /* Using system rounded fonts where possible or clean sans */
+    --font-heading: 'Quicksand', 'Nunito', 'Segoe UI Rounded', 'Lato', sans-serif;
+
+    /* Tuku-style Sticker Animations */
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-10px) rotate(2deg); }
+    }
+    
+    @keyframes wiggle {
+        0%, 100% { transform: rotate(-3deg); }
+        50% { transform: rotate(3deg); }
+    }
+}
+
+@utility animate-float {
+    animation: float 4s ease-in-out infinite;
+}
+
+@utility animate-wiggle {
+    animation: wiggle 3s ease-in-out infinite;
+}
+
+@utility text-shadow-stroke {
+    text-shadow: 
+        -1px -1px 0 #2b1e16,  
+         1px -1px 0 #2b1e16,
+        -1px  1px 0 #2b1e16,
+         1px  1px 0 #2b1e16;
+}
