@@ -36,7 +36,7 @@ class Table extends Model
      */
     public function getSecureUrl()
     {
-        return url('/menu?token=' . $this->secure_token);
+        return rtrim(config('app.url'), '/') . '/menu?token=' . $this->secure_token;
     }
 
     /**

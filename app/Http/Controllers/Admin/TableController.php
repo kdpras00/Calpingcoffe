@@ -65,7 +65,7 @@ class TableController extends Controller
             new SvgImageBackEnd()
         );
         $writer = new Writer($renderer);
-        $qr = $writer->writeString($table->qr_code);
+        $qr = $writer->writeString($table->getSecureUrl());
         
         return response($qr)
             ->header('Content-Type', 'image/svg+xml');
@@ -85,7 +85,7 @@ class TableController extends Controller
             new SvgImageBackEnd()
         );
         $writer = new Writer($renderer);
-        $qr = $writer->writeString($table->qr_code);
+        $qr = $writer->writeString($table->getSecureUrl());
         
         return response($qr)
             ->header('Content-Type', 'image/svg+xml')
