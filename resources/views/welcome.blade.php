@@ -295,7 +295,7 @@ if (canvas) {
             trigger: "#hero-sequence",
             start: "top top",
             end: "+=200%", 
-            scrub: 0.5, 
+            scrub: 1, 
             pin: true,
         },
         onUpdate: render
