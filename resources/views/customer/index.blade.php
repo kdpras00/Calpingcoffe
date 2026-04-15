@@ -5,12 +5,12 @@
 <!-- Categories (Sticky) -->
 <div class="bg-coffee-200 border-b-2 border-coffee-900 py-6 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4">
-        <div class="flex overflow-x-auto gap-4 no-scrollbar items-center">
-            <button onclick="filterCategory('all', this)" class="category-pill active whitespace-nowrap px-6 py-2 border-2 border-coffee-900 bg-coffee-900 text-white font-bold text-xs uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] hover:-translate-y-0.5 transition-all">
-                Semua Menu
+        <div class="grid grid-cols-3 gap-2 md:flex md:flex-nowrap md:overflow-x-auto md:gap-4 no-scrollbar items-center">
+            <button onclick="filterCategory('all', this)" class="category-pill active w-full whitespace-nowrap px-2 sm:px-6 py-2 border-2 border-coffee-900 bg-coffee-900 text-white font-bold text-[9px] sm:text-xs uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] hover:-translate-y-0.5 transition-all">
+                Semua
             </button>
             @foreach($categories as $category)
-                <button onclick="filterCategory('{{ $category->id }}', this)" class="category-pill whitespace-nowrap px-6 py-2 border-2 border-coffee-900 bg-white text-coffee-900 font-bold text-xs uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] hover:bg-cream-50 hover:-translate-y-0.5 transition-all">
+                <button onclick="filterCategory('{{ $category->id }}', this)" class="category-pill w-full whitespace-nowrap px-2 sm:px-6 py-2 border-2 border-coffee-900 bg-white text-coffee-900 font-bold text-[9px] sm:text-xs uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] hover:bg-cream-50 hover:-translate-y-0.5 transition-all">
                     {{ $category->name }}
                 </button>
             @endforeach
@@ -36,7 +36,7 @@
 
 <!-- Menu Grid -->
 <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 md:gap-12 lg:gap-16">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-12 lg:gap-16">
         @foreach($categories as $category)
             @foreach($category->menus as $index => $menu)
                 @php 
@@ -45,10 +45,10 @@
                 @endphp
                 <div class="menu-card group relative" data-category="{{ $category->id }}">
                     <!-- Poster Style Card -->
-                    <div class="bg-white border-2 border-coffee-900 p-3 md:p-4 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] md:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] transition-all duration-300 group-hover:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] md:group-hover:shadow-[16px_16px_0px_0px_rgba(43,30,22,1)] group-hover:-translate-y-2 {{ $rotation }} group-hover:{{ $hoverRotation }} flex flex-col h-full">
+                    <div class="bg-white border-2 border-coffee-900 p-2 md:p-4 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] md:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] transition-all duration-300 group-hover:shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] md:group-hover:shadow-[16px_16px_0px_0px_rgba(43,30,22,1)] group-hover:-translate-y-2 {{ $rotation }} group-hover:{{ $hoverRotation }} flex flex-col h-full">
                         
                         <!-- Image Container -->
-                        <div class="w-full overflow-hidden bg-coffee-100 border-2 border-coffee-900 mb-6 relative" style="aspect-ratio: 4/5;">
+                        <div class="w-full overflow-hidden bg-coffee-100 border-2 border-coffee-900 mb-3 md:mb-6 relative" style="aspect-ratio: 4/5;">
                             @if($menu->image)
                                 @php
                                     $imagePath = $menu->image;
@@ -70,34 +70,32 @@
                         </div>
 
                         <!-- Content Area -->
-                        <div class="flex-grow space-y-3">
+                        <div class="flex-grow space-y-2 sm:space-y-3">
                             <div class="flex justify-between items-start">
-                                <h3 class="text-2xl font-bold text-coffee-900 font-heading leading-tight">{{ $menu->name }}</h3>
+                                <h3 class="text-sm sm:text-2xl font-bold text-coffee-900 font-heading leading-tight">{{ $menu->name }}</h3>
                             </div>
-                            <p class="text-coffee-700 font-mono text-[11px] leading-relaxed line-clamp-3">
+                            <p class="text-coffee-700 font-mono text-[9px] sm:text-[11px] leading-relaxed line-clamp-2 md:line-clamp-3">
                                 {{ $menu->description ?? 'Racikan spesial dari barista Calping untuk menyegarkan harimu.' }}
                             </p>
                         </div>
 
                         <!-- Pricing and Controls Area -->
-                        <div class="mt-6 pt-4 border-t-2 border-dotted border-coffee-900/30 flex justify-between items-center">
-                            <div class="text-lg font-bold text-coffee-900 font-mono">
+                        <div class="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t-2 border-dotted border-coffee-900/30 flex justify-between items-center">
+                            <div class="text-sm sm:text-lg font-bold text-coffee-900 font-mono">
                                 Rp {{ number_format($menu->price, 0, ',', '.') }}
                             </div>
 
                             <!-- Order Controls -->
-                            <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-1.5 sm:gap-3">
                                 <button onclick="updateQuantity({{ $menu->id }}, '{{ $menu->name }}', {{ $menu->price }}, -1)" 
-                                        class="qty-minus-btn hidden w-8 h-8 items-center justify-center bg-white border-2 border-coffee-900 text-coffee-900 rounded-full hover:bg-cream-100 active:scale-90 transition-all shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]"
+                                        class="qty-minus-btn hidden w-7 h-7 sm:w-8 sm:h-8 items-center justify-center bg-white border-2 border-coffee-900 text-coffee-900 rounded-full hover:bg-cream-100 active:scale-90 transition-all shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]"
                                         data-id="{{ $menu->id }}">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M20 12H4"></path></svg>
+                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M20 12H4"></path></svg>
                                 </button>
-
-                                <span class="qty-display hidden font-bold text-coffee-900 font-mono" data-id="{{ $menu->id }}">0</span>
-
+                                <span class="qty-display hidden font-bold text-coffee-900 font-mono text-xs sm:text-base" data-id="{{ $menu->id }}">0</span>
                                 <button onclick="updateQuantity({{ $menu->id }}, '{{ $menu->name }}', {{ $menu->price }}, 1)" 
-                                        class="w-10 h-10 flex items-center justify-center bg-coffee-900 text-white rounded-full border-2 border-coffee-900 hover:scale-110 active:scale-90 transition-all shadow-[4px_4px_0px_0px_rgba(43,30,22,1)]">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                                        class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-coffee-900 text-white rounded-full border-2 border-coffee-900 hover:scale-110 active:scale-90 transition-all shadow-[3px_3px_0px_0px_rgba(43,30,22,1)] sm:shadow-[4px_4px_0px_0px_rgba(43,30,22,1)]">
+                                    <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                                 </button>
                             </div>
                         </div>

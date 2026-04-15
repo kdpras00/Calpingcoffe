@@ -140,7 +140,7 @@
     <div class="grain"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
 
-        <div class="reveal flex flex-col md:flex-row justify-between items-end gap-6 mb-14">
+        <div class="reveal flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-14">
             <div>
                 <div class="inline-flex items-center gap-3 mb-4">
                     <div class="w-8 h-0.5 bg-coffee-900"></div>
@@ -160,12 +160,12 @@
             </a>
         </div>
 
-        <div class="reveal grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-14">
+        <div class="reveal grid grid-cols-3 gap-2 md:gap-14">
             @foreach($highlights as $i => $item)
             <div class="group {{ $i === 1 ? 'md:mt-10' : '' }}">
-                <div class="relative bg-white border-2 border-coffee-900 p-3 md:p-4 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] md:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] transition-all duration-300 group-hover:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] md:group-hover:shadow-[18px_18px_0px_0px_rgba(43,30,22,1)] group-hover:-translate-y-2 {{ $i % 2 == 0 ? '-rotate-1' : 'rotate-2' }} group-hover:rotate-0">
+                <div class="relative bg-white border-2 border-coffee-900 p-1.5 md:p-4 shadow-[2px_2px_0px_0px_rgba(43,30,22,1)] md:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] transition-all duration-300 group-hover:shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] md:group-hover:shadow-[18px_18px_0px_0px_rgba(43,30,22,1)] group-hover:-translate-y-2 {{ $i % 2 == 0 ? 'sm:-rotate-1' : 'sm:rotate-2' }} group-hover:rotate-0">
                     {{-- Badge --}}
-                    <div class="absolute -top-3 -right-3 bg-tuku-mustard text-white text-[9px] font-bold px-3 py-1 border-2 border-coffee-900 rotate-6 shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]">
+                    <div class="absolute -top-2 -right-2 md:-top-3 md:-right-3 bg-tuku-mustard text-white text-[7px] md:text-[9px] font-bold px-2 md:px-3 py-0.5 md:py-1 border-2 border-coffee-900 rotate-6 shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]">
                         {{ $i == 0 ? 'MONTHLY BEST' : ($i == 1 ? 'FAVORITE' : 'TOP RATED') }}
                     </div>
                     {{-- Image --}}
@@ -174,9 +174,9 @@
                              class="w-full h-full object-cover grayscale-[0.15] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
                     </div>
                     {{-- Category badge on image corner --}}
-                    <p class="font-mono text-[9px] uppercase tracking-widest text-coffee-500 mb-1">{{ $item->category->name ?? 'Menu' }}</p>
-                    <h3 class="text-xl font-black text-coffee-900 mb-2 uppercase tracking-tighter">{{ $item->name }}</h3>
-                    <p class="font-mono text-xs text-coffee-700/70 leading-relaxed">{{ Str::limit($item->description, 60) }}</p>
+                    <p class="font-mono text-[7px] sm:text-[9px] uppercase tracking-widest text-coffee-500 mb-0.5 sm:mb-1">{{ $item->category->name ?? 'Menu' }}</p>
+                    <h3 class="text-[10px] sm:text-xl font-black text-coffee-900 mb-1 sm:mb-2 uppercase tracking-tighter">{{ $item->name }}</h3>
+                    <p class="font-mono text-[8px] sm:text-xs text-coffee-700/70 leading-tight sm:leading-relaxed">{{ Str::limit($item->description, 25) }}</p>
                 </div>
             </div>
             @endforeach
