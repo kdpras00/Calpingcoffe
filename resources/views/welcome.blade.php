@@ -47,7 +47,7 @@
      HERO
 ══════════════════════════════════ --}}
 <section id="hero-sequence" class="relative overflow-hidden min-h-screen flex items-center bg-[#bda897]">
-    {{-- Canvas Sequence --}}
+    {{-- Canvas Sequence --}} 
     <canvas id="sequence-canvas" class="absolute inset-0 w-full h-full object-cover pointer-events-none"></canvas>
     
     {{-- Dark overlay (optional, dikurangi agar gambar 3D sequence lebih jelas) --}}
@@ -294,8 +294,8 @@ if (canvas) {
         scrollTrigger: {
             trigger: "#hero-sequence",
             start: "top top",
-            end: "+=100%", // Animasi berlaku selama 1x tinggi layar agar lebih cepat/singkat
-            scrub: 0.5, // Smoothing untuk scroll
+            end: "+=200%", 
+            scrub: 0.5, 
             pin: true,
         },
         onUpdate: render
