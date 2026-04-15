@@ -1,12 +1,12 @@
 @extends('layouts.customer')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-coffee-200 px-4 py-12 sm:px-6 lg:px-8">
-    <div class="max-w-2xl w-full space-y-12 bg-white p-10 border-2 border-coffee-900 shadow-[16px_16px_0px_0px_rgba(43,30,22,1)] relative overflow-hidden">
+<div class="min-h-screen flex items-center justify-center bg-coffee-200 px-4 py-8 md:py-12">
+    <div class="max-w-2xl w-full space-y-8 md:space-y-12 bg-white p-5 md:p-10 border-2 border-coffee-900 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] md:shadow-[16px_16px_0px_0px_rgba(43,30,22,1)] relative overflow-hidden">
         
         <!-- Header (Poster Style) -->
         <div class="relative text-center border-b-2 border-coffee-900 pb-8">
-            <h1 class="text-4xl font-heading font-bold text-coffee-900 uppercase tracking-tighter mb-2">Pesanan <span class="text-coffee-600">#{{ $order->id }}</span></h1>
+            <h1 class="text-2xl md:text-4xl font-heading font-bold text-coffee-900 uppercase tracking-tighter mb-2">Pesanan <span class="text-coffee-600">#{{ $order->id }}</span></h1>
             <div class="inline-block bg-coffee-900 text-white px-6 py-1 rounded-full text-xs font-bold uppercase tracking-widest -rotate-2">
                 Meja {{ $order->table->number }}
             </div>
@@ -67,7 +67,7 @@
         </div>
 
         <!-- Current Status Message -->
-        <div class="relative bg-coffee-200 border-2 border-coffee-900 p-8 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] text-center -rotate-1">
+        <div class="relative bg-coffee-200 border-2 border-coffee-900 p-5 md:p-8 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] md:shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] text-center md:-rotate-1">
             @if($order->status == 'pending')
                 <h2 class="text-2xl font-heading font-bold text-coffee-900 mb-4 uppercase tracking-tighter">Bayar Terlebih Dahulu</h2>
                 <a href="{{ route('customer.payment', $order) }}" class="inline-block bg-coffee-900 text-white font-bold px-8 py-3 border-2 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] hover:-translate-y-1 transition-all uppercase tracking-widest text-sm">
@@ -91,8 +91,8 @@
         </div>
 
         <!-- Order Items (Sticker Style List) -->
-        <div class="relative bg-white border-2 border-coffee-900 rotate-1 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)]">
-            <div class="p-8">
+        <div class="relative bg-white border-2 border-coffee-900 md:rotate-1 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] md:shadow-[8px_8px_0px_0px_rgba(43,30,22,1)]">
+            <div class="p-5 md:p-8">
                 <h3 class="text-lg font-heading font-bold text-coffee-900 mb-6 flex items-center gap-3 uppercase tracking-widest">
                     <svg class="w-6 h-6 text-coffee-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                     Detail Belanja

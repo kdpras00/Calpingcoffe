@@ -16,7 +16,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Map Area -->
-                <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-cream-100 h-[500px] relative group">
+                <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-cream-100 h-[300px] md:h-[500px] relative group">
                     <iframe 
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.607163534185!2d106.63078670000002!3d-6.183298799999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f92a97802429%3A0x6922a2312902d391!2sJl.%20Kalipasir%20Indah%20No.145%2C%20Sukasari%2C%20Kec.%20Tangerang%2C%20Kota%20Tangerang%2C%20Banten%2015118!5e0!3m2!1sid!2sid!4v1767733048794!5m2!1sid!2sid" 
                         width="100%" 

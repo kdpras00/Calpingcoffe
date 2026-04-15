@@ -36,7 +36,7 @@
 
 <!-- Menu Grid -->
 <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-12 md:gap-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 md:gap-12 lg:gap-16">
         @foreach($categories as $category)
             @foreach($category->menus as $index => $menu)
                 @php 
@@ -45,7 +45,7 @@
                 @endphp
                 <div class="menu-card group relative" data-category="{{ $category->id }}">
                     <!-- Poster Style Card -->
-                    <div class="bg-white border-2 border-coffee-900 p-4 shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] transition-all duration-300 group-hover:shadow-[16px_16px_0px_0px_rgba(43,30,22,1)] group-hover:-translate-y-2 {{ $rotation }} group-hover:{{ $hoverRotation }} flex flex-col h-full">
+                    <div class="bg-white border-2 border-coffee-900 p-3 md:p-4 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] md:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] transition-all duration-300 group-hover:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] md:group-hover:shadow-[16px_16px_0px_0px_rgba(43,30,22,1)] group-hover:-translate-y-2 {{ $rotation }} group-hover:{{ $hoverRotation }} flex flex-col h-full">
                         
                         <!-- Image Container -->
                         <div class="w-full overflow-hidden bg-coffee-100 border-2 border-coffee-900 mb-6 relative" style="aspect-ratio: 4/5;">

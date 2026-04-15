@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Hero Section (Tuku: Warm & Personal) -->
-    <section class="relative py-24 bg-cream-50 overflow-hidden flex items-center min-h-[60vh]">
+    <section class="relative py-16 md:py-24 bg-cream-50 overflow-hidden flex items-center min-h-[50vh] md:min-h-[60vh]">
         <div class="absolute inset-0 z-0">
              <!-- abstract shape -->
              <div class="absolute top-0 right-0 w-2/3 h-full bg-coffee-100 rounded-l-[100px] opacity-50"></div>
@@ -13,11 +13,11 @@
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12">
             <div class="md:w-1/2">
                 <span class="text-coffee-600 font-bold tracking-widest uppercase text-sm mb-4 block">Filosofi Kami</span>
-                <h1 class="text-5xl md:text-6xl font-bold text-coffee-900 font-heading mb-6 leading-tight">
+                <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold text-coffee-900 font-heading mb-6 leading-tight">
                     Bukan Sekadar <br>
                     <span class="text-coffee-500">Kedai Kopi.</span>
                 </h1>
-                <p class="text-xl text-coffee-700 leading-relaxed font-medium">
+                <p class="text-base md:text-xl text-coffee-700 leading-relaxed font-medium">
                     Kami adalah ruang tamu bagi warga sekitar. Tempat di mana 'halo' berarti awal dari percakapan panjang, dan setiap cangkir diseduh seperti untuk keluarga sendiri.
                 </p>
             </div>
@@ -46,7 +46,7 @@
                     <div class="w-16 h-16 rounded-full bg-coffee-200 flex items-center justify-center text-coffee-800 mb-6">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                     </div>
-                    <h2 class="text-4xl font-bold text-coffee-900 font-heading mb-4">Racikan Jujur</h2>
+                    <h2 class="text-2xl md:text-4xl font-bold text-coffee-900 font-heading mb-4">Racikan Jujur</h2>
                     <p class="text-lg text-coffee-700 leading-relaxed mb-6">
                         Kami tidak punya rahasia. Gula aren asli, susu segar dari peternakan lokal, dan biji kopi yang kami ambil langsung dari petani sahabat. Semuanya transparan, karena kami percaya kejujuran rasa.
                     </p>
@@ -72,7 +72,7 @@
                     <div class="w-16 h-16 rounded-full bg-cream-200 flex items-center justify-center text-coffee-800 mb-6">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     </div>
-                    <h2 class="text-4xl font-bold text-coffee-900 font-heading mb-4">Ruang Tamu Bersama</h2>
+                    <h2 class="text-2xl md:text-4xl font-bold text-coffee-900 font-heading mb-4">Ruang Tamu Bersama</h2>
                     <p class="text-lg text-coffee-700 leading-relaxed mb-6">
                         Mau kerja remote? Silakan. Mau gosip sore? Boleh banget. Atau cuma mau bengong lihat hujan? Kami sediakan kursinya. Di sini, tidak ada orang asing, yang ada hanya teman yang belum kenalan.
                     </p>
@@ -85,7 +85,7 @@
     <section class="py-24 bg-coffee-900 overflow-hidden relative">
         <div class="absolute inset-0 opacity-10 pattern-grid-lg"></div>
         <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <h2 class="text-4xl md:text-5xl font-bold text-cream-100 font-heading mb-8">Jadi Bagian dari Cerita Kami?</h2>
+            <h2 class="text-3xl md:text-5xl font-bold text-cream-100 font-heading mb-8">Jadi Bagian dari Cerita Kami?</h2>
             <p class="text-xl text-cream-200 mb-10 leading-relaxed">
                 Pintu kami selalu terbuka. Datanglah kapan saja, kami seduhkan yang terbaik.
             </p>

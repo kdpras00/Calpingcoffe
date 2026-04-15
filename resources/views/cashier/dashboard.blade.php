@@ -5,38 +5,38 @@
 @section('content')
 <div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-10">
         <div>
-            <h1 class="text-4xl font-black text-coffee-900 uppercase tracking-tighter">Dashboard Kasir</h1>
-            <p class="text-xs font-mono font-bold text-coffee-600 uppercase tracking-widest mt-1">Kelola pesanan dan pembayaran</p>
+            <h1 class="text-2xl md:text-4xl font-black text-coffee-900 uppercase tracking-tighter">Dashboard Kasir</h1>
+            <p class="text-[10px] md:text-xs font-mono font-bold text-coffee-600 uppercase tracking-widest mt-1">Kelola pesanan dan pembayaran</p>
         </div>
-        <div class="flex items-center gap-3 bg-white border-2 border-coffee-900 px-6 py-3 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)]">
-            <svg class="w-5 h-5 text-tuku-mustard animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+        <div class="flex items-center gap-3 bg-white border-2 border-coffee-900 px-4 py-2 md:px-6 md:py-3 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)]">
+            <svg class="w-4 h-4 md:w-5 md:h-5 text-tuku-mustard animate-pulse" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"></path>
             </svg>
-            <span class="text-xs font-mono font-bold text-coffee-900 uppercase tracking-widest">
+            <span class="text-[10px] md:text-xs font-mono font-bold text-coffee-900 uppercase tracking-widest">
                 Refresh: <span id="timer" class="text-tuku-mustard">10</span>s
             </span>
         </div>
     </div>
 
     <!-- Tabs -->
-    <div class="mb-10 flex gap-4 p-1 bg-coffee-300/30 border-2 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] rounded-none max-w-lg" x-data="{ activeTab: 'orders' }">
+    <div class="mb-6 md:mb-10 flex gap-2 md:gap-4 p-1 bg-coffee-300/30 border-2 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] rounded-none max-w-lg" x-data="{ activeTab: 'orders' }">
         <button @click="activeTab = 'orders'; document.getElementById('orders-section').classList.remove('hidden'); document.getElementById('tables-section').classList.add('hidden')" 
                 :class="activeTab === 'orders' ? 'bg-coffee-900 text-white' : 'text-coffee-600 hover:text-coffee-900'"
-                class="flex-1 py-3 px-6 font-black text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2">
+                class="flex-1 py-2.5 md:py-3 px-3 md:px-6 font-black text-[10px] md:text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2">
             Pesanan
         </button>
         <button @click="activeTab = 'tables'; document.getElementById('orders-section').classList.add('hidden'); document.getElementById('tables-section').classList.remove('hidden')" 
                 :class="activeTab === 'tables' ? 'bg-coffee-900 text-white' : 'text-coffee-600 hover:text-coffee-900'"
-                class="flex-1 py-3 px-6 font-black text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2">
+                class="flex-1 py-2.5 md:py-3 px-3 md:px-6 font-black text-[10px] md:text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2">
             Status Meja
         </button>
     </div>
 
     <!-- Orders Section -->
     <div id="orders-section">
-        <div id="orders-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div id="orders-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             @forelse($orders as $order)
             <div class="bg-white border-2 border-coffee-900 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] hover:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] hover:-translate-y-1 transition-all">
                 
@@ -149,7 +149,7 @@
 
     <!-- Tables Section (Table Map) -->
     <div id="tables-section" class="hidden">
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6">
             @foreach($tables as $table)
             <div class="p-6 border-2 transition-all flex flex-col items-center justify-center gap-4
                 {{ $table->is_occupied 

@@ -5,16 +5,16 @@
 @section('content')
 <div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
-            <h1 class="text-3xl font-bold text-stone-800 dark:text-stone-100">Dashboard Barista</h1>
-            <p class="text-stone-500 dark:text-stone-400 mt-1">Antrean Pesanan & Manajemen Stok</p>
+            <h1 class="text-2xl md:text-3xl font-bold text-stone-800 dark:text-stone-100">Dashboard Barista</h1>
+            <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">Antrean Pesanan & Manajemen Stok</p>
         </div>
         <div class="flex items-center gap-2 bg-white dark:bg-stone-900 px-4 py-2 rounded-lg shadow-sm border border-stone-200 dark:border-stone-800">
-            <svg class="w-5 h-5 text-amber-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 md:w-5 md:h-5 text-amber-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <span class="text-sm text-stone-600 dark:text-stone-300">
+            <span class="text-xs md:text-sm text-stone-600 dark:text-stone-300">
                 Auto-refresh: <span id="timer" class="font-bold text-amber-600">10</span>s
             </span>
         </div>

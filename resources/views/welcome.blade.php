@@ -91,13 +91,13 @@
     </div>
 </div>
 
-<section class="bg-coffee-200 py-28 relative overflow-hidden">
+<section class="bg-coffee-200 py-16 md:py-28 relative overflow-hidden">
     <div class="grain"></div>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
         {{-- Image --}}
         <div class="reveal relative">
-            <div class="relative border-2 border-coffee-900 shadow-[16px_16px_0px_0px_rgba(43,30,22,1)] overflow-hidden -rotate-1 hover:rotate-0 transition-transform duration-500">
+            <div class="relative border-2 border-coffee-900 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] md:shadow-[16px_16px_0px_0px_rgba(43,30,22,1)] overflow-hidden -rotate-1 hover:rotate-0 transition-transform duration-500">
                 <img src="{{ asset('img/calping-bg.png') }}" class="w-full aspect-[4/3] object-cover object-bottom">
                 <div class="absolute inset-0 bg-gradient-to-t from-coffee-900/50 via-transparent to-transparent"></div>
                 {{-- Live badge --}}
@@ -114,7 +114,7 @@
                 <div class="w-8 h-0.5 bg-coffee-900"></div>
                 <span class="font-mono text-xs uppercase tracking-[0.3em] text-coffee-700 font-bold">Tentang Kami</span>
             </div>
-            <h2 class="text-5xl md:text-6xl font-black text-coffee-900 leading-tight mb-6"
+            <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-coffee-900 leading-tight mb-6"
                 style="font-family: 'Playfair Display', serif;">
                 Kopi yang<br><em>Bercerita</em>
             </h2>
@@ -136,9 +136,9 @@
 </section>
 
 
-<section class="bg-coffee-200 py-24 border-t-2 border-coffee-900/10 relative overflow-hidden">
+<section class="bg-coffee-200 py-16 md:py-24 border-t-2 border-coffee-900/10 relative overflow-hidden">
     <div class="grain"></div>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
 
         <div class="reveal flex flex-col md:flex-row justify-between items-end gap-6 mb-14">
             <div>
@@ -146,7 +146,7 @@
                     <div class="w-8 h-0.5 bg-coffee-900"></div>
                     <span class="font-mono text-xs uppercase tracking-[0.3em] text-coffee-700 font-bold">Dari Dapur Kami</span>
                 </div>
-                <h2 class="text-5xl md:text-6xl font-black text-coffee-900 leading-tight"
+                <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-coffee-900 leading-tight"
                     style="font-family: 'Playfair Display', serif;">
                     Menu<br><em>Favorit</em>
                 </h2>
@@ -160,10 +160,10 @@
             </a>
         </div>
 
-        <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14">
+        <div class="reveal grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-14">
             @foreach($highlights as $i => $item)
             <div class="group {{ $i === 1 ? 'md:mt-10' : '' }}">
-                <div class="relative bg-white border-2 border-coffee-900 p-4 shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] transition-all duration-300 group-hover:shadow-[18px_18px_0px_0px_rgba(43,30,22,1)] group-hover:-translate-y-2 {{ $i % 2 == 0 ? '-rotate-1' : 'rotate-2' }} group-hover:rotate-0">
+                <div class="relative bg-white border-2 border-coffee-900 p-3 md:p-4 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] md:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] transition-all duration-300 group-hover:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] md:group-hover:shadow-[18px_18px_0px_0px_rgba(43,30,22,1)] group-hover:-translate-y-2 {{ $i % 2 == 0 ? '-rotate-1' : 'rotate-2' }} group-hover:rotate-0">
                     {{-- Badge --}}
                     <div class="absolute -top-3 -right-3 bg-tuku-mustard text-white text-[9px] font-bold px-3 py-1 border-2 border-coffee-900 rotate-6 shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]">
                         {{ $i == 0 ? 'MONTHLY BEST' : ($i == 1 ? 'FAVORITE' : 'TOP RATED') }}
@@ -187,14 +187,14 @@
 
 <section class="bg-white py-24 border-t-2 border-coffee-900 relative overflow-hidden">
     <div class="grain"></div>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
 
         <div class="reveal mb-12">
             <div class="inline-flex items-center gap-3 mb-4">
                 <div class="w-8 h-0.5 bg-coffee-900"></div>
                 <span class="font-mono text-xs uppercase tracking-[0.3em] text-coffee-700 font-bold">Momen Kita</span>
             </div>
-            <h2 class="text-5xl font-black text-coffee-900" style="font-family: 'Playfair Display', serif;">
+            <h2 class="text-3xl sm:text-5xl font-black text-coffee-900" style="font-family: 'Playfair Display', serif;">
                 #CalpingStory
             </h2>
         </div>
@@ -214,12 +214,12 @@
 </section>
 
 
-<section class="bg-coffee-900 py-32 relative overflow-hidden">
+<section class="bg-coffee-900 py-20 md:py-32 relative overflow-hidden">
     <div class="absolute inset-0 opacity-5" style="background-image: url('data:image/svg+xml,%3Csvg width=40 height=40 viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23FFFFFF\' fill-opacity=\'1\'%3E%3Cpath d=\'M0 40L40 0H20L0 20M40 40V20L20 40\'/%3E%3C/g%3E%3C/svg%3E')"></div>
     <div class="grain"></div>
 
     <div class="relative z-10 max-w-2xl mx-auto text-center px-6">
-        <h2 class="text-5xl md:text-6xl font-black text-white leading-tight mb-6"
+        <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-tight mb-6"
             style="font-family: 'Playfair Display', serif;">
             Siap Menikmati<br>
             <em class="text-tuku-mustard">Momen Hari Ini?</em>

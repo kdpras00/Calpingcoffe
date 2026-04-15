@@ -2,8 +2,8 @@
 @section('title', 'Pembayaran')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-coffee-200 px-4 py-12 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8 bg-white p-8 border-2 border-coffee-900 shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] relative overflow-hidden">
+<div class="min-h-screen flex items-center justify-center bg-coffee-200 px-4 py-8 md:py-12">
+    <div class="max-w-md w-full space-y-8 bg-white p-5 md:p-8 border-2 border-coffee-900 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] md:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] relative overflow-hidden">
         
         <!-- Background Pattern -->
         <div class="absolute top-0 left-0 w-full h-2 bg-coffee-900"></div>
@@ -19,10 +19,10 @@
             <p class="text-coffee-600 font-mono text-sm">Pesanan <span class="font-bold text-coffee-900">#{{ $order->id }}</span> berhasil dibuat.</p>
         </div>
         
-        <div class="relative bg-coffee-100 border-2 border-coffee-900 p-6 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] rotate-1">
+        <div class="relative bg-coffee-100 border-2 border-coffee-900 p-4 md:p-6 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] md:shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] md:rotate-1">
             <div class="flex justify-between items-end mb-2">
                 <span class="text-xs font-bold text-coffee-600 uppercase tracking-widest">Total Pembayaran</span>
-                <span class="text-3xl font-bold font-heading text-coffee-900 tracking-tighter">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
+                <span class="text-xl md:text-3xl font-bold font-heading text-coffee-900 tracking-tighter">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
             </div>
             <div class="h-0.5 w-full bg-coffee-900/10 my-4 border-t-2 border-dotted border-coffee-900/30"></div>
             <div class="text-[10px] text-coffee-600 font-bold uppercase tracking-widest text-center">

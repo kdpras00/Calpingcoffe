@@ -21,7 +21,7 @@
     <!-- Table Container -->
     <div class="bg-white border-4 border-coffee-900 shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] overflow-hidden">
         <div class="overflow-x-auto no-scrollbar">
-            <table class="w-full text-left border-collapse">
+            <table class="w-full text-left border-collapse min-w-[700px]">
                 <thead>
                     <tr class="bg-coffee-900 text-white text-[10px] font-mono font-bold uppercase tracking-widest">
                         <th class="px-6 py-4">Nomor Meja</th>

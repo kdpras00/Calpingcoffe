@@ -5,13 +5,13 @@
 @section('content')
 <div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="mb-10">
-        <h1 class="text-4xl font-black text-coffee-900 uppercase tracking-tighter">Dashboard Admin</h1>
-        <p class="text-xs font-mono font-bold text-coffee-600 uppercase tracking-widest mt-1">Selamat datang kembali, {{ Auth::user()->name }}</p>
+    <div class="mb-6 md:mb-10">
+        <h1 class="text-2xl md:text-4xl font-black text-coffee-900 uppercase tracking-tighter">Dashboard Admin</h1>
+        <p class="text-[10px] md:text-xs font-mono font-bold text-coffee-600 uppercase tracking-widest mt-1">Selamat datang kembali, {{ Auth::user()->name }}</p>
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-8 md:mb-12">
         <!-- Total Sales -->
         <div class="bg-white border-2 border-coffee-900 p-6 shadow-[6px_6px_0px_0px_rgba(43,30,22,1)] hover:shadow-[10px_10px_0px_0px_rgba(43,30,22,1)] hover:-translate-y-1 transition-all">
             <div class="flex items-center justify-between">
@@ -82,14 +82,14 @@
     </div>
 
     <!-- Recent Orders History -->
-    <div class="bg-white border-4 border-coffee-900 p-8 shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] -rotate-1">
-        <div class="flex items-center justify-between mb-8 border-b-2 border-dotted border-coffee-900/30 pb-4">
-            <h2 class="text-2xl font-black text-coffee-900 uppercase tracking-tighter">Riwayat Pesanan Terbaru</h2>
-            <div class="w-12 h-1 border-t-2 border-coffee-900"></div>
+    <div class="bg-white border-2 md:border-4 border-coffee-900 p-4 md:p-8 shadow-[6px_6px_0px_0px_rgba(43,30,22,1)] md:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] md:-rotate-1">
+        <div class="flex items-center justify-between mb-6 md:mb-8 border-b-2 border-dotted border-coffee-900/30 pb-4">
+            <h2 class="text-lg md:text-2xl font-black text-coffee-900 uppercase tracking-tighter">Riwayat Pesanan Terbaru</h2>
+            <div class="w-12 h-1 border-t-2 border-coffee-900 hidden md:block"></div>
         </div>
         
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+        <div class="overflow-x-auto -mx-4 md:mx-0">
+            <table class="w-full text-left border-collapse min-w-[700px]">
                 <thead>
                     <tr class="border-b-2 border-coffee-900 text-xs font-mono font-bold text-coffee-500 uppercase tracking-widest">
                         <th class="pb-4 px-4">Order ID / Waktu</th>

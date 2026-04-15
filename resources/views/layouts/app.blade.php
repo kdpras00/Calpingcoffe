@@ -25,21 +25,57 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="antialiased bg-coffee-200 text-coffee-900 dark:bg-stone-950 dark:text-stone-100" x-data="{ sidebarOpen: true }">
+<body class="antialiased bg-coffee-200 text-coffee-900 dark:bg-stone-950 dark:text-stone-100" 
+      x-data="{
+          isMobile: window.innerWidth < 1024,
+          sidebarOpen: window.innerWidth >= 1024,
+          mobileMenu: false,
+          init() {
+              window.addEventListener('resize', () => {
+                  this.isMobile = window.innerWidth < 1024;
+                  if (!this.isMobile) {
+                      this.mobileMenu = false;
+                  }
+              });
+          }
+      }">
 
     @auth
+        <!-- Mobile Sidebar Overlay -->
+        <div x-show="mobileMenu && isMobile" 
+             x-transition:enter="transition-opacity ease-linear duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition-opacity ease-linear duration-300"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed inset-0 bg-coffee-900/60 backdrop-blur-sm z-40 lg:hidden"
+             @click="mobileMenu = false"
+             style="display: none;"></div>
+
         <!-- Sidebar -->
-        <aside class="w-64 fixed inset-y-0 left-0 z-50 bg-coffee-900 text-white transition-all duration-300 ease-in-out border-r-4 border-coffee-900 flex flex-col"
-               :class="sidebarOpen ? '' : '!w-20'">
+        <aside class="fixed inset-y-0 left-0 z-50 bg-coffee-900 text-white transition-all duration-300 ease-in-out border-r-4 border-coffee-900 flex flex-col"
+               :class="{
+                   'translate-x-0 w-64': !isMobile && sidebarOpen,
+                   'translate-x-0 w-20': !isMobile && !sidebarOpen,
+                   'translate-x-0 w-72': isMobile && mobileMenu,
+                   '-translate-x-full w-72': isMobile && !mobileMenu
+               }">
             
             <!-- Logo -->
-            <div class="h-16 flex items-center border-b-2 border-white/10 transition-all duration-300 px-6"
-                 :class="sidebarOpen ? '' : 'justify-center !px-0'">
-                <div class="flex items-center gap-3">
-                    <span class="w-auto opacity-100 font-heading font-black text-xl text-white whitespace-nowrap overflow-hidden transition-all duration-300 uppercase tracking-tighter"
-                          :class="sidebarOpen ? '' : '!w-0 !opacity-0'">
+            <div class="h-16 flex items-center border-b-2 border-white/10 transition-all duration-300 px-5"
+                 :class="(!isMobile && !sidebarOpen) ? 'justify-center !px-0' : ''">
+                <div class="flex items-center gap-3 w-full">
+                    <span class="font-heading font-black text-lg text-white whitespace-nowrap overflow-hidden transition-all duration-300 uppercase tracking-tighter"
+                          :class="(isMobile && mobileMenu) || (!isMobile && sidebarOpen) ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0'">
                         CALPINGCOFFEE
                     </span>
+                    <!-- Mobile Close Button -->
+                    <button @click="mobileMenu = false" 
+                            x-show="isMobile && mobileMenu"
+                            class="text-white ml-auto shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
                 </div>
             </div>
 
@@ -47,50 +83,50 @@
             <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
                 @php
                     $role = Auth::user()->role;
-                    // Map role names to route prefixes
-                    $routePrefix = $role;
-                    if ($role === 'kasir') {
-                        $routePrefix = 'cashier';
-                    }
+                    $routePrefix = $role === 'kasir' ? 'cashier' : $role;
                 @endphp
 
-                <!-- Dashboard Link -->
                 <a href="{{ route($routePrefix . '.dashboard') }}" 
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-none border-2 transition-all group {{ request()->routeIs($routePrefix . '.dashboard') ? 'bg-tuku-mustard text-coffee-900 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]' : 'border-transparent text-stone-400 hover:text-white hover:bg-white/5' }}">
+                   class="flex items-center gap-3 px-3 py-3 border-2 transition-all group {{ request()->routeIs($routePrefix . '.dashboard') ? 'bg-tuku-mustard text-coffee-900 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]' : 'border-transparent text-stone-400 hover:text-white hover:bg-white/5' }}">
                     <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                    <span class="w-auto opacity-100 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold text-xs uppercase tracking-widest"
-                          :class="sidebarOpen ? '' : '!w-0 !opacity-0'">
+                    <span class="whitespace-nowrap overflow-hidden transition-all duration-300 font-bold text-xs uppercase tracking-widest"
+                          :class="(isMobile && mobileMenu) || (!isMobile && sidebarOpen) ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0'">
                         Dashboard
                     </span>
                 </a>
 
-                <!-- Role Specific Links -->
                 @if($role === 'admin')
-                    <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-none border-2 transition-all group {{ request()->routeIs('admin.users.*') ? 'bg-tuku-mustard text-coffee-900 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]' : 'border-transparent text-stone-400 hover:text-white hover:bg-white/5' }}">
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 px-3 py-3 border-2 transition-all group {{ request()->routeIs('admin.users.*') ? 'bg-tuku-mustard text-coffee-900 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]' : 'border-transparent text-stone-400 hover:text-white hover:bg-white/5' }}">
                         <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        <span class="w-auto opacity-100 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold text-xs uppercase tracking-widest" :class="sidebarOpen ? '' : '!w-0 !opacity-0'">Pengguna</span>
+                        <span class="whitespace-nowrap overflow-hidden transition-all duration-300 font-bold text-xs uppercase tracking-widest" 
+                              :class="(isMobile && mobileMenu) || (!isMobile && sidebarOpen) ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0'">Pengguna</span>
                     </a>
-                    <a href="{{ route('admin.tables.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-none border-2 transition-all group {{ request()->routeIs('admin.tables.*') ? 'bg-tuku-mustard text-coffee-900 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]' : 'border-transparent text-stone-400 hover:text-white hover:bg-white/5' }}">
+                    <a href="{{ route('admin.tables.index') }}" class="flex items-center gap-3 px-3 py-3 border-2 transition-all group {{ request()->routeIs('admin.tables.*') ? 'bg-tuku-mustard text-coffee-900 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]' : 'border-transparent text-stone-400 hover:text-white hover:bg-white/5' }}">
                         <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                        <span class="w-auto opacity-100 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold text-xs uppercase tracking-widest" :class="sidebarOpen ? '' : '!w-0 !opacity-0'">Meja</span>
+                        <span class="whitespace-nowrap overflow-hidden transition-all duration-300 font-bold text-xs uppercase tracking-widest" 
+                              :class="(isMobile && mobileMenu) || (!isMobile && sidebarOpen) ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0'">Meja</span>
                     </a>
-                    <a href="{{ route('admin.menus.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-none border-2 transition-all group {{ request()->routeIs('admin.menus.*') ? 'bg-tuku-mustard text-coffee-900 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]' : 'border-transparent text-stone-400 hover:text-white hover:bg-white/5' }}">
+                    <a href="{{ route('admin.menus.index') }}" class="flex items-center gap-3 px-3 py-3 border-2 transition-all group {{ request()->routeIs('admin.menus.*') ? 'bg-tuku-mustard text-coffee-900 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]' : 'border-transparent text-stone-400 hover:text-white hover:bg-white/5' }}">
                         <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                        <span class="w-auto opacity-100 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold text-xs uppercase tracking-widest" :class="sidebarOpen ? '' : '!w-0 !opacity-0'">Menu</span>
+                        <span class="whitespace-nowrap overflow-hidden transition-all duration-300 font-bold text-xs uppercase tracking-widest" 
+                              :class="(isMobile && mobileMenu) || (!isMobile && sidebarOpen) ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0'">Menu</span>
                     </a>
                 @endif
             </nav>
-
-
         </aside>
 
         <!-- Main Content Wrapper -->
-        <div class="ml-64 min-h-screen transition-all duration-300 ease-in-out"
-             :class="sidebarOpen ? '' : '!ml-20'">
+        <div class="min-h-screen transition-all duration-300 ease-in-out"
+             :class="{
+                 'ml-64': !isMobile && sidebarOpen,
+                 'ml-20': !isMobile && !sidebarOpen,
+                 'ml-0': isMobile
+             }">
             
             <!-- Top Bar -->
-            <header class="bg-white dark:bg-stone-900 border-b-4 border-coffee-900 h-16 flex items-center justify-between px-6 sticky top-0 z-40">
-                <button @click="sidebarOpen = !sidebarOpen" class="text-coffee-900 hover:scale-110 transition-transform focus:outline-none">
+            <header class="bg-white dark:bg-stone-900 border-b-4 border-coffee-900 h-16 flex items-center justify-between px-4 sticky top-0 z-30">
+                <button @click="isMobile ? mobileMenu = !mobileMenu : sidebarOpen = !sidebarOpen" 
+                        class="text-coffee-900 hover:scale-110 transition-transform focus:outline-none">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
                 

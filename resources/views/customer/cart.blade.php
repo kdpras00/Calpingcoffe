@@ -136,23 +136,23 @@
 
         for (const [id, item] of Object.entries(cart)) {
             const itemElement = document.createElement('div');
-            itemElement.className = 'bg-white dark:bg-stone-800 p-4 rounded-xl shadow-sm border border-stone-100 dark:border-stone-700 flex items-center justify-between group hover:border-coffee-200 dark:hover:border-coffee-900 transition-colors';
+            itemElement.className = 'bg-white border-2 border-coffee-900 p-4 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] flex items-center justify-between group hover:-translate-y-1 transition-all';
             itemElement.innerHTML = `
                 <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-lg bg-coffee-100 dark:bg-coffee-900/30 flex items-center justify-center text-coffee-600 font-bold text-sm">
+                    <div class="w-10 h-10 border-2 border-coffee-900 bg-coffee-900 text-white flex items-center justify-center font-black text-xs shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)]">
                         ${item.quantity}x
                     </div>
                     <div>
-                        <h3 class="font-bold text-stone-900 dark:text-stone-100">${item.name}</h3>
-                        <p class="text-sm text-stone-500 dark:text-stone-400">Rp ${new Intl.NumberFormat('id-ID').format(item.price)}</p>
+                        <h3 class="font-black text-coffee-900 uppercase tracking-tighter text-sm md:text-base">${item.name}</h3>
+                        <p class="text-[10px] font-mono font-bold text-coffee-500 uppercase tracking-widest">Rp ${new Intl.NumberFormat('id-ID').format(item.price)}</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <span class="font-bold text-stone-900 dark:text-stone-100">
+                <div class="flex items-center gap-4">
+                    <span class="font-black text-coffee-900 font-mono text-xs md:text-sm whitespace-nowrap">
                         Rp ${new Intl.NumberFormat('id-ID').format(item.price * item.quantity)}
                     </span>
-                    <button onclick="removeFromCart(${id})" class="p-2 text-stone-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Hapus">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    <button onclick="removeFromCart(${id})" class="p-2 bg-coffee-900 text-white border-2 border-coffee-900 hover:bg-red-600 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
                 </div>
             `;
