@@ -7,7 +7,7 @@
     <!-- Tuku-Exact Fonts: DM Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Nunito:wght@400;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('img/calpinglogoico-removebg-preview.png') }}">
@@ -17,8 +17,9 @@
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        body { font-family: 'DM Mono', monospace; } /* Tuku Base Font */
-        h1, h2, h3, h4, h5, h6, .font-heading { font-family: 'Quicksand', sans-serif; letter-spacing: -0.02em; }
+        body { font-family: 'Inter', sans-serif; } 
+        h1, h2, h3, h4, h5, h6, .font-heading { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
+        .font-sans-alt { font-family: 'Inter', sans-serif; }
         
         /* Sticker Hover */
         .sticker { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -26,7 +27,7 @@
     </style>
     @stack('styles')
 </head>
-<body class="antialiased bg-coffee-200 text-coffee-900 dark:bg-stone-950 dark:text-white selection:bg-coffee-600 selection:text-white flex flex-col min-h-screen">
+<body class="antialiased bg-white text-stone-900 selection:bg-stone-900 selection:text-white flex flex-col min-h-screen">
 
     <!-- Sticky Navigation (Standardized Fixed Height) -->
     <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-white border-b border-stone-100 h-20" 
@@ -37,19 +38,19 @@
             <div class="flex justify-between items-center h-full">
                 <!-- Brand -->
                 <a href="{{ route('home') }}" class="flex items-center gap-2 group">
-                    <span class="font-bold text-xl md:text-2xl tracking-tighter font-heading text-coffee-900">
-                        calpingCoffee
+                    <span class="font-bold text-2xl md:text-3xl tracking-tight font-heading text-stone-900 uppercase">
+                        calping Coffee
                     </span>
                 </a>
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="{{ route('home') }}" class="font-bold transition text-sm text-coffee-700 hover:text-coffee-900">Beranda</a>
-                    <a href="{{ route('ourstory') }}" class="font-bold transition text-sm text-coffee-700 hover:text-coffee-900">Cerita Kami</a>
-                    <a href="{{ route('location') }}" class="font-bold transition text-sm text-coffee-700 hover:text-coffee-900">Lokasi</a>
+                    <a href="{{ route('home') }}" class="font-semibold transition text-xs uppercase tracking-widest text-stone-600 hover:text-stone-900">Beranda</a>
+                    <a href="{{ route('ourstory') }}" class="font-semibold transition text-xs uppercase tracking-widest text-stone-600 hover:text-stone-900">Cerita Kami</a>
+                    <a href="{{ route('location') }}" class="font-semibold transition text-xs uppercase tracking-widest text-stone-600 hover:text-stone-900">Lokasi</a>
                     
                     @if(!request()->routeIs('customer.index') && !request()->routeIs('customer.scan'))
-                        <a href="{{ route('customer.index') }}" class="flex items-center gap-2 px-6 py-2 rounded-full font-bold shadow-sm transition-all text-sm bg-coffee-900 text-white hover:bg-black">
+                        <a href="{{ route('customer.index') }}" class="flex items-center gap-2 px-8 py-2.5 rounded-full font-bold transition-all text-xs uppercase tracking-widest bg-stone-900 text-white hover:bg-stone-800 hover:scale-105">
                             <span>Pesan Sekarang</span>
                         </a>
                     @endif
@@ -98,27 +99,27 @@
         @yield('content')
     </main>
 
-    <!-- Simple Footer (Tuku Style) -->
-    <footer class="bg-coffee-200 text-coffee-900 py-12 border-t border-coffee-300">
+    <!-- Simple Footer (Premium Style) -->
+    <footer class="bg-stone-50 text-stone-900 py-20 border-t border-stone-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-start gap-8 text-left">
                 <div>
-                    <h2 class="font-heading font-bold text-3xl mb-4 tracking-tighter">calpingCoffee</h2>
-                    <ul class="space-y-2 text-sm font-medium">
-                        <li><a href="#" class="hover:underline">Tentang Kami</a></li>
-                        <li><a href="#" class="hover:underline">Karir</a></li>
-                        <li><a href="#" class="hover:underline">Kontak</a></li>
-                        <li><a href="#" class="hover:underline">Privasi & Syarat</a></li>
+                    <h2 class="font-heading font-bold text-4xl mb-6 tracking-tight uppercase">calping Coffee</h2>
+                    <ul class="space-y-3 text-xs font-semibold uppercase tracking-widest text-stone-500">
+                        <li><a href="#" class="hover:text-stone-900 transition-colors">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-stone-900 transition-colors">Karir</a></li>
+                        <li><a href="#" class="hover:text-stone-900 transition-colors">Kontak</a></li>
+                        <li><a href="#" class="hover:text-stone-900 transition-colors">Privasi & Syarat</a></li>
                     </ul>
                 </div>
                 
-                <div class="text-coffee-600 md:text-right">
-                    <div class="flex gap-4 mb-4 justify-start md:justify-end">
-                        <a href="https://www.instagram.com/calpingkopi/" target="_blank" class="w-10 h-10 flex items-center justify-center bg-coffee-900 text-white rounded-full hover:scale-110 transition">
+                <div class="text-stone-400 md:text-right">
+                    <div class="flex gap-4 mb-6 justify-start md:justify-end">
+                        <a href="https://www.instagram.com/calpingkopi/" target="_blank" class="w-12 h-12 flex items-center justify-center border border-stone-200 text-stone-900 rounded-full hover:bg-stone-900 hover:text-white hover:border-stone-900 transition-all duration-300">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </a>
                     </div>
-                    <p class="text-xs font-bold uppercase tracking-widest opacity-60">&copy; {{ date('Y') }} Calping</p>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400">&copy; {{ date('Y') }} Calping Coffee — All Rights Reserved</p>
                 </div>
             </div>
         </div>

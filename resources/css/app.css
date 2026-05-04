@@ -6,61 +6,44 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Lato', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-heading: 'Playfair Display', serif;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Bebas Neue', sans-serif;
     
-    /* Tuku-Exact Palette */
-    --color-coffee-50: #ffffff;
-    --color-coffee-100: #fafafa;
-    --color-coffee-200: #F5F5F3; /* Tuku Main Beige */
-    --color-coffee-300: #e0e0e0;
-    --color-coffee-400: #bdbdbd;
-    --color-coffee-500: #9e9e9e;
-    --color-coffee-600: #757575;
-    --color-coffee-700: #616161;
-    --color-coffee-800: #424242;
-    --color-coffee-900: #1a1a1a; /* Tuku Black */
+    /* Premium Neutral Palette */
+    --color-stone-50: #f8f8f8;
+    --color-stone-100: #f1f1f1;
+    --color-stone-200: #e5e5e5;
+    --color-stone-300: #d4d4d4;
+    --color-stone-400: #a3a3a3;
+    --color-stone-500: #737373;
+    --color-stone-600: #525252;
+    --color-stone-700: #404040;
+    --color-stone-800: #262626;
+    --color-stone-900: #171717;
     
-    /* Accents */
-    --color-tuku-mustard: #E5A124; /* Tuku Fire Bush */
-    
-    /* Typography */
-    --font-heading: 'Tuku Handwriting', 'Quicksand', sans-serif; /* Placeholder for custom, fallback to Quicksand */
-    --font-mono: 'DM Mono', monospace;
-    --color-cream-200: #f5f1e8;
-    --color-cream-300: #e8e2d2;
-    --color-cream-400: #dcd0b8;
-    --color-cream-500: #cbbba0;
-    
-    /* Typography Overrides */
-    /* Using system rounded fonts where possible or clean sans */
-    --font-heading: 'Quicksand', 'Nunito', 'Segoe UI Rounded', 'Lato', sans-serif;
-
-    /* Tuku-style Sticker Animations */
+    /* Animations */
     @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-10px) rotate(2deg); }
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
     }
-    
-    @keyframes wiggle {
-        0%, 100% { transform: rotate(-3deg); }
-        50% { transform: rotate(3deg); }
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 }
 
 @utility animate-float {
-    animation: float 4s ease-in-out infinite;
+    animation: float 5s ease-in-out infinite;
 }
 
-@utility animate-wiggle {
-    animation: wiggle 3s ease-in-out infinite;
+@utility animate-fade-in {
+    animation: fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@utility text-shadow-stroke {
-    text-shadow: 
-        -1px -1px 0 #2b1e16,  
-         1px -1px 0 #2b1e16,
-        -1px  1px 0 #2b1e16,
-         1px  1px 0 #2b1e16;
+@utility grain {
+    position: absolute; 
+    inset: 0; 
+    pointer-events: none; 
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }

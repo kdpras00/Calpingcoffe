@@ -17,15 +17,18 @@ class PaymentController extends Controller
         Config::$isProduction = config('services.midtrans.is_production');
         Config::$isSanitized = true;
         Config::$is3ds = true;
+
+        if (config('app.env') === 'local') {
+            Config::$curlOptions = [
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_SSL_VERIFYPEER => 0,
+                CURLOPT_HTTPHEADER => []
+            ];
+        }
     }
 
     public function getSnapToken(Order $order)
     {
-        // If snap token already exists and is valid, return it
-        // FORCE REGENERATE FOR DEBUGGING - Commented out cache check
-        // if ($order->snap_token && $order->status === 'pending') {
-        //     return response()->json(['snap_token' => $order->snap_token]);
-        // }
 
         $params = [
             'transaction_details' => [

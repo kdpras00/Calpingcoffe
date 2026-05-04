@@ -17,6 +17,10 @@ class OrderController extends Controller
             $table = Table::where('secure_token', $request->token)->first();
             
             if ($table) {
+                // Cek apakah meja sedang dipakai oleh orang lain
+                if ($table->isOccupied() && session('table_id') != $table->id) {
+                    return redirect()->route('customer.occupied');
+                }
                 session(['table_id' => $table->id, 'table_number' => $table->number]);
             } else {
                 abort(403, 'Invalid or expired QR code. Please scan a valid table QR code.');

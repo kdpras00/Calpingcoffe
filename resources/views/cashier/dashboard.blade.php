@@ -1,190 +1,191 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Kasir')
+@section('title', 'Cashier Dashboard')
 
 @section('content')
 <div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-10">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-12">
         <div>
-            <h1 class="text-2xl md:text-4xl font-black text-coffee-900 uppercase tracking-tighter">Dashboard Kasir</h1>
-            <p class="text-[10px] md:text-xs font-mono font-bold text-coffee-600 uppercase tracking-widest mt-1">Kelola pesanan dan pembayaran</p>
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-8 h-0.5 bg-stone-900"></div>
+                <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Operasional Kasir</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold text-stone-900 font-heading uppercase tracking-tight">Dashboard Kasir</h1>
+            <p class="text-xs font-semibold text-stone-400 uppercase tracking-widest mt-4">Kelola pesanan dan pembayaran real-time</p>
         </div>
-        <div class="flex items-center gap-3 bg-white border-2 border-coffee-900 px-4 py-2 md:px-6 md:py-3 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)]">
-            <svg class="w-4 h-4 md:w-5 md:h-5 text-tuku-mustard animate-pulse" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"></path>
-            </svg>
-            <span class="text-[10px] md:text-xs font-mono font-bold text-coffee-900 uppercase tracking-widest">
-                Refresh: <span id="timer" class="text-tuku-mustard">10</span>s
+        
+        <div class="flex items-center gap-4 bg-white px-6 py-4 rounded-2xl shadow-sm border border-stone-100">
+            <div class="relative flex items-center justify-center">
+                <div class="w-2 h-2 rounded-full bg-stone-900 animate-ping absolute"></div>
+                <div class="w-2 h-2 rounded-full bg-stone-900 relative"></div>
+            </div>
+            <span class="text-[10px] font-bold text-stone-900 uppercase tracking-[0.2em]">
+                Auto Refresh: <span id="timer" class="text-stone-400 ml-1">10</span>s
             </span>
         </div>
     </div>
 
-    <!-- Tabs -->
-    <div class="mb-6 md:mb-10 flex gap-2 md:gap-4 p-1 bg-coffee-300/30 border-2 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] rounded-none max-w-lg" x-data="{ activeTab: 'orders' }">
-        <button @click="activeTab = 'orders'; document.getElementById('orders-section').classList.remove('hidden'); document.getElementById('tables-section').classList.add('hidden')" 
-                :class="activeTab === 'orders' ? 'bg-coffee-900 text-white' : 'text-coffee-600 hover:text-coffee-900'"
-                class="flex-1 py-2.5 md:py-3 px-3 md:px-6 font-black text-[10px] md:text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2">
-            Pesanan
-        </button>
-        <button @click="activeTab = 'tables'; document.getElementById('orders-section').classList.add('hidden'); document.getElementById('tables-section').classList.remove('hidden')" 
-                :class="activeTab === 'tables' ? 'bg-coffee-900 text-white' : 'text-coffee-600 hover:text-coffee-900'"
-                class="flex-1 py-2.5 md:py-3 px-3 md:px-6 font-black text-[10px] md:text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2">
-            Status Meja
-        </button>
-    </div>
+    <!-- Tabs Container -->
+    <div x-data="{ activeTab: 'orders' }" class="space-y-12">
+        <!-- Modern Tab Switcher -->
+        <div class="flex p-1.5 bg-stone-100 rounded-2xl w-fit">
+            <button @click="activeTab = 'orders'; document.getElementById('orders-section').classList.remove('hidden'); document.getElementById('tables-section').classList.add('hidden')" 
+                    :class="activeTab === 'orders' ? 'bg-white text-stone-900 shadow-sm' : 'text-stone-400 hover:text-stone-600'"
+                    class="px-8 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all">
+                Antrean Pesanan
+            </button>
+            <button @click="activeTab = 'tables'; document.getElementById('orders-section').classList.add('hidden'); document.getElementById('tables-section').classList.remove('hidden')" 
+                    :class="activeTab === 'tables' ? 'bg-white text-stone-900 shadow-sm' : 'text-stone-400 hover:text-stone-600'"
+                    class="px-8 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all">
+                Status Meja
+            </button>
+        </div>
 
-    <!-- Orders Section -->
-    <div id="orders-section">
-        <div id="orders-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-            @forelse($orders as $order)
-            <div class="bg-white border-2 border-coffee-900 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] hover:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] hover:-translate-y-1 transition-all">
-                
-                <!-- Header with Table & Status -->
-                <div class="p-5 bg-tuku-mustard/10 border-b-2 border-coffee-900">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="font-black text-xl text-coffee-900 uppercase tracking-tighter">#{{ $order->id }}</h3>
-                            <div class="flex items-center gap-1.5 mt-1">
-                                <span class="text-[10px] font-mono font-bold bg-coffee-900 text-white px-2 py-0.5 uppercase tracking-widest">Meja {{ $order->table->number }}</span>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-lg font-black text-coffee-900 font-heading">
-                                Rp {{ number_format($order->total_amount, 0, ',', '.') }}
-                            </div>
-                            <span class="inline-block px-2 py-0.5 border border-coffee-900 text-[10px] font-mono font-bold uppercase tracking-widest mt-1
-                                {{ $order->payment_status == 'paid' ? 'bg-green-500 text-white' : 'bg-white text-coffee-900' }}">
-                                {{ $order->payment_status == 'paid' ? 'Lunas' : 'Menunggu' }}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Menu Items -->
-                <div class="p-5 space-y-4 max-h-80 overflow-y-auto no-scrollbar">
-                    @foreach($order->items as $item)
-                    <div class="flex items-center gap-4 group">
-                        <!-- Menu Image -->
-                        <div class="flex-shrink-0 border-2 border-coffee-900 shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]">
-                            <img src="{{ str_starts_with($item->menu->image, 'http') ? $item->menu->image : asset('storage/' . $item->menu->image) }}" 
-                                 alt="{{ $item->menu->name }}" 
-                                 class="w-14 h-14 object-cover">
-                        </div>
-                        
-                        <!-- Menu Details -->
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-start justify-between gap-2">
-                                <div class="flex-1">
-                                    <p class="font-bold text-sm text-coffee-900 uppercase tracking-tight truncate">{{ $item->menu->name }}</p>
-                                    <p class="text-[10px] font-mono text-coffee-500 font-bold uppercase tracking-widest">{{ $item->quantity }}x @ Rp {{ number_format($item->price, 0, ',', '.') }}</p>
+        <!-- Orders Section -->
+        <div id="orders-section" class="transition-all duration-500">
+            <div id="orders-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                @forelse($orders as $order)
+                <div class="bg-white rounded-[32px] overflow-hidden shadow-sm border border-stone-100 hover:shadow-xl transition-all duration-500 flex flex-col group">
+                    
+                    <!-- Card Header -->
+                    <div class="p-8 bg-stone-50 border-b border-stone-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-2xl text-stone-900 tracking-tight mb-2">#{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</h3>
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-flex items-center px-3 py-1 bg-stone-900 text-white text-[9px] font-bold uppercase tracking-widest rounded-full">
+                                        {{ $order->table ? 'MEJA ' . $order->table->number : 'Lainnya' }}
+                                    </span>
+                                    <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest ml-1">{{ $order->created_at->format('H:i') }}</span>
                                 </div>
-                                <p class="font-black text-xs text-coffee-900 font-heading whitespace-nowrap">
-                                    Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}
-                                </p>
                             </div>
-                            @if($item->note)
-                            <div class="mt-1 text-[9px] font-mono text-tuku-mustard italic flex items-start gap-1">
-                                <span>"{{ $item->note }}"</span>
+                            <div class="text-right">
+                                <div class="text-xl font-bold text-stone-900">
+                                    <span class="text-[10px] text-stone-400 font-normal mr-1">IDR</span>{{ number_format($order->total_amount, 0, ',', '.') }}
+                                </div>
+                                <div class="mt-2">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest {{ $order->payment_status == 'paid' ? 'bg-green-50 text-green-600' : 'bg-stone-200 text-stone-600' }}">
+                                        <div class="w-1 h-1 rounded-full {{ $order->payment_status == 'paid' ? 'bg-green-600' : 'bg-stone-600' }}"></div>
+                                        {{ $order->payment_status == 'paid' ? 'Lunas' : 'Menunggu' }}
+                                    </span>
+                                </div>
                             </div>
-                            @endif
                         </div>
                     </div>
-                    @endforeach
-                </div>
 
-                <!-- Actions -->
-                <div class="p-5 bg-coffee-100/50 border-t-2 border-coffee-900">
-                    @if($order->payment_status == 'pending')
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between gap-2 bg-white border-2 border-dashed border-coffee-300 p-3">
-                            <div class="flex items-center gap-2 text-coffee-400">
-                                <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                <span class="font-bold text-[9px] font-mono uppercase tracking-widest">Waiting Payment...</span>
+                    <!-- Items List -->
+                    <div class="p-8 space-y-6 flex-grow max-h-[400px] overflow-y-auto no-scrollbar">
+                        @foreach($order->items as $item)
+                        <div class="flex items-start gap-5">
+                            <div class="w-16 h-16 rounded-2xl overflow-hidden bg-stone-100 shrink-0 border border-stone-100">
+                                <img src="{{ str_starts_with($item->menu->image, 'http') ? $item->menu->image : asset('storage/' . $item->menu->image) }}" 
+                                     alt="{{ $item->menu->name }}" 
+                                     class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-start mb-1">
+                                    <p class="font-bold text-stone-900 text-sm uppercase tracking-tight truncate">{{ $item->menu->name }}</p>
+                                    <p class="text-sm font-bold text-stone-900 ml-2">x{{ $item->quantity }}</p>
+                                </div>
+                                <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-2">@ IDR {{ number_format($item->price, 0, ',', '.') }}</p>
+                                @if($item->note)
+                                <div class="bg-stone-50 rounded-lg p-2 border border-stone-100">
+                                    <p class="text-[9px] text-stone-500 font-medium leading-relaxed italic">"{{ $item->note }}"</p>
+                                </div>
+                                @endif
                             </div>
                         </div>
+                        @endforeach
+                    </div>
 
-                        <div class="grid grid-cols-2 gap-3">
-                            <form action="{{ route('cashier.cancel', $order) }}" method="POST" onsubmit="cancelOrder(event)">
+                    <!-- Actions Footer -->
+                    <div class="p-8 bg-stone-50/50 border-t border-stone-100 mt-auto">
+                        @if($order->payment_status == 'pending')
+                        <div class="grid grid-cols-2 gap-4">
+                            <form action="{{ route('cashier.cancel', $order) }}" method="POST" onsubmit="cancelOrder(event)" class="col-span-1">
                                 @csrf
-                                <button type="submit" class="w-full bg-white hover:bg-red-50 text-red-600 border-2 border-red-200 font-black text-[10px] py-3 uppercase tracking-widest transition-all">
-                                    Batal
+                                <button type="submit" class="w-full py-4 rounded-2xl text-stone-400 hover:text-red-500 hover:bg-red-50 font-bold text-[10px] uppercase tracking-[0.2em] transition-all border border-stone-100">
+                                    Batalkan
                                 </button>
                             </form>
-
-                            <form action="{{ route('cashier.confirm-payment', $order) }}" method="POST" onsubmit="confirmPayment(event)">
+                            <form action="{{ route('cashier.confirm-payment', $order) }}" method="POST" onsubmit="confirmPayment(event)" class="col-span-1">
                                 @csrf
-                                <button type="submit" class="w-full bg-coffee-900 text-white hover:bg-black font-black text-[10px] py-3 uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(229,161,36,0.3)] transition-all">
+                                <button type="submit" class="w-full py-4 rounded-2xl bg-stone-900 text-white hover:bg-stone-800 shadow-lg shadow-stone-200 font-bold text-[10px] uppercase tracking-[0.2em] transition-all">
                                     Bayar
                                 </button>
                             </form>
                         </div>
-                    </div>
-                    @else
-                    <div class="flex gap-3">
-                        <div class="flex-1 bg-green-500 text-white font-black text-[10px] py-4 text-center uppercase tracking-widest flex items-center justify-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                            Lunas
+                        @else
+                        <div class="flex gap-4">
+                            <div class="flex-1 py-4 bg-green-50 text-green-600 rounded-2xl font-bold text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-3">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                Lunas
+                            </div>
+                            <button onclick="printReceipt({{ $order->id }})" class="flex-1 py-4 bg-white border border-stone-200 rounded-2xl text-stone-900 hover:bg-stone-50 font-bold text-[10px] uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                                Struk
+                            </button>
                         </div>
-                        <button class="flex-1 bg-white border-2 border-coffee-900 text-coffee-900 font-black text-[10px] py-4 uppercase tracking-widest hover:bg-coffee-50 transition-colors flex items-center justify-center gap-2" onclick="printReceipt({{ $order->id }})">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                            Cetak
-                        </button>
+                        @endif
                     </div>
-                    @endif
                 </div>
+                @empty
+                <div class="col-span-full py-32 flex flex-col items-center justify-center gap-6">
+                    <div class="w-24 h-24 rounded-full bg-stone-50 flex items-center justify-center text-stone-200">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-xl font-bold text-stone-900 font-heading uppercase tracking-widest mb-1">Antrean Kosong</h3>
+                        <p class="text-xs font-semibold text-stone-400 uppercase tracking-widest">Belum ada pesanan masuk saat ini</p>
+                    </div>
+                </div>
+                @endforelse
             </div>
-            @empty
-            <div class="col-span-full border-4 border-dashed border-coffee-300 py-20 flex flex-col items-center justify-center text-coffee-300">
-                <svg class="w-20 h-20 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                </svg>
-                <p class="text-xl font-black uppercase tracking-widest">Antrean Kosong</p>
-            </div>
-            @endforelse
         </div>
-    </div>
 
-    <!-- Tables Section (Table Map) -->
-    <div id="tables-section" class="hidden">
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6">
-            @foreach($tables as $table)
-            <div class="p-6 border-2 transition-all flex flex-col items-center justify-center gap-4
-                {{ $table->is_occupied 
-                    ? 'bg-red-50 border-red-500 shadow-[6px_6px_0px_0px_rgba(239,68,68,1)]' 
-                    : 'bg-white border-coffee-900 shadow-[6px_6px_0px_0px_rgba(43,30,22,1)] hover:shadow-[10px_10px_0px_0px_rgba(43,30,22,1)] hover:-translate-y-1' }}">
-                
-                <span class="text-xs font-mono font-black uppercase tracking-widest {{ $table->is_occupied ? 'text-red-500' : 'text-coffee-600' }}">Meja</span>
-                <span class="text-5xl font-black font-heading {{ $table->is_occupied ? 'text-red-700' : 'text-coffee-900' }}">
-                    {{ $table->number }}
-                </span>
-                
-                <span class="px-3 py-1 text-[9px] font-mono font-black uppercase tracking-widest transition-colors
+        <!-- Status Meja Section -->
+        <div id="tables-section" class="hidden transition-all duration-500">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+                @foreach($tables as $table)
+                <div class="bg-white rounded-[32px] p-8 border transition-all duration-500 flex flex-col items-center gap-6
                     {{ $table->is_occupied 
-                        ? 'bg-red-500 text-white' 
-                        : 'bg-green-500 text-white' }}">
-                    {{ $table->is_occupied ? 'Terisi' : 'Kosong' }}
-                </span>
+                        ? 'border-red-100 shadow-sm' 
+                        : 'border-stone-100 shadow-sm hover:shadow-xl hover:-translate-y-1' }}">
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-[9px] font-bold uppercase tracking-[0.3em] {{ $table->is_occupied ? 'text-red-300' : 'text-stone-300' }} mb-2">Meja</span>
+                        <span class="text-6xl font-bold font-heading {{ $table->is_occupied ? 'text-red-900' : 'text-stone-900' }}">
+                            {{ $table->number }}
+                        </span>
+                    </div>
+                    
+                    <div class="flex flex-col items-center gap-6 w-full">
+                        <span class="px-5 py-2 rounded-full text-[9px] font-bold uppercase tracking-widest
+                            {{ $table->is_occupied 
+                                ? 'bg-red-50 text-red-600' 
+                                : 'bg-stone-50 text-stone-400' }}">
+                            {{ $table->is_occupied ? 'Terisi' : 'Kosong' }}
+                        </span>
 
-                @if($table->is_occupied)
-                <form action="{{ route('cashier.tables.vacate', $table) }}" method="POST" onsubmit="vacateTable(event, '{{ $table->number }}')">
-                    @csrf
-                    <button type="submit" class="mt-2 w-full bg-coffee-900 text-white text-[9px] font-black py-2.5 px-4 uppercase tracking-widest hover:bg-black transition-all border-2 border-coffee-900">
-                        Kosongkan
-                    </button>
-                </form>
-                @endif
+                        @if($table->is_occupied)
+                        <form action="{{ route('cashier.tables.vacate', $table) }}" method="POST" onsubmit="vacateTable(event, '{{ $table->number }}')" class="w-full">
+                            @csrf
+                            <button type="submit" class="w-full bg-stone-900 text-white rounded-2xl py-3.5 text-[9px] font-bold uppercase tracking-widest hover:bg-stone-800 transition-all shadow-lg shadow-stone-200">
+                                Kosongkan
+                            </button>
+                        </form>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
             </div>
-            @endforeach
         </div>
     </div>
 </div>
 
 @push('scripts')
 <script>
-    // Auto refresh using AJAX
     let timeLeft = 10;
     const timerEl = document.getElementById('timer');
     
@@ -195,21 +196,18 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 
-                // Refresh Orders
                 const newOrdersGrid = doc.getElementById('orders-grid');
                 const currentOrdersGrid = document.getElementById('orders-grid');
                 if (newOrdersGrid && currentOrdersGrid) {
                     currentOrdersGrid.innerHTML = newOrdersGrid.innerHTML;
                 }
                 
-                // Refresh Tables
                 const newTablesSection = doc.getElementById('tables-section');
                 const currentTablesSection = document.getElementById('tables-section');
                 if (newTablesSection && currentTablesSection) {
                     currentTablesSection.innerHTML = newTablesSection.innerHTML;
                 }
                 
-                // Reset timer
                 timeLeft = 10;
                 if (timerEl) timerEl.textContent = timeLeft;
             })
@@ -219,88 +217,78 @@
     setInterval(() => {
         timeLeft--;
         if (timerEl) timerEl.textContent = timeLeft;
-        
-        if (timeLeft <= 0) {
-            refreshOrders();
-        }
+        if (timeLeft <= 0) refreshOrders();
     }, 1000);
 
     function printReceipt(orderId) {
-        const url = `/cashier/orders/${orderId}/print`;
-        const windowName = 'Receipt';
-        const windowFeatures = 'width=400,height=600,resizable,scrollbars=yes,status=1';
-        window.open(url, windowName, windowFeatures);
+        window.open(`/cashier/orders/${orderId}/print`, 'Receipt', 'width=400,height=600,resizable,scrollbars=yes,status=1');
     }
-
-    // Real-time listener
-    setTimeout(() => {
-        if (window.Echo) {
-            window.Echo.channel('orders')
-                .listen('OrderCreated', (e) => {
-                    console.log('Order Created:', e.order);
-                    refreshOrders();
-                });
-        }
-    }, 1000);
 
     function confirmPayment(event) {
         event.preventDefault();
-        const form = event.target;
-        
         Swal.fire({
             title: 'Konfirmasi Pembayaran?',
-            text: "Pastikan uang tunai sudah diterima sesuai nominal.",
+            text: "Pastikan nominal pembayaran telah diterima dengan benar.",
             icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: '#059669', // Green color
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Bayar Sekarang!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
+            confirmButtonColor: '#0c0a09',
+            cancelButtonColor: '#78716c',
+            confirmButtonText: 'Ya, Selesaikan',
+            cancelButtonText: 'Batal',
+            background: '#ffffff',
+            color: '#0c0a09',
+            customClass: {
+                confirmButton: 'rounded-full px-8 py-3 uppercase text-[10px] font-bold tracking-widest',
+                cancelButton: 'rounded-full px-8 py-3 uppercase text-[10px] font-bold tracking-widest'
             }
+        }).then((result) => {
+            if (result.isConfirmed) event.target.submit();
         });
     }
 
     function vacateTable(event, tableNumber) {
         event.preventDefault();
-        const form = event.target;
-        
         Swal.fire({
             title: `Kosongkan Meja ${tableNumber}?`,
-            text: "Pastikan pelanggan sudah meninggalkan meja dan meja sudah dibersihkan. Token QR akan diperbarui secara otomatis.",
+            text: "QR Token meja ini akan diperbarui secara otomatis.",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#1f2937', // Stone-800
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Ya, Kosongkan!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
+            confirmButtonColor: '#0c0a09',
+            cancelButtonColor: '#78716c',
+            confirmButtonText: 'Ya, Kosongkan',
+            cancelButtonText: 'Batal',
+            background: '#ffffff',
+            color: '#0c0a09',
+            customClass: {
+                confirmButton: 'rounded-full px-8 py-3 uppercase text-[10px] font-bold tracking-widest',
+                cancelButton: 'rounded-full px-8 py-3 uppercase text-[10px] font-bold tracking-widest'
             }
+        }).then((result) => {
+            if (result.isConfirmed) event.target.submit();
         });
     }
 
     function cancelOrder(event) {
         event.preventDefault();
-        const form = event.target;
-        
         Swal.fire({
             title: 'Batalkan Pesanan?',
-            text: "Stok akan dikembalikan dan pesanan dihapus dari antrian.",
+            text: "Tindakan ini tidak dapat dibatalkan.",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Ya, Batalkan!',
-            cancelButtonText: 'Kembali'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#78716c',
+            confirmButtonText: 'Ya, Batalkan',
+            cancelButtonText: 'Kembali',
+            background: '#ffffff',
+            color: '#0c0a09',
+            customClass: {
+                confirmButton: 'rounded-full px-8 py-3 uppercase text-[10px] font-bold tracking-widest',
+                cancelButton: 'rounded-full px-8 py-3 uppercase text-[10px] font-bold tracking-widest'
             }
+        }).then((result) => {
+            if (result.isConfirmed) event.target.submit();
         });
     }
+</script>
 @endpush
 @endsection

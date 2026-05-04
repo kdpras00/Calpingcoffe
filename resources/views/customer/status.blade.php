@@ -1,143 +1,153 @@
 @extends('layouts.customer')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-coffee-200 px-4 py-8 md:py-12">
-    <div class="max-w-2xl w-full space-y-8 md:space-y-12 bg-white p-5 md:p-10 border-2 border-coffee-900 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] md:shadow-[16px_16px_0px_0px_rgba(43,30,22,1)] relative overflow-hidden">
+<div class="min-h-screen flex items-center justify-center bg-white px-4 py-16">
+    <div class="max-w-2xl w-full space-y-12">
         
-        <!-- Header (Poster Style) -->
-        <div class="relative text-center border-b-2 border-coffee-900 pb-8">
-            <h1 class="text-2xl md:text-4xl font-heading font-bold text-coffee-900 uppercase tracking-tighter mb-2">Pesanan <span class="text-coffee-600">#{{ $order->id }}</span></h1>
-            <div class="inline-block bg-coffee-900 text-white px-6 py-1 rounded-full text-xs font-bold uppercase tracking-widest -rotate-2">
-                Meja {{ $order->table->number }}
+        <!-- Header -->
+        <div class="text-center">
+            <div class="flex items-center justify-center gap-4 mb-4">
+                <div class="w-8 h-0.5 bg-stone-900"></div>
+                <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Status Pesanan</span>
+                <div class="w-8 h-0.5 bg-stone-900"></div>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold font-heading text-stone-900 uppercase tracking-tight mb-6">
+                ORDER <span class="text-stone-300">#{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</span>
+            </h1>
+            <div class="inline-flex items-center gap-4 bg-stone-900 text-white px-8 py-3 rounded-full shadow-lg shadow-stone-200">
+                <span class="text-[10px] font-bold text-white/50 uppercase tracking-widest">Meja</span>
+                <span class="text-xl font-bold font-heading">{{ $order->table->number }}</span>
             </div>
         </div>
 
-        <!-- Status Progress (Bold & Tactile) -->
-        <div class="relative py-12">
-            <div class="flex justify-between items-start relative px-4">
-                <!-- Line Background -->
-                <div class="absolute top-5 left-8 right-8 h-1 bg-coffee-100 z-0"></div>
-                <!-- Line Active -->
-                <div class="absolute top-5 left-8 h-1 bg-coffee-900 z-0 transition-all duration-500" style="width: calc({{ $progress }}% - 16px);"></div>
+        <!-- Progress Tracking -->
+        <div class="bg-stone-50 rounded-[40px] p-10 md:p-16 border border-stone-100">
+            <div class="relative flex justify-between items-start">
+                <!-- Track Line -->
+                <div class="absolute top-6 left-6 right-6 h-[2px] bg-stone-200"></div>
+                <div class="absolute top-6 left-6 h-[2px] bg-stone-900 transition-all duration-1000" style="width: {{ $progress }}%;"></div>
 
-                <!-- Step 1 -->
-                <div class="flex flex-col items-center relative z-10 flex-1">
-                    <div class="w-10 h-10 border-2 border-coffee-900 bg-coffee-900 text-white flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(43,30,22,1)] mb-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                    </div>
-                    <span class="text-[10px] font-bold text-coffee-900 uppercase tracking-widest">Antre</span>
-                </div>
+                @php
+                    $steps = [
+                        ['label' => 'Order', 'status' => 'confirmed'],
+                        ['label' => 'Payment', 'status' => 'paid'],
+                        ['label' => 'Process', 'status' => 'preparing'],
+                        ['label' => 'Ready', 'status' => 'ready']
+                    ];
+                    
+                    $currentStatusIndex = 0;
+                    if ($order->payment_status == 'paid') $currentStatusIndex = 1;
+                    if ($order->status == 'preparing') $currentStatusIndex = 2;
+                    if (in_array($order->status, ['ready', 'completed'])) $currentStatusIndex = 3;
+                @endphp
 
-                <!-- Step 2 -->
-                <div class="flex flex-col items-center relative z-10 flex-1">
-                    <div class="w-10 h-10 border-2 border-coffee-900 {{ $order->status != 'pending' ? 'bg-coffee-900 text-white' : 'bg-white text-coffee-300' }} flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(43,30,22,1)] mb-4">
-                        @if($order->status != 'pending')
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        @else
-                            <span class="font-bold">2</span>
-                        @endif
+                @foreach($steps as $index => $step)
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div class="w-12 h-12 rounded-full border-2 transition-all duration-500 flex items-center justify-center
+                            {{ $index <= $currentStatusIndex 
+                                ? 'bg-stone-900 border-stone-900 text-white shadow-xl shadow-stone-200' 
+                                : 'bg-white border-stone-200 text-stone-200' }}">
+                            @if($index < $currentStatusIndex)
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            @else
+                                <span class="text-xs font-bold">{{ $index + 1 }}</span>
+                            @endif
+                        </div>
+                        <span class="mt-4 text-[9px] font-bold uppercase tracking-[0.2em] {{ $index <= $currentStatusIndex ? 'text-stone-900' : 'text-stone-300' }}">
+                            {{ $step['label'] }}
+                        </span>
                     </div>
-                    <span class="text-[10px] font-bold {{ $order->status != 'pending' ? 'text-coffee-900' : 'text-coffee-300' }} uppercase tracking-widest">Ok</span>
-                </div>
+                @endforeach
+            </div>
 
-                <!-- Step 3 -->
-                <div class="flex flex-col items-center relative z-10 flex-1">
-                    <div class="w-10 h-10 border-2 border-coffee-900 {{ in_array($order->status, ['preparing', 'ready', 'completed']) ? 'bg-coffee-900 text-white' : 'bg-white text-coffee-300' }} flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(43,30,22,1)] mb-4">
-                         @if(in_array($order->status, ['preparing', 'ready', 'completed']))
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        @else
-                            <span class="font-bold">3</span>
-                        @endif
+            <!-- Status Messaging -->
+            <div class="mt-16 text-center">
+                @if($order->status == 'pending')
+                    <h2 class="text-3xl font-bold text-stone-900 uppercase tracking-tight mb-4">Selesaikan Pembayaran</h2>
+                    <p class="text-stone-400 text-xs font-medium uppercase tracking-widest mb-8">Mohon selesaikan pembayaran untuk memproses pesanan</p>
+                    <a href="{{ route('customer.payment', $order) }}" class="inline-flex items-center gap-4 bg-stone-900 text-white px-10 py-5 rounded-full font-bold text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-stone-200 hover:bg-stone-800 transition-all">
+                        Bayar Sekarang
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                @elseif($order->status == 'confirmed')
+                    <h2 class="text-3xl font-bold text-stone-900 uppercase tracking-tight mb-2">Pesanan Masuk</h2>
+                    <p class="text-stone-400 text-xs font-medium uppercase tracking-widest">Barista kami akan segera menyiapkan pesanan Anda</p>
+                @elseif($order->status == 'preparing')
+                    <div class="flex items-center justify-center gap-4 mb-2">
+                        <div class="w-2 h-2 rounded-full bg-stone-900 animate-ping"></div>
+                        <h2 class="text-3xl font-bold text-stone-900 uppercase tracking-tight">Sedang Dibuat</h2>
                     </div>
-                    <span class="text-[10px] font-bold {{ in_array($order->status, ['preparing', 'ready', 'completed']) ? 'text-coffee-900' : 'text-coffee-300' }} uppercase tracking-widest">Proses</span>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="flex flex-col items-center relative z-10 flex-1">
-                    <div class="w-10 h-10 border-2 border-coffee-900 {{ in_array($order->status, ['ready', 'completed']) ? 'bg-coffee-900 text-white shadow-[4px_4px_0px_0px_rgba(43,30,22,1)]' : 'bg-white text-coffee-300' }} flex items-center justify-center mb-4">
-                         @if(in_array($order->status, ['ready', 'completed']))
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        @else
-                            <span class="font-bold">4</span>
-                        @endif
+                    <p class="text-stone-400 text-xs font-medium uppercase tracking-widest">Kami sedang meracik rasa terbaik untuk Anda</p>
+                @elseif($order->status == 'ready')
+                    <div class="bg-green-50 rounded-3xl p-8 border border-green-100">
+                        <h2 class="text-4xl font-bold text-green-900 uppercase tracking-tight mb-2">SIAP DIAMBIL!</h2>
+                        <p class="text-green-600 text-xs font-bold uppercase tracking-widest">Silakan tunjukkan layar ini ke kasir/counter</p>
                     </div>
-                    <span class="text-[10px] font-bold {{ in_array($order->status, ['ready', 'completed']) ? 'text-coffee-900' : 'text-coffee-300' }} uppercase tracking-widest">Siap!</span>
-                </div>
+                @elseif($order->status == 'completed')
+                    <h2 class="text-3xl font-bold text-stone-900 uppercase tracking-tight mb-2">Terima Kasih!</h2>
+                    <p class="text-stone-400 text-xs font-medium uppercase tracking-widest">Selamat menikmati pesanan Anda</p>
+                @elseif($order->status == 'cancelled')
+                    <h2 class="text-3xl font-bold text-red-600 uppercase tracking-tight">Pesanan Dibatalkan</h2>
+                @endif
             </div>
         </div>
 
-        <!-- Current Status Message -->
-        <div class="relative bg-coffee-200 border-2 border-coffee-900 p-5 md:p-8 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] md:shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] text-center md:-rotate-1">
-            @if($order->status == 'pending')
-                <h2 class="text-2xl font-heading font-bold text-coffee-900 mb-4 uppercase tracking-tighter">Bayar Terlebih Dahulu</h2>
-                <a href="{{ route('customer.payment', $order) }}" class="inline-block bg-coffee-900 text-white font-bold px-8 py-3 border-2 border-coffee-900 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] hover:-translate-y-1 transition-all uppercase tracking-widest text-sm">
-                    Bayar Sekarang
-                </a>
-            @elseif($order->status == 'confirmed')
-                <h2 class="text-2xl font-heading font-bold text-coffee-900 uppercase tracking-tighter">Pesanan Dikonfirmasi</h2>
-                <p class="text-coffee-700 font-mono text-sm mt-2">Mohon tunggu sebentar, barista kami segera meracik.</p>
-            @elseif($order->status == 'preparing')
-                <h2 class="text-2xl font-heading font-bold text-coffee-900 uppercase tracking-tighter animate-pulse">Sedang Diracik...</h2>
-                <p class="text-coffee-700 font-mono text-sm mt-2">Aroma kopinya sudah menyebar!</p>
-            @elseif($order->status == 'ready')
-                <h2 class="text-3xl font-heading font-bold text-coffee-900 uppercase tracking-tighter shadow-sm">SIAP DIAMBIL!</h2>
-                <p class="text-coffee-700 font-mono font-bold mt-2">Silakan ke kasir untuk mengambil pesanan Anda.</p>
-            @elseif($order->status == 'completed')
-                <h2 class="text-2xl font-heading font-bold text-coffee-900 uppercase tracking-tighter">Nikmati Kopinya!</h2>
-                <p class="text-coffee-700 font-mono text-sm mt-2">Terima kasih telah singgah ke CalpingCoffee.</p>
-            @elseif($order->status == 'cancelled')
-                <h2 class="text-2xl font-heading font-bold text-red-600 uppercase tracking-tighter">Pesanan Dibatalkan</h2>
-            @endif
-        </div>
-
-        <!-- Order Items (Sticker Style List) -->
-        <div class="relative bg-white border-2 border-coffee-900 md:rotate-1 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] md:shadow-[8px_8px_0px_0px_rgba(43,30,22,1)]">
-            <div class="p-5 md:p-8">
-                <h3 class="text-lg font-heading font-bold text-coffee-900 mb-6 flex items-center gap-3 uppercase tracking-widest">
-                    <svg class="w-6 h-6 text-coffee-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                    Detail Belanja
-                </h3>
+        <!-- Receipt Details -->
+        <div class="bg-white rounded-[40px] overflow-hidden border border-stone-100 shadow-sm">
+            <div class="p-10 md:p-12">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-8 h-0.5 bg-stone-900"></div>
+                    <h3 class="text-xs font-bold text-stone-900 uppercase tracking-[0.3em]">Detail Belanja</h3>
+                </div>
                 
-                <div class="space-y-4">
+                <div class="space-y-8">
                     @foreach($order->items as $item)
-                    <div class="flex justify-between items-start py-4 border-b-2 border-dotted border-coffee-900/20 last:border-0 font-mono">
-                        <div class="flex-1">
-                            <div class="flex items-start gap-3">
-                                <span class="inline-flex items-center justify-center w-8 h-8 border-2 border-coffee-900 bg-white text-coffee-900 font-bold text-xs">{{ $item->quantity }}</span>
-                                <div>
-                                    <span class="font-bold text-coffee-900 text-sm uppercase">{{ $item->menu->name }}</span>
-                                    @if($item->note)
-                                        <p class="text-[10px] text-coffee-600 mt-1 italic tracking-tight">Catatan: {{ $item->note }}</p>
-                                    @endif
-                                </div>
+                    <div class="flex justify-between items-start group">
+                        <div class="flex gap-6">
+                            <div class="w-12 h-12 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-center text-stone-400 font-bold text-xs shrink-0">
+                                {{ $item->quantity }}x
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-stone-900 uppercase tracking-tight mb-1">{{ $item->menu->name }}</h4>
+                                @if($item->note)
+                                    <p class="text-[10px] text-stone-400 font-medium italic">"{{ $item->note }}"</p>
+                                @endif
                             </div>
                         </div>
-                        <span class="font-bold text-coffee-900 ml-4">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</span>
+                        <span class="font-bold text-stone-900 tracking-tight">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</span>
                     </div>
                     @endforeach
                 </div>
 
-                <div class="mt-8 pt-6 border-t-2 border-coffee-900">
-                    <div class="flex justify-between items-center">
-                        <span class="text-base font-bold text-coffee-900 uppercase tracking-widest">Total</span>
-                        <span class="text-3xl font-heading font-bold text-coffee-900 tracking-tighter">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
+                <div class="mt-12 pt-10 border-t border-stone-50 flex justify-between items-end">
+                    <div>
+                        <span class="text-[9px] font-bold text-stone-300 uppercase tracking-[0.3em]">Total Transaksi</span>
+                        <div class="text-4xl font-bold font-heading text-stone-900 tracking-tighter mt-1">
+                            <span class="text-xs font-normal text-stone-400 mr-1">IDR</span>{{ number_format($order->total_amount, 0, ',', '.') }}
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">{{ $order->created_at->format('d M Y') }}</span>
+                        <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest mt-1">{{ $order->created_at->format('H:i') }} WIB</p>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Back to Menu (Sticker Button) -->
-        <div class="pt-10 flex flex-col gap-6">
+        <!-- Navigation -->
+        <div class="pt-8">
             @if(in_array($order->status, ['ready', 'completed', 'cancelled']))
-                <a href="{{ route('customer.index') }}" class="w-full bg-coffee-900 text-white font-bold py-5 border-2 border-coffee-900 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] hover:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] hover:-translate-y-1 transition-all flex items-center justify-center gap-3 uppercase tracking-widest text-sm">
-                    <span>Pesan Lagi</span>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                <a href="{{ route('customer.index') }}" class="w-full bg-stone-900 text-white font-bold py-6 rounded-full shadow-2xl shadow-stone-200 hover:bg-stone-800 transition-all flex items-center justify-center gap-6 group">
+                    <span class="uppercase tracking-[0.3em] text-xs">Pesan Lagi</span>
+                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:translate-x-2 transition-transform">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </div>
                 </a>
             @else
                 <div class="text-center">
-                    <a href="{{ route('customer.index') }}" class="inline-flex items-center gap-3 text-coffee-900 opacity-60 hover:opacity-100 font-bold uppercase tracking-widest text-xs transition-opacity decoration-2 underline-offset-4 hover:underline">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                        Ke Menu
+                    <a href="{{ route('customer.index') }}" class="inline-flex items-center gap-4 text-stone-400 hover:text-stone-900 font-bold uppercase tracking-[0.2em] text-[10px] transition-all group">
+                        <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Kembali ke Menu
                     </a>
                 </div>
             @endif
@@ -147,14 +157,10 @@
 
 @push('scripts')
 <script>
-    // Simple polling for status update (fallback)
-    // Simple polling for status update with API check
-    // Poll for any status change
     setInterval(() => {
         fetch('{{ route('payment.check', $order->id) }}')
             .then(response => response.json())
             .then(data => {
-                // Reload if order status OR payment status changes relative to page load
                 if (data.order_status !== '{{ $order->status }}') {
                     window.location.reload();
                 }
@@ -162,7 +168,6 @@
             .catch(console.error);
     }, 5000);
 
-    // Real-time listener
     setTimeout(() => {
         if (window.Echo) {
             window.Echo.channel('orders')
@@ -174,59 +179,32 @@
         }
     }, 1000);
 
-    // Confirm payment function
-    function confirmPayment(event) {
-        event.preventDefault();
-        const form = event.target;
-        
-        Swal.fire({
-            title: 'Konfirmasi Pembayaran?',
-            text: "Pastikan uang tunai sudah diterima sesuai nominal.",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#059669', // Green color
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Bayar Sekarang!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
-        });
-    }
-
-    // Order Ready Notification (Sound + Vibrate + Alert)
     @if($order->status == 'ready')
         document.addEventListener('DOMContentLoaded', function() {
             const orderId = "{{ $order->id }}";
             const storageKey = `notified_ready_${orderId}`;
             
             if (!sessionStorage.getItem(storageKey)) {
-                // 1. Play Sound
-                const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3'); // Generic pleasant "ding"
+                const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
                 audio.play().catch(error => console.log('Audio autoplay blocked:', error));
 
-                // 2. Vibrate (if supported)
                 if (navigator.vibrate) {
                     navigator.vibrate([200, 100, 200, 100, 500]);
                 }
 
-                // 3. Visual Alert
                 Swal.fire({
-                    title: 'Pesanan Siap!',
-                    text: 'Pesanan Anda sudah siap. Silakan ambil di kasir/counter.',
+                    title: 'PESANAN SIAP!',
+                    text: 'Silakan ambil pesanan Anda di kasir sekarang.',
                     icon: 'success',
-                    confirmButtonText: 'Oke, segera diambil',
-                    confirmButtonColor: '#d97706', // Amber-600
-                    backdrop: `
-                        rgba(0,0,123,0.4)
-                        url("/images/confetti.gif")
-                        left top
-                        no-repeat
-                    `
+                    confirmButtonText: 'SIAP DIAMBIL',
+                    confirmButtonColor: '#0c0a09',
+                    background: '#ffffff',
+                    color: '#0c0a09',
+                    customClass: {
+                        confirmButton: 'rounded-full px-10 py-4 uppercase text-[10px] font-bold tracking-[0.3em]'
+                    }
                 });
 
-                // Mark as notified so it doesn't play again on refresh
                 sessionStorage.setItem(storageKey, 'true');
             }
         });

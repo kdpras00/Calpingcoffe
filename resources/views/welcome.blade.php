@@ -43,92 +43,78 @@
 </style>
 @endpush
 
-{{-- ══════════════════════════════════
-     HERO
-══════════════════════════════════ --}}
-<section id="hero-sequence" class="relative overflow-hidden min-h-screen flex items-center bg-[#bda897]">
-    {{-- Canvas Sequence --}} 
-    <canvas id="sequence-canvas" class="absolute inset-0 w-full h-full object-cover pointer-events-none"></canvas>
+
+<section id="hero-banner" class="relative overflow-hidden min-h-screen flex items-center bg-white">
+    {{-- Main Banner Image (Background) --}}
+    <img src="{{ asset('img/banner-hero.jpg') }}?v={{ time() }}" id="hero-bg" class="absolute inset-0 w-full h-full object-cover">
     
-    {{-- Dark overlay (optional, dikurangi agar gambar 3D sequence lebih jelas) --}}
-    <div class="absolute inset-0 bg-black/10 pointer-events-none"></div>
-    <div class="grain z-0"></div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full pt-8 pb-16 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-
-        {{-- LEFT: Text --}}
-        <div>
-            {{-- Label --}}
-            <div class="fade-up-1 inline-flex items-center gap-3 mb-8">
-                <div class="w-8 h-0.5 bg-white"></div>
-                <span class="font-mono text-xs uppercase tracking-[0.3em] text-white/80 font-bold">Coffee Shop</span>
-            </div>
-
-            {{-- Headline --}}
-            <h1 class="fade-up-2 font-bold text-white leading-[0.88]"
-                style="font-family: 'Playfair Display', serif; font-size: clamp(60px, 10vw, 120px);">
-                CALPING<br>
-                <span class="italic font-normal" style="font-size: 0.6em; color: rgba(255,255,255,0.6);">— Coffee —</span>
-            </h1>
-
-            {{-- Desc --}}
-            <p class="fade-up-3 mt-8 text-white/70 font-mono text-sm leading-relaxed max-w-sm">
-                Setiap tegukan adalah perjalanan.<br>
-                Pilih mejamu, pilih favoritmu,<br>
-                dan nikmati momen terbaik hari ini.
-            </p>
-        </div>
+    {{-- Hand Image (Floating) --}}
+    <div class="absolute inset-0 pointer-events-none z-20 perspective-1000" id="hero-hand-wrapper">
+        <img src="{{ asset('img/tangan.png') }}?v={{ time() }}" id="hero-hand" class="w-full h-full object-cover transform-gpu origin-center">
     </div>
+
+    {{-- Subtle Overlay --}}
+    <div class="absolute inset-0 bg-black/10 pointer-events-none z-10"></div>
+    <div class="grain z-10 opacity-5"></div>
 </section>
 
-<div class="bg-coffee-900 py-3.5 overflow-hidden border-y-2 border-coffee-900">
+<div class="bg-stone-900 py-4 overflow-hidden">
     <div class="ticker-track flex gap-0 whitespace-nowrap" style="width: max-content;">
-        @for($i = 0; $i < 2; $i++)
+        @for($i = 0; $i < 3; $i++)
             @foreach(['☕ Freshly Brewed', '✦ Kopi Lokal', '☕ Single Origin', '✦ Barista Choice', '☕ Calping Coffee', '✦ Rasa Autentik', '☕ Nikmati Momen'] as $t)
-                <span class="inline-block px-8 text-white font-mono text-xs uppercase tracking-widest font-bold opacity-80">{{ $t }}</span>
+                <span class="inline-block px-10 text-white font-semibold text-[10px] uppercase tracking-[0.3em] opacity-90">{{ $t }}</span>
             @endforeach
         @endfor
     </div>
 </div>
 
-<section class="bg-coffee-200 py-16 md:py-28 relative overflow-hidden">
-    <div class="grain"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+<section class="bg-white py-24 md:py-40 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
         {{-- Image --}}
         <div class="reveal relative">
-            <div class="relative border-2 border-coffee-900 shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] md:shadow-[16px_16px_0px_0px_rgba(43,30,22,1)] overflow-hidden -rotate-1 hover:rotate-0 transition-transform duration-500">
-                <img src="{{ asset('img/calping-bg.png') }}" class="w-full aspect-[4/3] object-cover object-bottom">
-                <div class="absolute inset-0 bg-gradient-to-t from-coffee-900/50 via-transparent to-transparent"></div>
+            <div class="relative overflow-hidden rounded-2xl shadow-2xl transition-transform duration-700 hover:scale-[1.02]">
+                <video id="reelsVideo" autoplay loop muted playsinline class="w-full aspect-[4/5] object-cover">
+                    <source src="{{ asset('img/calpingreels.mp4') }}" type="video/mp4">
+                </video>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+
+                {{-- Mute/Unmute Toggle --}}
+                <button id="muteToggle" class="absolute top-6 right-6 z-20 bg-black/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/40 transition-all border border-white/20">
+                    <svg id="muteIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                    </svg>
+                </button>
+
                 {{-- Live badge --}}
-                <div class="absolute bottom-4 left-4 flex items-center gap-2 bg-white border-2 border-coffee-900 px-4 py-2 shadow-[4px_4px_0px_0px_rgba(43,30,22,1)]">
+                <div class="absolute bottom-6 left-6 flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full">
                     <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                    <span class="font-mono text-coffee-900 text-[10px] uppercase tracking-widest font-bold">Open Now</span>
+                    <span class="font-bold text-stone-900 text-[10px] uppercase tracking-widest">Open Now</span>
                 </div>
             </div>
         </div>
 
         {{-- Text --}}
         <div class="reveal">
-            <div class="inline-flex items-center gap-3 mb-6">
-                <div class="w-8 h-0.5 bg-coffee-900"></div>
-                <span class="font-mono text-xs uppercase tracking-[0.3em] text-coffee-700 font-bold">Tentang Kami</span>
+            <div class="inline-flex items-center gap-4 mb-8">
+                <div class="w-12 h-0.5 bg-stone-900"></div>
+                <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Tentang Kami</span>
             </div>
-            <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-coffee-900 leading-tight mb-6"
-                style="font-family: 'Playfair Display', serif;">
-                Kopi yang<br><em>Bercerita</em>
+            <h2 class="text-5xl sm:text-7xl md:text-8xl font-bold text-stone-900 leading-[0.9] mb-8 font-heading uppercase">
+                Kopi yang<br><span class="text-stone-300">Bercerita</span>
             </h2>
-            <p class="text-coffee-700 font-mono text-sm leading-relaxed mb-6">
+            <p class="text-stone-600 text-base leading-relaxed mb-8 max-w-md">
                 Di Calping, setiap cangkir dibuat dengan perhatian dan cinta. Kami percaya kopi yang baik bukan sekadar minuman — ia adalah momen, percakapan, dan kenangan.
             </p>
-            <p class="text-coffee-700/60 font-mono text-sm leading-relaxed mb-10">
+            <p class="text-stone-400 text-sm leading-relaxed mb-12 max-w-md">
                 Dari biji kopi lokal pilihan terbaik hingga sajian yang memuaskan selera, semua hadir untuk menemani hari-harimu.
             </p>
             <a href="{{ route('ourstory') }}"
-               class="group inline-flex items-center gap-3 px-6 py-3 bg-white border-2 border-coffee-900 font-bold text-coffee-900 text-xs uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] hover:shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] hover:-translate-y-1 transition-all">
+               class="group inline-flex items-center gap-4 px-10 py-4 bg-stone-900 text-white rounded-full font-bold text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-stone-800 hover:scale-105">
                 Baca Cerita Kami
                 <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>
             </a>
         </div>
@@ -136,47 +122,47 @@
 </section>
 
 
-<section class="bg-coffee-200 py-16 md:py-24 border-t-2 border-coffee-900/10 relative overflow-hidden">
-    <div class="grain"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+<section class="bg-stone-50 py-24 md:py-32 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
 
-        <div class="reveal flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-14">
+        <div class="reveal flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
             <div>
-                <div class="inline-flex items-center gap-3 mb-4">
-                    <div class="w-8 h-0.5 bg-coffee-900"></div>
-                    <span class="font-mono text-xs uppercase tracking-[0.3em] text-coffee-700 font-bold">Dari Dapur Kami</span>
+                <div class="inline-flex items-center gap-4 mb-6">
+                    <div class="w-12 h-0.5 bg-stone-900"></div>
+                    <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Dari Dapur Kami</span>
                 </div>
-                <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-coffee-900 leading-tight"
-                    style="font-family: 'Playfair Display', serif;">
-                    Menu<br><em>Favorit</em>
+                <h2 class="text-5xl sm:text-7xl md:text-8xl font-bold text-stone-900 leading-[0.9] font-heading uppercase">
+                    Menu<br><span class="text-stone-300">Favorit</span>
                 </h2>
             </div>
             <a href="{{ route('customer.scan') }}"
-               class="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-coffee-700 hover:text-coffee-900 border-b border-coffee-700/30 hover:border-coffee-900 pb-0.5 transition-all">
+               class="group inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-stone-400 hover:text-stone-900 transition-all font-bold border-b border-transparent hover:border-stone-900 pb-1">
                 Lihat Semua Menu
                 <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>
             </a>
         </div>
 
-        <div class="reveal grid grid-cols-3 gap-2 md:gap-14">
+        <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
             @foreach($highlights as $i => $item)
-            <div class="group {{ $i === 1 ? 'md:mt-10' : '' }}">
-                <div class="relative bg-white border-2 border-coffee-900 p-1.5 md:p-4 shadow-[2px_2px_0px_0px_rgba(43,30,22,1)] md:shadow-[12px_12px_0px_0px_rgba(43,30,22,1)] transition-all duration-300 group-hover:shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] md:group-hover:shadow-[18px_18px_0px_0px_rgba(43,30,22,1)] group-hover:-translate-y-2 {{ $i % 2 == 0 ? 'sm:-rotate-1' : 'sm:rotate-2' }} group-hover:rotate-0">
+            <div class="group">
+                <div class="relative bg-white p-4 rounded-3xl shadow-sm border border-stone-100 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4">
                     {{-- Badge --}}
-                    <div class="absolute -top-2 -right-2 md:-top-3 md:-right-3 bg-tuku-mustard text-white text-[7px] md:text-[9px] font-bold px-2 md:px-3 py-0.5 md:py-1 border-2 border-coffee-900 rotate-6 shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]">
-                        {{ $i == 0 ? 'MONTHLY BEST' : ($i == 1 ? 'FAVORITE' : 'TOP RATED') }}
+                    <div class="absolute -top-3 right-8 bg-stone-900 text-white text-[8px] font-bold px-4 py-1.5 rounded-full z-20 uppercase tracking-widest">
+                        {{ $i == 0 ? 'Monthly Best' : ($i == 1 ? 'Favorite' : 'Top Rated') }}
                     </div>
                     {{-- Image --}}
-                    <div class="border-2 border-coffee-900 overflow-hidden mb-4 bg-coffee-100" style="aspect-ratio: 4/5;">
+                    <div class="overflow-hidden mb-6 rounded-2xl bg-stone-100 aspect-[4/5]">
                         <img src="{{ str_starts_with($item->image, 'http') ? $item->image : asset('storage/' . $item->image) }}" alt="{{ $item->name }}"
-                             class="w-full h-full object-cover grayscale-[0.15] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                     </div>
-                    {{-- Category badge on image corner --}}
-                    <p class="font-mono text-[7px] sm:text-[9px] uppercase tracking-widest text-coffee-500 mb-0.5 sm:mb-1">{{ $item->category->name ?? 'Menu' }}</p>
-                    <h3 class="text-[10px] sm:text-xl font-black text-coffee-900 mb-1 sm:mb-2 uppercase tracking-tighter">{{ $item->name }}</h3>
-                    <p class="font-mono text-[8px] sm:text-xs text-coffee-700/70 leading-tight sm:leading-relaxed">{{ Str::limit($item->description, 25) }}</p>
+                    {{-- Info --}}
+                    <div class="px-2 pb-2">
+                        <p class="text-[9px] uppercase tracking-[0.2em] text-stone-400 font-bold mb-2">{{ $item->category->name ?? 'Menu' }}</p>
+                        <h3 class="text-2xl font-bold text-stone-900 mb-3 uppercase font-heading tracking-wide">{{ $item->name }}</h3>
+                        <p class="text-stone-500 text-xs leading-relaxed line-clamp-2">{{ $item->description }}</p>
+                    </div>
                 </div>
             </div>
             @endforeach
@@ -185,28 +171,29 @@
 </section>
 
 
-<section class="bg-white py-24 border-t-2 border-coffee-900 relative overflow-hidden">
-    <div class="grain"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+<section class="bg-white py-24 md:py-32 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
 
-        <div class="reveal mb-12">
-            <div class="inline-flex items-center gap-3 mb-4">
-                <div class="w-8 h-0.5 bg-coffee-900"></div>
-                <span class="font-mono text-xs uppercase tracking-[0.3em] text-coffee-700 font-bold">Momen Kita</span>
+        <div class="reveal mb-16 text-center">
+            <div class="inline-flex items-center gap-4 mb-6">
+                <div class="w-8 h-0.5 bg-stone-900"></div>
+                <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Momen Kita</span>
+                <div class="w-8 h-0.5 bg-stone-900"></div>
             </div>
-            <h2 class="text-3xl sm:text-5xl font-black text-coffee-900" style="font-family: 'Playfair Display', serif;">
+            <h2 class="text-5xl sm:text-7xl font-bold text-stone-900 font-heading uppercase tracking-tight">
                 #CalpingStory
             </h2>
         </div>
 
         @php $galleryImages = ['galery1.jpg', 'galery2.jpg', 'galery3.jpg', 'galery4.jpg', 'galery5.jpg', 'galery6.jpg']; @endphp
 
-        <div class="reveal grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-4">
             @foreach($galleryImages as $i => $img)
-            <div class="group relative overflow-hidden border-2 border-coffee-900 {{ $i === 2 ? 'md:row-span-2' : '' }} shadow-[4px_4px_0px_0px_rgba(43,30,22,1)] hover:shadow-[8px_8px_0px_0px_rgba(43,30,22,1)] hover:-translate-y-1 transition-all duration-300"
-                 style="{{ $i === 2 ? 'aspect-ratio: 3/5;' : 'aspect-ratio: 4/3;' }}">
+            <div class="group relative overflow-hidden rounded-2xl transition-all duration-500 hover:scale-[0.98]"
+                 style="{{ $i === 0 || $i === 3 ? 'grid-column: span 2; aspect-ratio: 16/9;' : 'aspect-ratio: 1/1;' }}">
                 <img src="{{ asset('img/gallery/' . $img) }}" alt="Gallery"
-                     class="w-full h-full object-cover grayscale-[0.15] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
+                     class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
             @endforeach
         </div>
@@ -214,21 +201,34 @@
 </section>
 
 
-<section class="bg-coffee-900 py-20 md:py-32 relative overflow-hidden">
-    <div class="absolute inset-0 opacity-5" style="background-image: url('data:image/svg+xml,%3Csvg width=40 height=40 viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23FFFFFF\' fill-opacity=\'1\'%3E%3Cpath d=\'M0 40L40 0H20L0 20M40 40V20L20 40\'/%3E%3C/g%3E%3C/svg%3E')"></div>
-    <div class="grain"></div>
+<section class="bg-stone-900 py-32 md:py-48 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=40 height=40 viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23FFFFFF\' fill-opacity=\'1\'%3E%3Cpath d=\'M0 40L40 0H20L0 20M40 40V20L20 40\'/%3E%3C/g%3E%3C/svg%3E')"></div>
+    <div class="grain z-10 opacity-5"></div>
 
-    <div class="relative z-10 max-w-2xl mx-auto text-center px-6">
-        <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-tight mb-6"
-            style="font-family: 'Playfair Display', serif;">
-            Siap Menikmati<br>
-            <em class="text-tuku-mustard">Momen Hari Ini?</em>
-        </h2>
-        <p class="text-white/50 font-mono text-sm leading-relaxed mb-10 max-w-sm mx-auto">
+    <div class="relative z-10 w-full overflow-hidden mb-16" id="cta-section">
+        <div id="cta-scrolling-text" class="whitespace-nowrap flex items-center will-change-transform">
+            <!-- Teks diperbanyak agar cukup panjang saat ditarik -->
+            <h2 class="text-[18vw] md:text-[12vw] font-bold text-white leading-none font-heading uppercase pr-8 md:pr-12">
+                Siap Menikmati
+            </h2>
+            <h2 class="text-[18vw] md:text-[12vw] font-bold text-stone-500 leading-none font-heading uppercase pr-8 md:pr-12">
+                Momen Hari Ini?
+            </h2>
+            <h2 class="text-[18vw] md:text-[12vw] font-bold text-white leading-none font-heading uppercase pr-8 md:pr-12" aria-hidden="true">
+                Siap Menikmati
+            </h2>
+            <h2 class="text-[18vw] md:text-[12vw] font-bold text-stone-500 leading-none font-heading uppercase pr-8 md:pr-12" aria-hidden="true">
+                Momen Hari Ini?
+            </h2>
+        </div>
+    </div>
+    
+    <div class="relative z-10 text-center px-6">
+        <p class="text-stone-400 text-sm md:text-base leading-relaxed mb-16 max-w-lg mx-auto">
             Pilih mejamu, pesan favoritmu, dan biarkan aroma kopi membawa momen terbaikmu.
         </p>
         <a href="{{ route('customer.scan') }}"
-           class="group inline-flex items-center gap-3 px-10 py-5 bg-tuku-mustard text-coffee-900 font-bold text-xs uppercase tracking-widest border-2 border-white/20 shadow-[8px_8px_0px_0px_rgba(229,161,36,0.3)] hover:shadow-[14px_14px_0px_0px_rgba(229,161,36,0.2)] hover:-translate-y-1 transition-all">
+           class="group inline-flex items-center gap-4 px-12 py-5 bg-white text-stone-900 rounded-full font-bold text-xs uppercase tracking-[0.2em] transition-all hover:bg-stone-100 hover:scale-105 shadow-xl">
             <span>Mulai Pesan Sekarang</span>
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -246,65 +246,86 @@ const obs = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-// --- GSAP IMAGE SEQUENCE ---
-gsap.registerPlugin(ScrollTrigger);
+// Video Mute Toggle
+const video = document.getElementById('reelsVideo');
+const muteBtn = document.getElementById('muteToggle');
+const muteIcon = document.getElementById('muteIcon');
 
-const canvas = document.getElementById("sequence-canvas");
-if (canvas) {
-    const context = canvas.getContext("2d");
-    
-    // Set resolusi canvas. Gunakan ukuran standar untuk performa
-    canvas.width = 1280; 
-    canvas.height = 720;
-    
-    const frameCount = 240;
-    const currentFrame = index => `{{ asset('img/sequence/ezgif-frame-') }}${(index + 1).toString().padStart(3, '0')}.jpg`;
-    
-    const images = [];
-    const seq = { frame: 0 };
-    
-    for (let i = 0; i < frameCount; i++) {
-        const img = new Image();
-        img.src = currentFrame(i);
-        images.push(img);
-    }
-    
-    images[0].onload = render;
-    
-    function render() {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        const img = images[seq.frame];
-        if(!img || !img.complete) return;
-        
-        // Memastikan gambar menutupi seluruh canvas (object-fit: cover)
-        const hRatio = canvas.width / img.width;
-        const vRatio = canvas.height / img.height;
-        const ratio  = Math.max(hRatio, vRatio);
-        const centerShift_x = (canvas.width - img.width * ratio) / 2;
-        const centerShift_y = (canvas.height - img.height * ratio) / 2;  
-        
-        context.drawImage(img, 0,0, img.width, img.height,
-                          centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
-    }
-    
-    gsap.to(seq, {
-        frame: frameCount - 1,
-        snap: "frame",
-        ease: "none",
-        scrollTrigger: {
-            trigger: "#hero-sequence",
-            start: "top top",
-            end: "+=200%", 
-            scrub: 1, 
-            pin: true,
-        },
-        onUpdate: render
-    });
-    
-    window.addEventListener('resize', () => {
-        render(); 
+if (muteBtn && video) {
+    muteBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        video.muted = !video.muted;
+        if (video.muted) {
+            muteIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />`;
+        } else {
+            muteIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />`;
+        }
     });
 }
+
+// Hero Parallax Mouse Tracking (3D Tilt & Floating)
+const hero = document.getElementById('hero-banner');
+const handWrapper = document.getElementById('hero-hand-wrapper');
+const hand = document.getElementById('hero-hand');
+
+if (hero && hand && handWrapper) {
+    // 1. Continuous Floating (Breathing Effect)
+    gsap.to(handWrapper, {
+        y: 15,
+        duration: 2.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+    });
+
+    // 2. 3D Mouse Tracking
+    hero.addEventListener('mousemove', (e) => {
+        const { clientX, clientY } = e;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        
+        // Calculate ratio (-1 to 1) for smoother 3D mapping
+        const moveX = (clientX - centerX) / centerX;
+        const moveY = (clientY - centerY) / centerY;
+        
+        gsap.to(hand, {
+            x: moveX * 40,
+            y: moveY * 40,
+            rotationX: -moveY * 12, // Tilt up/down
+            rotationY: moveX * 12,  // Tilt left/right
+            rotation: moveX * 3,    // Slight 2D rotation
+            transformPerspective: 1000,
+            duration: 1.5,
+            ease: "power3.out"
+        });
+    });
+
+    // Reset position on mouse leave
+    hero.addEventListener('mouseleave', () => {
+        gsap.to(hand, {
+            x: 0,
+            y: 0,
+            rotationX: 0,
+            rotationY: 0,
+            rotation: 0,
+            duration: 2,
+            ease: "elastic.out(1, 0.5)"
+        });
+    });
+}
+
+// CTA Horizontal Scroll Animation (Scrub)
+gsap.set("#cta-scrolling-text", { x: "10%" }); // Posisi awal agak ke kanan
+gsap.to("#cta-scrolling-text", {
+    x: "-50%", // Bergerak ke kiri sepanjang scroll
+    ease: "none",
+    scrollTrigger: {
+        trigger: "#cta-section",
+        start: "top bottom", // Mulai saat elemen masuk dari bawah layar
+        end: "bottom top",   // Selesai saat elemen keluar di atas layar
+        scrub: 1,            // 1 detik delay untuk efek smooth "mundur" saat scroll dibalik
+    }
+});
 </script>
 @endpush
 
