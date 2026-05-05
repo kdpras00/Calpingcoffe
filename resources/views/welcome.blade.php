@@ -61,6 +61,13 @@
         <img src="{{ asset('img/tangan.png') }}?v={{ time() }}" id="hero-hand" class="w-full h-full object-contain md:object-cover object-bottom transform-gpu origin-bottom">
     </div>
 
+    {{-- Huge Background Text --}}
+    <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none select-none overflow-hidden">
+        <h1 class="text-[26vw] font-black text-white/10 uppercase tracking-tighter leading-none hidden md:block">
+            CALPING
+        </h1>
+    </div>
+
     {{-- Subtle Overlay --}}
     <div class="absolute inset-0 bg-black/10 pointer-events-none z-10"></div>
     <div class="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/60 to-transparent pointer-events-none z-10"></div>

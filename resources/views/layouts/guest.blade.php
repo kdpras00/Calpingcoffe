@@ -38,12 +38,12 @@
             <div class="flex justify-between items-center h-full">
                 <!-- Brand -->
                 <div class="flex items-center gap-2 group cursor-default">
-                    <span class="opacity-0 md:opacity-100 font-bold text-2xl md:text-3xl tracking-tight font-heading uppercase transition-all duration-500"
+                    <span class="font-bold text-2xl md:text-3xl tracking-tight font-heading uppercase transition-all duration-500"
                           :class="{ 
                               'opacity-100 translate-x-0 text-stone-900': scrolled || mobileNav, 
-                              'opacity-0 -translate-x-4 md:opacity-100 md:translate-x-0 text-white pointer-events-none md:pointer-events-auto': !(scrolled || mobileNav) 
+                              'opacity-0 md:opacity-100 -translate-x-4 md:translate-x-0 text-white pointer-events-none md:pointer-events-auto': !(scrolled || mobileNav) 
                           }">
-                        calping Coffee
+                        Calping Coffee
                     </span>
                 </div>
 
@@ -117,7 +117,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-start gap-8 text-left">
                 <div>
-                    <h2 class="font-heading font-bold text-4xl mb-6 tracking-tight uppercase">calping Coffee</h2>
+                    <h2 class="font-heading font-bold text-4xl mb-6 tracking-tight uppercase">Calping Coffee</h2>
                     <ul class="space-y-3 text-xs font-semibold uppercase tracking-widest text-stone-500">
                         <li><a href="#" class="hover:text-stone-900 transition-colors">Tentang Kami</a></li>
                         <li><a href="#" class="hover:text-stone-900 transition-colors">Karir</a></li>

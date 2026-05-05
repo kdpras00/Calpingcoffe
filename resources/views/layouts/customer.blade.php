@@ -41,7 +41,7 @@
                 <!-- Brand -->
                 <a href="{{ route('home') }}" class="flex items-center gap-2 group">
                     <span class="font-bold text-2xl md:text-3xl tracking-tight font-heading text-stone-900 uppercase">
-                        calping Coffee
+                        Calping Coffee
                     </span>
                 </a>
 
@@ -103,7 +103,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center md:items-end gap-8 text-center md:text-left">
                 <div>
-                    <h2 class="font-heading font-bold text-4xl mb-6 tracking-tight uppercase">calping Coffee</h2>
+                    <h2 class="font-heading font-bold text-4xl mb-6 tracking-tight uppercase">Calping Coffee</h2>
                     <ul class="space-y-3 text-xs font-semibold uppercase tracking-widest text-stone-500">
                         <li><a href="#" class="hover:text-stone-900 transition-colors">Tentang Kami</a></li>
                         <li><a href="{{ route('ourstory') }}" class="hover:text-stone-900 transition-colors">Cerita Kami</a></li>
