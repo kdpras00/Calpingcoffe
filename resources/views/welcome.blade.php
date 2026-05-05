@@ -40,21 +40,31 @@
         position: absolute; inset: 0; pointer-events: none; opacity: 0.06;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
+    #hero-hand {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        backface-visibility: hidden;
+    }
 </style>
 @endpush
 
 
-<section id="hero-banner" class="relative overflow-hidden min-h-screen flex items-center bg-white">
-    {{-- Main Banner Image (Background) --}}
-    <img src="{{ asset('img/banner-hero.jpg') }}?v={{ time() }}" id="hero-bg" class="absolute inset-0 w-full h-full object-cover">
+<section id="hero-banner" class="relative overflow-hidden bg-stone-950 md:min-h-screen flex flex-col md:block">
+
+    <div class="relative w-full md:absolute md:inset-0 md:h-full">
+        <img src="{{ asset('img/banner-hero.jpg') }}?v={{ time() }}" id="hero-bg" 
+             class="w-full h-auto md:h-full md:object-cover object-center">
+    </div>
     
     {{-- Hand Image (Floating) --}}
     <div class="absolute inset-0 pointer-events-none z-20 perspective-1000" id="hero-hand-wrapper">
-        <img src="{{ asset('img/tangan.png') }}?v={{ time() }}" id="hero-hand" class="w-full h-full object-cover transform-gpu origin-center">
+        <img src="{{ asset('img/tangan.png') }}?v={{ time() }}" id="hero-hand" class="w-full h-full object-contain md:object-cover object-bottom transform-gpu origin-bottom">
     </div>
 
     {{-- Subtle Overlay --}}
     <div class="absolute inset-0 bg-black/10 pointer-events-none z-10"></div>
+    <div class="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/60 to-transparent pointer-events-none z-10"></div>
+    <div class="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/40 to-transparent pointer-events-none z-10 md:hidden"></div>
     <div class="grain z-10 opacity-5"></div>
 </section>
 
@@ -80,7 +90,7 @@
                 <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
 
                 {{-- Mute/Unmute Toggle --}}
-                <button id="muteToggle" class="absolute top-6 right-6 z-20 bg-black/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/40 transition-all border border-white/20">
+                <button id="muteToggle" class="absolute top-4 right-4 md:top-6 md:right-6 z-20 bg-black/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/40 transition-all border border-white/20">
                     <svg id="muteIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
@@ -88,7 +98,7 @@
                 </button>
 
                 {{-- Live badge --}}
-                <div class="absolute bottom-6 left-6 flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full">
+                <div class="absolute bottom-4 left-4 md:bottom-6 md:left-6 flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full">
                     <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                     <span class="font-bold text-stone-900 text-[10px] uppercase tracking-widest">Open Now</span>
                 </div>
@@ -101,7 +111,7 @@
                 <div class="w-12 h-0.5 bg-stone-900"></div>
                 <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Tentang Kami</span>
             </div>
-            <h2 class="text-5xl sm:text-7xl md:text-8xl font-bold text-stone-900 leading-[0.9] mb-8 font-heading uppercase">
+            <h2 class="text-6xl sm:text-7xl md:text-8xl font-bold text-stone-900 leading-[0.85] mb-8 font-heading uppercase">
                 Kopi yang<br><span class="text-stone-300">Bercerita</span>
             </h2>
             <p class="text-stone-600 text-base leading-relaxed mb-8 max-w-md">
@@ -125,13 +135,13 @@
 <section class="bg-stone-50 py-24 md:py-32 relative overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
 
-        <div class="reveal flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
+        <div class="reveal flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-16 md:mb-20">
             <div>
                 <div class="inline-flex items-center gap-4 mb-6">
                     <div class="w-12 h-0.5 bg-stone-900"></div>
                     <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Dari Dapur Kami</span>
                 </div>
-                <h2 class="text-5xl sm:text-7xl md:text-8xl font-bold text-stone-900 leading-[0.9] font-heading uppercase">
+                <h2 class="text-6xl sm:text-7xl md:text-8xl font-bold text-stone-900 leading-[0.85] font-heading uppercase">
                     Menu<br><span class="text-stone-300">Favorit</span>
                 </h2>
             </div>
@@ -180,7 +190,7 @@
                 <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Momen Kita</span>
                 <div class="w-8 h-0.5 bg-stone-900"></div>
             </div>
-            <h2 class="text-5xl sm:text-7xl font-bold text-stone-900 font-heading uppercase tracking-tight">
+            <h2 class="text-6xl sm:text-7xl font-bold text-stone-900 font-heading uppercase tracking-tight">
                 #CalpingStory
             </h2>
         </div>
@@ -201,7 +211,7 @@
 </section>
 
 
-<section class="bg-stone-900 py-32 md:py-48 relative overflow-hidden">
+<section class="bg-stone-900 py-24 md:py-48 relative overflow-hidden">
     <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=40 height=40 viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23FFFFFF\' fill-opacity=\'1\'%3E%3Cpath d=\'M0 40L40 0H20L0 20M40 40V20L20 40\'/%3E%3C/g%3E%3C/svg%3E')"></div>
     <div class="grain z-10 opacity-5"></div>
 
@@ -269,49 +279,60 @@ const handWrapper = document.getElementById('hero-hand-wrapper');
 const hand = document.getElementById('hero-hand');
 
 if (hero && hand && handWrapper) {
-    // 1. Continuous Floating (Breathing Effect)
+    // 1. Entrance & Continuous Floating
+    gsap.from(hand, {
+        y: 100,
+        opacity: 0,
+        duration: 1.8,
+        delay: 0.5,
+        ease: "power4.out"
+    });
+
     gsap.to(handWrapper, {
         y: 15,
         duration: 2.5,
         repeat: -1,
         yoyo: true,
-        ease: "sine.inOut"
+        ease: "sine.inOut",
+        delay: 2.3 // Start floating after entrance
     });
 
-    // 2. 3D Mouse Tracking
-    hero.addEventListener('mousemove', (e) => {
-        const { clientX, clientY } = e;
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        
-        // Calculate ratio (-1 to 1) for smoother 3D mapping
-        const moveX = (clientX - centerX) / centerX;
-        const moveY = (clientY - centerY) / centerY;
-        
-        gsap.to(hand, {
-            x: moveX * 40,
-            y: moveY * 40,
-            rotationX: -moveY * 12, // Tilt up/down
-            rotationY: moveX * 12,  // Tilt left/right
-            rotation: moveX * 3,    // Slight 2D rotation
-            transformPerspective: 1000,
-            duration: 1.5,
-            ease: "power3.out"
+    // 2. 3D Mouse Tracking (Desktop Only)
+    if (window.innerWidth > 1024) {
+        hero.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            
+            // Calculate ratio (-1 to 1) for smoother 3D mapping
+            const moveX = (clientX - centerX) / centerX;
+            const moveY = (clientY - centerY) / centerY;
+            
+            gsap.to(hand, {
+                x: moveX * 40,
+                y: moveY * 40,
+                rotationX: -moveY * 12, // Tilt up/down
+                rotationY: moveX * 12,  // Tilt left/right
+                rotation: moveX * 3,    // Slight 2D rotation
+                transformPerspective: 1000,
+                duration: 1.5,
+                ease: "power3.out"
+            });
         });
-    });
 
-    // Reset position on mouse leave
-    hero.addEventListener('mouseleave', () => {
-        gsap.to(hand, {
-            x: 0,
-            y: 0,
-            rotationX: 0,
-            rotationY: 0,
-            rotation: 0,
-            duration: 2,
-            ease: "elastic.out(1, 0.5)"
+        // Reset position on mouse leave
+        hero.addEventListener('mouseleave', () => {
+            gsap.to(hand, {
+                x: 0,
+                y: 0,
+                rotationX: 0,
+                rotationY: 0,
+                rotation: 0,
+                duration: 2,
+                ease: "elastic.out(1, 0.5)"
+            });
         });
-    });
+    }
 }
 
 // CTA Horizontal Scroll Animation (Scrub)

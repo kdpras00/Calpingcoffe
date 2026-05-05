@@ -30,27 +30,39 @@
 <body class="antialiased bg-white text-stone-900 selection:bg-stone-900 selection:text-white flex flex-col min-h-screen">
 
     <!-- Sticky Navigation (Standardized Fixed Height) -->
-    <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-white border-b border-stone-100 h-20" 
+    <nav class="fixed top-0 w-full z-50 transition-all duration-500 border-b border-transparent h-20" 
          x-data="{ scrolled: false, mobileNav: false }" 
          @scroll.window="scrolled = (window.pageYOffset > 50)" 
-         :class="scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm h-16' : 'h-20'">
+         :class="scrolled || mobileNav ? 'bg-white shadow-sm h-16 border-stone-100' : 'bg-transparent h-24 border-transparent'">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
             <div class="flex justify-between items-center h-full">
                 <!-- Brand -->
-                <a href="{{ route('home') }}" class="flex items-center gap-2 group">
-                    <span class="font-bold text-2xl md:text-3xl tracking-tight font-heading text-stone-900 uppercase">
+                <div class="flex items-center gap-2 group cursor-default">
+                    <span class="opacity-0 md:opacity-100 font-bold text-2xl md:text-3xl tracking-tight font-heading uppercase transition-all duration-500"
+                          :class="{ 
+                              'opacity-100 translate-x-0 text-stone-900': scrolled || mobileNav, 
+                              'opacity-0 -translate-x-4 md:opacity-100 md:translate-x-0 text-white pointer-events-none md:pointer-events-auto': !(scrolled || mobileNav) 
+                          }">
                         calping Coffee
                     </span>
-                </a>
+                </div>
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="{{ route('home') }}" class="font-semibold transition text-xs uppercase tracking-widest text-stone-600 hover:text-stone-900">Beranda</a>
-                    <a href="{{ route('ourstory') }}" class="font-semibold transition text-xs uppercase tracking-widest text-stone-600 hover:text-stone-900">Cerita Kami</a>
-                    <a href="{{ route('location') }}" class="font-semibold transition text-xs uppercase tracking-widest text-stone-600 hover:text-stone-900">Lokasi</a>
+                    <a href="{{ route('home') }}" 
+                       class="font-semibold transition-all text-xs uppercase tracking-widest transition-colors duration-500 hover:opacity-70"
+                       :class="scrolled ? 'text-stone-600 hover:text-stone-900' : 'text-white'">Beranda</a>
+                    <a href="{{ route('ourstory') }}" 
+                       class="font-semibold transition-all text-xs uppercase tracking-widest transition-colors duration-500 hover:opacity-70"
+                       :class="scrolled ? 'text-stone-600 hover:text-stone-900' : 'text-white'">Cerita Kami</a>
+                    <a href="{{ route('location') }}" 
+                       class="font-semibold transition-all text-xs uppercase tracking-widest transition-colors duration-500 hover:opacity-70"
+                       :class="scrolled ? 'text-stone-600 hover:text-stone-900' : 'text-white'">Lokasi</a>
                     
                     @if(!request()->routeIs('customer.index') && !request()->routeIs('customer.scan'))
-                        <a href="{{ route('customer.index') }}" class="flex items-center gap-2 px-8 py-2.5 rounded-full font-bold transition-all text-xs uppercase tracking-widest bg-stone-900 text-white hover:bg-stone-800 hover:scale-105">
+                        <a href="{{ route('customer.index') }}" 
+                           class="flex items-center gap-2 px-8 py-2.5 rounded-full font-bold transition-all text-xs uppercase tracking-widest transition-all duration-500 hover:scale-105"
+                           :class="scrolled ? 'bg-stone-900 text-white hover:bg-stone-800' : 'bg-white text-stone-900 hover:bg-stone-100'">
                             <span>Pesan Sekarang</span>
                         </a>
                     @endif
@@ -58,12 +70,13 @@
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden flex items-center">
-                    <button @click="mobileNav = !mobileNav" class="focus:outline-none text-coffee-900">
-                        <svg x-show="!mobileNav" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" />
+                    <button @click="mobileNav = !mobileNav" class="focus:outline-none transition-colors duration-500"
+                            :class="scrolled || mobileNav ? 'text-stone-900' : 'text-white'">
+                        <svg x-show="!mobileNav" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
                         </svg>
-                        <svg x-show="mobileNav" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                        <svg x-show="mobileNav" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
@@ -95,7 +108,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-grow pt-20"> <!-- Exact offset for h-20 header -->
+    <main class="flex-grow pt-0"> <!-- Removed pt-20 for hero integration -->
         @yield('content')
     </main>
 
