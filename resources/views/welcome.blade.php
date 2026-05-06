@@ -49,21 +49,21 @@
 @endpush
 
 
-<section id="hero-banner" class="relative overflow-hidden bg-stone-950 md:min-h-screen flex flex-col md:block">
+<section id="hero-banner" class="relative overflow-hidden bg-stone-950 min-h-screen flex flex-col md:block">
 
-    <div class="relative w-full md:absolute md:inset-0 md:h-full">
+    <div class="absolute inset-0 w-full h-full">
         <img src="{{ asset('img/banner-hero.jpg') }}?v={{ time() }}" id="hero-bg" 
-             class="w-full h-auto md:h-full md:object-cover object-center">
+             class="w-full h-full object-cover object-center">
     </div>
     
     {{-- Hand Image (Floating) --}}
-    <div class="absolute inset-0 pointer-events-none z-20 perspective-1000" id="hero-hand-wrapper">
-        <img src="{{ asset('img/tangan.png') }}?v={{ time() }}" id="hero-hand" class="w-full h-full object-contain md:object-cover object-bottom transform-gpu origin-bottom">
+    <div class="absolute inset-0 pointer-events-none z-20 perspective-1000 overflow-visible" id="hero-hand-wrapper">
+        <img src="{{ asset('img/tangan.png') }}?v={{ time() }}" id="hero-hand" class="w-[250%] max-w-none -ml-[75%] md:w-full md:max-w-full md:ml-0 h-full object-contain md:object-cover object-bottom transform-gpu origin-bottom md:-mb-10 lg:mb-0">
     </div>
 
     {{-- Huge Background Text --}}
     <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none select-none overflow-hidden">
-        <h1 class="text-[26vw] font-black text-white/80 uppercase tracking-tighter leading-none hidden md:block">
+        <h1 class="text-[26vw] font-black text-white/60 uppercase tracking-tighter leading-none">
             CALPING
         </h1>
     </div>

@@ -5,12 +5,12 @@
 <!-- Categories (Sticky) -->
 <div class="bg-white border-b border-stone-100 py-6 sticky top-20 z-30">
     <div class="max-w-7xl mx-auto px-6">
-        <div class="flex overflow-x-auto gap-3 no-scrollbar items-center pb-2">
-            <button onclick="filterCategory('all', this)" class="category-pill active whitespace-nowrap px-8 py-2.5 rounded-full bg-stone-900 text-white text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-lg">
+        <div class="grid grid-cols-2 md:flex md:overflow-x-auto gap-2 md:gap-3 no-scrollbar items-center pb-2">
+            <button onclick="filterCategory('all', this)" class="category-pill active w-full md:w-auto px-4 md:px-8 py-2.5 rounded-full bg-stone-900 text-white text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-lg truncate">
                 Semua
             </button>
             @foreach($categories as $category)
-                <button onclick="filterCategory('{{ $category->id }}', this)" class="category-pill whitespace-nowrap px-8 py-2.5 rounded-full bg-stone-50 text-stone-500 text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-stone-100 hover:text-stone-900 active:scale-95">
+                <button onclick="filterCategory('{{ $category->id }}', this)" class="category-pill w-full md:w-auto px-4 md:px-8 py-2.5 rounded-full bg-stone-50 text-stone-500 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-stone-100 hover:text-stone-900 active:scale-95 truncate">
                     {{ $category->name }}
                 </button>
             @endforeach
