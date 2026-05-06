@@ -4,24 +4,22 @@
 
 @section('content')
     <!-- Hero Typography -->
-    <section class="min-h-screen flex items-center justify-center bg-stone-50 relative pt-20">
-        <div class="grain opacity-5 absolute inset-0 pointer-events-none"></div>
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h1 class="hero-title text-6xl sm:text-8xl md:text-[9vw] font-bold text-stone-900 font-heading leading-[0.8] uppercase tracking-tighter" style="opacity: 0; transform: translateY(50px);">
+    <section class="min-h-screen flex items-center justify-center bg-stone-950 relative overflow-hidden pt-20">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <img src="{{ asset('img/banner-hero.jpg') }}" class="w-full h-full object-cover object-center">
+            <div class="absolute inset-0 bg-black/60"></div> <!-- Dark overlay for text readability -->
+        </div>
+        <div class="grain opacity-5 absolute inset-0 pointer-events-none z-10"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 text-center relative z-20">
+            <h1 class="hero-title text-6xl sm:text-8xl md:text-[9vw] font-bold text-white font-heading leading-[0.8] uppercase tracking-tighter" style="opacity: 0; transform: translateY(50px);">
                 Bukan Sekadar<br>
-                <span class="text-stone-400">Kedai Kopi.</span>
+                <span class="text-stone-300">Kedai Kopi.</span>
             </h1>
         </div>
     </section>
-
-    <!-- Full Width Parallax Image -->
-    <section class="h-[60vh] md:h-[70vh] w-full relative overflow-hidden" id="parallax-img-section">
-        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
-             class="absolute inset-0 w-full h-[120%] object-cover" 
-             id="parallax-img">
-        <div class="absolute inset-0 bg-black/10"></div>
-    </section>
-
+    
     <!-- Sticky Layout 1: Our Beginning / The Kitchen -->
     <section class="bg-white py-32 md:py-48 relative" id="story-section-1">
         <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">

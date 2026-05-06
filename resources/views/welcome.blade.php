@@ -63,7 +63,7 @@
 
     {{-- Huge Background Text --}}
     <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none select-none overflow-hidden">
-        <h1 class="text-[26vw] font-black text-white/10 uppercase tracking-tighter leading-none hidden md:block">
+        <h1 class="text-[26vw] font-black text-white/80 uppercase tracking-tighter leading-none hidden md:block">
             CALPING
         </h1>
     </div>

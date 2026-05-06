@@ -4,18 +4,24 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="relative py-24 md:py-32 bg-white text-center overflow-hidden">
-        <div class="grain opacity-5"></div>
-        <div class="max-w-4xl mx-auto px-6 relative z-10">
+    <section class="min-h-screen flex items-center justify-center bg-stone-950 relative overflow-hidden pt-20">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <img src="{{ asset('img/banner-hero.jpg') }}" class="w-full h-full object-cover object-center">
+            <div class="absolute inset-0 bg-black/60"></div> <!-- Dark overlay for text readability -->
+        </div>
+        <div class="grain opacity-5 absolute inset-0 pointer-events-none z-10"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-20">
             <div class="inline-flex items-center gap-4 mb-8">
-                <div class="w-8 h-0.5 bg-stone-900"></div>
-                <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Kunjungi Kami</span>
-                <div class="w-8 h-0.5 bg-stone-900"></div>
+                <div class="w-8 h-0.5 bg-white"></div>
+                <span class="text-[10px] uppercase tracking-[0.4em] text-stone-300 font-bold">Kunjungi Kami</span>
+                <div class="w-8 h-0.5 bg-white"></div>
             </div>
-            <h1 class="text-6xl md:text-8xl font-bold text-stone-900 font-heading mb-8 leading-tight uppercase">
-                Mampir Ke <span class="text-stone-300">Calping Coffee.</span>
+            <h1 class="text-6xl md:text-8xl font-bold text-white font-heading mb-8 leading-tight uppercase">
+                Mampir Ke <span class="text-stone-400">Calping Coffee.</span>
             </h1>
-            <p class="text-lg text-stone-500 max-w-2xl mx-auto px-4 leading-relaxed">
+            <p class="text-lg text-stone-300 max-w-2xl mx-auto px-4 leading-relaxed">
                 Pintu kami selalu terbuka lebar. Datanglah untuk kopinya, tinggallah untuk suasananya.
             </p>
         </div>
