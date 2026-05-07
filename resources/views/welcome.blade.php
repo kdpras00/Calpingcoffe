@@ -161,24 +161,29 @@
             </a>
         </div>
 
-        <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
+        {{-- Mixed Grid: 1 Full-width + 2 Columns on Mobile, 3 Columns on Desktop --}}
+        <div class="reveal grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-12 md:gap-16">
             @foreach($highlights as $i => $item)
-            <div class="group">
-                <div class="relative bg-white p-4 rounded-3xl shadow-sm border border-stone-100 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4">
+            <div class="group {{ $i == 0 ? 'col-span-2 md:col-span-1' : 'col-span-1' }}">
+                <div class="relative bg-white p-4 md:p-6 rounded-[2.5rem] md:rounded-[3rem] shadow-sm border border-stone-100 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 h-full flex flex-col">
                     {{-- Badge --}}
-                    <div class="absolute -top-3 right-8 bg-stone-900 text-white text-[8px] font-bold px-4 py-1.5 rounded-full z-20 uppercase tracking-widest">
+                    <div class="absolute -top-3 right-6 md:right-8 bg-stone-900 text-white text-[8px] font-bold px-4 py-1.5 rounded-full z-20 uppercase tracking-widest">
                         {{ $i == 0 ? 'Monthly Best' : ($i == 1 ? 'Favorite' : 'Top Rated') }}
                     </div>
                     {{-- Image --}}
-                    <div class="overflow-hidden mb-6 rounded-2xl bg-stone-100 aspect-[4/5]">
+                    <div class="overflow-hidden mb-5 md:mb-8 rounded-[2rem] md:rounded-[2.5rem] bg-stone-100 aspect-square md:aspect-[4/5] shrink-0">
                         <img src="{{ str_starts_with($item->image, 'http') ? $item->image : asset('storage/' . $item->image) }}" alt="{{ $item->name }}"
                              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                     </div>
                     {{-- Info --}}
-                    <div class="px-2 pb-2">
-                        <p class="text-[9px] uppercase tracking-[0.2em] text-stone-400 font-bold mb-2">{{ $item->category->name ?? 'Menu' }}</p>
-                        <h3 class="text-2xl font-bold text-stone-900 mb-3 uppercase font-heading tracking-wide">{{ $item->name }}</h3>
-                        <p class="text-stone-500 text-xs leading-relaxed line-clamp-2">{{ $item->description }}</p>
+                    <div class="px-2 pb-2 flex-grow">
+                        <p class="text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-stone-400 font-bold mb-2 md:mb-3">{{ $item->category->name ?? 'Menu' }}</p>
+                        <h3 class="{{ $i == 0 ? 'text-2xl' : 'text-sm' }} md:text-3xl font-bold text-stone-900 mb-3 md:mb-4 uppercase font-heading tracking-wide leading-tight">{{ $item->name }}</h3>
+                        
+                        {{-- Description: Only show for the large featured card or on desktop --}}
+                        <p class="{{ $i == 0 ? 'block' : 'hidden' }} md:block text-stone-500 text-[10px] md:text-sm leading-relaxed line-clamp-2">
+                            {{ $item->description }}
+                        </p>
                     </div>
                 </div>
             </div>
