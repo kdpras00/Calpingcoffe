@@ -7,7 +7,7 @@
     <section class="min-h-screen flex items-center justify-center bg-stone-950 relative overflow-hidden pt-20">
         <!-- Background Image -->
         <div class="absolute inset-0">
-            <img src="{{ asset('img/banner-hero.jpg') }}" class="w-full h-full object-cover object-center">
+            <img src="{{ asset('img/banner-hero.jpeg') }}" class="w-full h-full object-cover object-center">
             <div class="absolute inset-0 bg-black/60"></div> <!-- Dark overlay for text readability -->
         </div>
         <div class="grain opacity-5 absolute inset-0 pointer-events-none z-10"></div>

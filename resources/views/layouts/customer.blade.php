@@ -126,13 +126,16 @@
     <!-- Floating Status Button -->
     @if((session('active_order_id') || (isset($activeOrder) && $activeOrder)) && !request()->routeIs('customer.order.status'))
         @php $orderId = session('active_order_id') ?? $activeOrder->id; @endphp
-        <div class="fixed bottom-24 right-6 z-40">
-             <a href="{{ route('customer.order.status', $orderId) }}" class="flex items-center gap-3 bg-stone-900 text-white px-6 py-4 rounded-full shadow-2xl transition-transform hover:scale-105 active:scale-95">
-                <div class="relative flex items-center justify-center">
-                    <span class="absolute inline-flex h-full w-full rounded-full bg-stone-400 opacity-75 animate-ping"></span>
-                    <svg class="w-5 h-5 text-white relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div class="fixed bottom-8 right-6 md:bottom-10 md:right-10 z-[60]">
+             <a href="{{ route('customer.order.status', $orderId) }}" 
+                class="flex items-center justify-center bg-stone-900 text-white w-14 h-14 md:w-auto md:h-auto md:px-6 md:py-4 rounded-full shadow-2xl transition-all hover:scale-110 active:scale-90 border border-white/10 backdrop-blur-sm">
+                <div class="relative flex items-center justify-center shrink-0">
+                    <span class="absolute inline-flex h-full w-full rounded-full bg-stone-400/50 opacity-75 animate-ping"></span>
+                    <svg class="w-6 h-6 md:w-5 md:h-5 text-white relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
                 </div>
-                <span class="font-bold text-xs uppercase tracking-widest">Status Pesanan</span>
+                <span class="hidden md:block font-bold text-[10px] uppercase tracking-widest ml-3">Status Pesanan</span>
              </a>
         </div>
     @endif

@@ -52,7 +52,7 @@
 <section id="hero-banner" class="relative overflow-hidden bg-stone-950 min-h-screen flex flex-col md:block">
 
     <div class="absolute inset-0 w-full h-full">
-        <img src="{{ asset('img/banner-hero.jpg') }}?v={{ time() }}" id="hero-bg" 
+        <img src="{{ asset('img/banner-hero.jpeg') }}?v={{ time() }}" id="hero-bg" 
              class="w-full h-full object-cover object-center">
     </div>
     

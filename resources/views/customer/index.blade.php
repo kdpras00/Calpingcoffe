@@ -2,18 +2,32 @@
 @section('title', 'Menu - Calping Coffee')
 
 @section('content')
-<!-- Categories (Sticky) -->
-<div class="bg-white border-b border-stone-100 py-6 sticky top-20 z-30">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-2 md:flex md:overflow-x-auto gap-2 md:gap-3 no-scrollbar items-center pb-2">
-            <button onclick="filterCategory('all', this)" class="category-pill active w-full md:w-auto px-4 md:px-8 py-2.5 rounded-full bg-stone-900 text-white text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-lg truncate">
-                Semua
-            </button>
-            @foreach($categories as $category)
-                <button onclick="filterCategory('{{ $category->id }}', this)" class="category-pill w-full md:w-auto px-4 md:px-8 py-2.5 rounded-full bg-stone-50 text-stone-500 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-stone-100 hover:text-stone-900 active:scale-95 truncate">
-                    {{ $category->name }}
+<!-- Sticky Header (Search + Categories) -->
+<div id="stickyHeader" class="bg-white border-b border-stone-100 sticky top-16 md:top-20 z-30 transition-transform duration-300 will-change-transform">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-2">
+        <!-- Search Bar -->
+        <div class="relative group mb-4">
+            <input type="text" id="menuSearch" onkeyup="searchMenu()" placeholder="Cari menu favoritmu..." 
+                   class="w-full bg-stone-50 border-none rounded-2xl py-3.5 pl-12 pr-4 text-sm font-medium placeholder:text-stone-400 focus:ring-2 focus:ring-stone-900/5 focus:bg-white transition-all shadow-sm">
+            <div class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-stone-900 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="relative">
+            <div class="flex overflow-x-auto gap-2 no-scrollbar items-center pb-2 -mx-4 px-4 md:mx-0 md:px-0">
+                <button onclick="filterCategory('all', this)" class="category-pill active shrink-0 px-5 md:px-8 py-2 rounded-full bg-stone-900 text-white text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-all active:scale-95 shadow-md truncate">
+                    Semua
                 </button>
-            @endforeach
+                @foreach($categories as $category)
+                    <button onclick="filterCategory('{{ $category->id }}', this)" class="category-pill shrink-0 px-5 md:px-8 py-2 rounded-full bg-stone-50 text-stone-500 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-stone-900 hover:text-white active:scale-95 truncate">
+                        {{ $category->name }}
+                    </button>
+                @endforeach
+            </div>
         </div>
     </div>
 </div>
@@ -35,16 +49,16 @@
 @endif
 
 <!-- Menu Grid -->
-<div class="py-16 max-w-7xl mx-auto px-6 sm:px-10">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
+<div class="py-8 md:py-16 max-w-7xl mx-auto px-4 md:px-10">
+    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-14">
         @foreach($categories as $category)
             @foreach($category->menus as $index => $menu)
                 <div class="menu-card group" data-category="{{ $category->id }}">
                     <!-- Product Card -->
-                    <div class="bg-white rounded-[32px] p-4 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col h-full border border-stone-50">
+                    <div class="bg-white rounded-2xl md:rounded-[32px] p-3 md:p-4 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col h-full border border-stone-50">
                         
                         <!-- Image Container -->
-                        <div class="w-full overflow-hidden bg-stone-50 rounded-[24px] mb-6 relative aspect-square">
+                        <div class="w-full overflow-hidden bg-stone-50 rounded-xl md:rounded-[24px] mb-3 md:mb-6 relative aspect-square">
                             @if($menu->image)
                                 @php
                                     $imagePath = $menu->image;
@@ -55,41 +69,41 @@
                                 <img src="{{ asset($imagePath) }}" alt="{{ $menu->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-stone-200">
-                                    <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <svg class="w-12 h-12 md:w-16 md:h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 </div>
                             @endif
                             
                             <!-- Category Badge -->
-                            <div class="absolute top-4 left-4 bg-white/80 backdrop-blur-md text-stone-900 text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-white/20">
+                            <div class="absolute top-2 left-2 md:top-4 md:left-4 bg-white/80 backdrop-blur-md text-stone-900 text-[7px] md:text-[9px] font-bold px-2 md:px-3 py-1 rounded-full uppercase tracking-widest border border-white/20">
                                 {{ $category->name }}
                             </div>
                         </div>
 
                         <!-- Content Area -->
-                        <div class="flex-grow px-2 space-y-3">
-                            <h3 class="text-3xl font-bold text-stone-900 font-heading uppercase tracking-tight group-hover:text-stone-600 transition-colors">{{ $menu->name }}</h3>
-                            <p class="text-stone-400 text-xs leading-relaxed line-clamp-2 font-medium">
+                        <div class="flex-grow px-1 md:px-2 space-y-1 md:space-y-3">
+                            <h3 class="text-base md:text-3xl font-bold text-stone-900 font-heading uppercase tracking-tight group-hover:text-stone-600 transition-colors line-clamp-1 md:line-clamp-none">{{ $menu->name }}</h3>
+                            <p class="text-stone-400 text-[10px] md:text-xs leading-relaxed line-clamp-2 font-medium">
                                 {{ $menu->description ?? 'Racikan spesial dari barista Calping untuk menyegarkan harimu.' }}
                             </p>
                         </div>
 
                         <!-- Pricing and Controls Area -->
-                        <div class="mt-8 px-2 pb-2 flex justify-between items-center">
-                            <div class="text-xl font-bold text-stone-900">
-                                <span class="text-[10px] text-stone-400 uppercase tracking-widest mr-1">IDR</span>{{ number_format($menu->price, 0, ',', '.') }}
+                        <div class="mt-4 md:mt-8 px-1 md:px-2 pb-1 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+                            <div class="text-sm md:text-xl font-bold text-stone-900">
+                                <span class="text-[8px] md:text-[10px] text-stone-400 uppercase tracking-widest mr-1">IDR</span>{{ number_format($menu->price, 0, ',', '.') }}
                             </div>
-
+ 
                             <!-- Order Controls -->
-                            <div class="flex items-center gap-3">
+                            <div class="flex items-center justify-between md:justify-end gap-2 md:gap-3">
                                 <button onclick="updateQuantity({{ $menu->id }}, '{{ $menu->name }}', {{ $menu->price }}, -1, '{{ asset($imagePath) }}')" 
-                                        class="qty-minus-btn hidden w-10 h-10 items-center justify-center bg-stone-50 text-stone-900 rounded-full hover:bg-stone-100 active:scale-90 transition-all border border-stone-100"
+                                        class="qty-minus-btn hidden w-8 h-8 md:w-10 md:h-10 items-center justify-center bg-stone-50 text-stone-900 rounded-full hover:bg-stone-100 active:scale-90 transition-all border border-stone-100"
                                         data-id="{{ $menu->id }}">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4"></path></svg>
+                                    <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4"></path></svg>
                                 </button>
-                                <span class="qty-display hidden font-bold text-stone-900 text-sm w-4 text-center" data-id="{{ $menu->id }}">0</span>
+                                <span class="qty-display hidden font-bold text-stone-900 text-xs md:text-sm w-4 text-center" data-id="{{ $menu->id }}">0</span>
                                 <button onclick="updateQuantity({{ $menu->id }}, '{{ $menu->name }}', {{ $menu->price }}, 1, '{{ asset($imagePath) }}')" 
-                                        class="w-12 h-12 flex items-center justify-center bg-stone-900 text-white rounded-full transition-all hover:bg-stone-800 hover:scale-110 active:scale-95 shadow-lg shadow-stone-200">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                                        class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-stone-900 text-white rounded-full transition-all hover:bg-stone-800 hover:scale-110 active:scale-95 shadow-lg shadow-stone-200">
+                                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                                 </button>
                             </div>
                         </div>
@@ -185,15 +199,64 @@
         updateCartUI();
     }
 
+    // Optimized Scroll Handler for Mobile
+    let lastScrollTop = 0;
+    let ticking = false;
+    const stickyHeader = document.getElementById('stickyHeader');
+    
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                let scrollTop = window.scrollY || document.documentElement.scrollTop;
+                
+                // Force show at the top of the page
+                if (scrollTop < 50) {
+                    stickyHeader.style.transform = 'translateY(0)';
+                } 
+                else if (Math.abs(lastScrollTop - scrollTop) > 10) { // Add threshold to avoid jumpiness
+                    if (scrollTop > lastScrollTop && scrollTop > 150) {
+                        // Scroll Down - Hide
+                        stickyHeader.style.transform = 'translateY(-110%)';
+                    } else if (scrollTop < lastScrollTop) {
+                        // Scroll Up - Show
+                        stickyHeader.style.transform = 'translateY(0)';
+                    }
+                    lastScrollTop = scrollTop;
+                }
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+
+    function searchMenu() {
+        const query = document.getElementById('menuSearch').value.toLowerCase();
+        const cards = document.querySelectorAll('.menu-card');
+        
+        cards.forEach(card => {
+            const name = card.querySelector('h3').textContent.toLowerCase();
+            const desc = card.querySelector('p').textContent.toLowerCase();
+            
+            if (name.includes(query) || desc.includes(query)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
     function filterCategory(catId, btn) {
+        // Clear search when filtering by category
+        document.getElementById('menuSearch').value = '';
+        
         // Reset styles for ALL pills
         document.querySelectorAll('.category-pill').forEach(p => {
-            p.classList.remove('bg-stone-900', 'text-white', 'shadow-lg', 'scale-105');
+            p.classList.remove('bg-stone-900', 'text-white', 'shadow-md');
             p.classList.add('bg-stone-50', 'text-stone-500');
         });
         
         // Apply Active Style to CLICKED pill
-        btn.classList.add('bg-stone-900', 'text-white', 'shadow-lg', 'scale-105');
+        btn.classList.add('bg-stone-900', 'text-white', 'shadow-md');
         btn.classList.remove('bg-stone-50', 'text-stone-500');
 
         // Filter items

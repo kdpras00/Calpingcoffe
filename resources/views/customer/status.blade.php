@@ -185,23 +185,38 @@
             const storageKey = `notified_ready_${orderId}`;
             
             if (!sessionStorage.getItem(storageKey)) {
+                // Clear, pleasant chime sound
                 const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
-                audio.play().catch(error => console.log('Audio autoplay blocked:', error));
+                audio.volume = 1.0;
+                
+                const playNotification = () => {
+                    audio.play().catch(error => {
+                        console.log('Audio autoplay blocked. Waiting for user interaction.');
+                        // Fallback: Play on next click if blocked
+                        document.addEventListener('click', () => audio.play(), { once: true });
+                    });
 
-                if (navigator.vibrate) {
-                    navigator.vibrate([200, 100, 200, 100, 500]);
-                }
+                    if (navigator.vibrate) {
+                        // Stronger vibration pattern: Long - Pause - Long - Pause - Long
+                        navigator.vibrate([500, 200, 500, 200, 500, 200, 800]);
+                    }
+                };
+
+                playNotification();
 
                 Swal.fire({
-                    title: 'PESANAN SIAP!',
-                    text: 'Silakan ambil pesanan Anda di kasir sekarang.',
+                    title: '<span class="font-heading text-4xl">PESANAN SIAP!</span>',
+                    html: '<p class="text-stone-500 font-medium">Silakan ambil pesanan Anda di counter.<br><b>Terima kasih sudah menunggu!</b></p>',
                     icon: 'success',
-                    confirmButtonText: 'SIAP DIAMBIL',
-                    confirmButtonColor: '#0c0a09',
+                    confirmButtonText: 'SAYA AMBIL SEKARANG',
+                    confirmButtonColor: '#171717',
                     background: '#ffffff',
-                    color: '#0c0a09',
+                    color: '#171717',
+                    padding: '3rem',
+                    allowOutsideClick: false,
                     customClass: {
-                        confirmButton: 'rounded-full px-10 py-4 uppercase text-[10px] font-bold tracking-[0.3em]'
+                        popup: 'rounded-[40px]',
+                        confirmButton: 'rounded-full px-12 py-5 uppercase text-[10px] font-bold tracking-[0.3em] hover:scale-105 transition-transform'
                     }
                 });
 
