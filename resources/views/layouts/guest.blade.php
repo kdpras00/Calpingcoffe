@@ -30,11 +30,12 @@
 <body class="antialiased bg-white text-stone-900 selection:bg-stone-900 selection:text-white flex flex-col min-h-screen">
 
     <!-- Sticky Navigation (Standardized Fixed Height) -->
-    <nav class="fixed top-0 w-full z-50 transition-all duration-500 border-b border-transparent h-20" 
+    <nav class="fixed top-0 w-full z-50 transition-all duration-500 border-b border-transparent" 
          x-data="{ scrolled: false, mobileNav: false }" 
          @scroll.window="scrolled = (window.pageYOffset > 50)" 
-         :class="scrolled || mobileNav ? 'bg-white shadow-sm h-16 border-stone-100' : 'bg-transparent h-24 border-transparent'">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+         :class="scrolled || mobileNav ? 'bg-white shadow-sm border-stone-100' : 'bg-transparent border-transparent'">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-500"
+             :class="scrolled || mobileNav ? 'h-16' : 'h-24'">
             <div class="flex justify-between items-center h-full">
                 <!-- Brand -->
                 <div class="flex items-center gap-2 group cursor-default">
@@ -59,13 +60,11 @@
                        class="font-semibold transition-all text-xs uppercase tracking-widest transition-colors duration-500 hover:opacity-70"
                        :class="scrolled ? 'text-stone-600 hover:text-stone-900' : 'text-white'">Lokasi</a>
                     
-                    @if(!request()->routeIs('customer.index') && !request()->routeIs('customer.scan'))
                         <a href="{{ route('customer.index') }}" 
                            class="flex items-center gap-2 px-8 py-2.5 rounded-full font-bold transition-all text-xs uppercase tracking-widest transition-all duration-500 hover:scale-105"
                            :class="scrolled ? 'bg-stone-900 text-white hover:bg-stone-800' : 'bg-white text-stone-900 hover:bg-stone-100'">
                             <span>Pesan Sekarang</span>
                         </a>
-                    @endif
                 </div>
 
                 <!-- Mobile menu button -->
@@ -94,15 +93,15 @@
              class="md:hidden bg-white border-b-2 border-coffee-900 shadow-lg"
              style="display: none;"
              @click.away="mobileNav = false">
-            <div class="px-4 py-4 space-y-3">
-                <a href="{{ route('home') }}" class="block py-2 px-3 font-bold text-sm text-coffee-900 hover:bg-coffee-100 transition-colors">Beranda</a>
-                <a href="{{ route('ourstory') }}" class="block py-2 px-3 font-bold text-sm text-coffee-900 hover:bg-coffee-100 transition-colors">Cerita Kami</a>
-                <a href="{{ route('location') }}" class="block py-2 px-3 font-bold text-sm text-coffee-900 hover:bg-coffee-100 transition-colors">Lokasi</a>
-                @if(!request()->routeIs('customer.index') && !request()->routeIs('customer.scan'))
-                    <a href="{{ route('customer.index') }}" class="block py-3 px-3 mt-2 bg-coffee-900 text-white text-center font-bold text-sm">
+            <div class="px-6 py-10 space-y-6 text-center">
+                <a href="{{ route('home') }}" class="block font-bold text-sm uppercase tracking-[0.3em] text-stone-600 hover:text-stone-900 transition-colors">Beranda</a>
+                <a href="{{ route('ourstory') }}" class="block font-bold text-sm uppercase tracking-[0.3em] text-stone-600 hover:text-stone-900 transition-colors">Cerita Kami</a>
+                <a href="{{ route('location') }}" class="block font-bold text-sm uppercase tracking-[0.3em] text-stone-600 hover:text-stone-900 transition-colors">Lokasi</a>
+                <div class="pt-4">
+                    <a href="{{ route('customer.index') }}" class="block py-4 px-6 bg-stone-900 text-white font-bold text-xs uppercase tracking-[0.3em] rounded-full shadow-xl shadow-stone-100 active:scale-95 transition-all">
                         Pesan Sekarang
                     </a>
-                @endif
+                </div>
             </div>
         </div>
     </nav>

@@ -32,11 +32,12 @@
 <body class="bg-white text-stone-900 antialiased flex flex-col min-h-screen">
     
     <!-- Sticky Navigation -->
-    <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-white border-b border-stone-100 h-20" 
+    <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-white border-b border-stone-100" 
          x-data="{ scrolled: false, mobileNav: false }" 
          @scroll.window="scrolled = (window.pageYOffset > 50)" 
-         :class="scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm h-16' : 'h-20'">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+         :class="scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : ''">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-300"
+             :class="scrolled ? 'h-16' : 'h-20'">
             <div class="flex justify-between items-center h-full">
                 <!-- Brand -->
                 <a href="{{ route('home') }}" class="flex items-center gap-2 group">
@@ -80,15 +81,15 @@
              class="md:hidden bg-white border-b border-stone-100 shadow-lg"
              style="display: none;"
              @click.away="mobileNav = false">
-            <div class="px-4 py-4 space-y-3">
-                <a href="{{ route('home') }}" class="block py-2 px-3 font-bold text-xs uppercase tracking-widest text-stone-600">Beranda</a>
-                <a href="{{ route('ourstory') }}" class="block py-2 px-3 font-bold text-xs uppercase tracking-widest text-stone-600">Cerita Kami</a>
-                <a href="{{ route('location') }}" class="block py-2 px-3 font-bold text-xs uppercase tracking-widest text-stone-600">Lokasi</a>
-                @if(!request()->routeIs('customer.index') && !request()->routeIs('customer.scan'))
-                    <a href="{{ route('customer.index') }}" class="block py-4 px-3 mt-2 bg-stone-900 text-white text-center font-bold text-xs uppercase tracking-widest rounded-xl">
+            <div class="px-6 py-10 space-y-6 text-center">
+                <a href="{{ route('home') }}" class="block font-bold text-sm uppercase tracking-[0.3em] text-stone-600 hover:text-stone-900 transition-colors">Beranda</a>
+                <a href="{{ route('ourstory') }}" class="block font-bold text-sm uppercase tracking-[0.3em] text-stone-600 hover:text-stone-900 transition-colors">Cerita Kami</a>
+                <a href="{{ route('location') }}" class="block font-bold text-sm uppercase tracking-[0.3em] text-stone-600 hover:text-stone-900 transition-colors">Lokasi</a>
+                <div class="pt-4">
+                    <a href="{{ route('customer.index') }}" class="block py-4 px-6 bg-stone-900 text-white font-bold text-xs uppercase tracking-[0.3em] rounded-full shadow-xl shadow-stone-100 active:scale-95 transition-all">
                         Pesan Sekarang
                     </a>
-                @endif
+                </div>
             </div>
         </div>
     </nav>
