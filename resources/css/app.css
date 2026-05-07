@@ -21,6 +21,21 @@
     --color-stone-800: #262626;
     --color-stone-900: #171717;
     
+    /* Premium Accent Palette */
+    --color-mustard-50: #fdfbed;
+    --color-mustard-100: #fbf6cd;
+    --color-mustard-200: #f7eb9e;
+    --color-mustard-300: #f1d863;
+    --color-mustard-400: #e9c133;
+    --color-mustard-500: #d9ab1b;
+    --color-mustard-600: #bc8a13;
+    --color-mustard-700: #946512;
+    --color-mustard-800: #7a5115;
+    --color-mustard-900: #684317;
+    
+    /* Tuku-Exact Mustard */
+    --color-tuku-mustard: #E5A124;
+    
     /* Animations */
     @keyframes float {
         0%, 100% { transform: translateY(0px); }

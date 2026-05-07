@@ -90,7 +90,7 @@
              x-transition:leave="transition ease-in duration-150"
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-2"
-             class="md:hidden bg-white border-b-2 border-coffee-900 shadow-lg"
+             class="md:hidden bg-white border-b-2 border-stone-900 shadow-lg"
              style="display: none;"
              @click.away="mobileNav = false">
             <div class="px-6 py-10 space-y-6 text-center">
