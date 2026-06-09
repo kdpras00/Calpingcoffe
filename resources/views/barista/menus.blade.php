@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kontrol Stok - Barista')
+@section('title', 'Kelola Stok Menu - Barista')
 
 @section('content')
 <div class="max-w-7xl mx-auto">
@@ -11,7 +11,7 @@
                 <div class="w-8 h-0.5 bg-stone-900"></div>
                 <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Produksi Barista</span>
             </div>
-            <h1 class="text-5xl md:text-6xl font-bold text-stone-900 font-heading uppercase tracking-tight">Kontrol Stok Menu</h1>
+            <h1 class="text-5xl md:text-6xl font-bold text-stone-900 font-heading uppercase tracking-tight">Kelola Stok Menu</h1>
             <p class="text-xs font-semibold text-stone-400 uppercase tracking-widest mt-4">Kelola ketersediaan stok menu</p>
         </div>
     </div>
