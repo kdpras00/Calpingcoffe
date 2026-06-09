@@ -8,3 +8,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 \Illuminate\Support\Facades\Schedule::command('orders:cleanup')->everyFifteenMinutes();
+\Illuminate\Support\Facades\Schedule::command('orders:cancel-expired')->everyMinute();

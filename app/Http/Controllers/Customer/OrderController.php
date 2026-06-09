@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Events\OrderCreated;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Menu;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Table;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        // Handle Secure Token from QR Code
         if ($request->has('token')) {
             $table = Table::where('secure_token', $request->token)->first();
-            
+
             if ($table) {
-                // Cek apakah meja sedang dipakai oleh orang lain
                 if ($table->isOccupied() && session('table_id') != $table->id) {
                     return redirect()->route('customer.occupied');
                 }
@@ -27,40 +29,30 @@ class OrderController extends Controller
             }
         }
 
-        // Legacy support for old table_id parameter (will be removed in future)
         if ($request->has('table_id') && !$request->has('token')) {
             return redirect()->route('customer.scan')->with('error', 'This QR code is outdated. Please ask staff for a new QR code.');
         }
 
-        // REMOVED: Mandatory redirect to scan page. We now allow browsing without a table.
-        // if (!session()->has('table_id')) {
-        //      return redirect()->route('customer.scan');
-        // }
-
-        $categories = Category::with(['menus' => function($query) {
+        $categories = Category::with(['menus' => function ($query) {
             $query->where('is_available', true);
         }])->get();
 
-        // Validate existing session order
         if (session()->has('active_order_id')) {
-            $sessionOrder = \App\Models\Order::find(session('active_order_id'));
+            $sessionOrder = Order::find(session('active_order_id'));
             if ($sessionOrder && in_array($sessionOrder->status, ['completed', 'cancelled'])) {
                 session()->forget('active_order_id');
             }
         }
 
-        // Check for existing active order for this table
-        $activeOrder = \App\Models\Order::where('table_id', session('table_id'))
+        $activeOrder = Order::where('table_id', session('table_id'))
             ->whereIn('status', ['pending', 'confirmed', 'preparing', 'ready'])
-            ->whereDate('created_at', now()->today()) // Only today's orders
+            ->whereDate('created_at', now()->today())
             ->latest()
             ->first();
 
-        // We still track the active order for the current table if it exists
         if ($activeOrder) {
             session(['active_order_id' => $activeOrder->id]);
         } else {
-             // Double check: if no active order found in DB, clear session
             session()->forget('active_order_id');
         }
 
@@ -69,12 +61,11 @@ class OrderController extends Controller
 
     public function scan()
     {
-        // If a table is already set in session, don't allow switching
         if (session('table_id')) {
             return redirect()->route('customer.index')->with('error', 'Meja Anda sudah terdaftar. Silakan hubungi staf jika ingin pindah meja.');
         }
 
-        $tables = Table::orderBy('number')->get()->map(function($table) {
+        $tables = Table::orderBy('number')->get()->map(function ($table) {
             $table->is_occupied = $table->isOccupied();
             return $table;
         });
@@ -84,159 +75,158 @@ class OrderController extends Controller
 
     public function cart()
     {
-        $tables = Table::orderBy('number')->get()->map(function($table) {
+        $tables = Table::orderBy('number')->get()->map(function ($table) {
             $table->is_occupied = $table->isOccupied();
             return $table;
         });
-        
+
         return view('customer.cart', compact('tables'));
     }
-    
+
     public function checkout(Request $request)
     {
         $request->validate([
-            'items' => 'required|json',
-            'note' => 'nullable|string',
-            'table_number' => 'nullable|exists:tables,number'
+            'items'        => 'required|json',
+            'note'         => 'nullable|string',
+            'table_number' => 'nullable|exists:tables,number',
         ]);
 
         $items = json_decode($request->items, true);
-        
+
         if (empty($items)) {
             return back()->with('error', 'Cart is empty');
         }
 
         $tableId = session('table_id');
-        
+
         if (!$tableId) {
             if (!$request->table_number) {
                 return back()->with('error', 'Please select a table to order.');
             }
-            
-            $table = \App\Models\Table::where('number', $request->table_number)->first();
-            
-            // Check occupancy before allowing this new order
+
+            $table = Table::where('number', $request->table_number)->first();
+
             if ($table->isOccupied()) {
                 return back()->with('error', 'Table is currently occupied by another customer.');
             }
-            
+
             $tableId = $table->id;
             session(['table_id' => $table->id, 'table_number' => $table->number]);
         }
-        
-        // Final check to ensure we have a valid tableId
+
         if (!$tableId) {
             return back()->with('error', 'Table session lost. Please scan QR code again.');
         }
-        
-        // Calculate total
-        $totalAmount = 0;
-        foreach ($items as $item) {
-            $totalAmount += $item['price'] * $item['quantity'];
+
+        try {
+            $order = DB::transaction(function () use ($items, $tableId, $request) {
+
+                // Fetch & lock all menu rows atomically to prevent race conditions
+                $menuIds = array_column($items, 'id');
+                $menus   = Menu::whereIn('id', $menuIds)
+                    ->lockForUpdate()
+                    ->get()
+                    ->keyBy('id');
+
+                // Validate using real DB values (not frontend data)
+                foreach ($items as $item) {
+                    if (!isset($menus[$item['id']])) {
+                        throw new \Exception("Menu tidak ditemukan.");
+                    }
+                    $menu = $menus[$item['id']];
+                    if (!$menu->is_available) {
+                        throw new \Exception("Menu '{$menu->name}' sedang tidak tersedia.");
+                    }
+                    if ($menu->stock < $item['quantity']) {
+                        throw new \Exception("Stok '{$menu->name}' tidak mencukupi. Sisa: {$menu->stock}");
+                    }
+                }
+
+                // Calculate total from real DB prices (prevents price tampering)
+                $totalAmount = 0;
+                foreach ($items as $item) {
+                    $totalAmount += $menus[$item['id']]->price * $item['quantity'];
+                }
+                $grandTotal = $totalAmount + ($totalAmount * 0.1);
+
+                $order = Order::create([
+                    'table_id'       => $tableId,
+                    'total_amount'   => $grandTotal,
+                    'status'         => 'pending',
+                    'payment_status' => 'pending',
+                ]);
+
+                foreach ($items as $item) {
+                    $menu = $menus[$item['id']];
+
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'menu_id'  => $item['id'],
+                        'quantity' => $item['quantity'],
+                        'price'    => $menu->price,
+                        'note'     => $request->note,
+                    ]);
+
+                    $menu->decrement('stock', $item['quantity']);
+
+                    if ($menu->fresh()->stock <= 0) {
+                        $menu->update(['is_available' => false]);
+                    }
+                }
+
+                return $order;
+            });
+
+            event(new OrderCreated($order));
+            session(['active_order_id' => $order->id]);
+
+            return redirect()->route('customer.payment', $order->id);
+
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
-        
-        // Add Tax (10%)
-        $tax = $totalAmount * 0.1;
-        $grandTotal = $totalAmount + $tax;
-
-        // Check stock availability
-        foreach ($items as $item) {
-            $menu = \App\Models\Menu::find($item['id']);
-            if (!$menu) {
-                return back()->with('error', 'Menu item not found');
-            }
-            if ($menu->stock < $item['quantity']) {
-                return back()->with('error', "Insufficient stock for {$menu->name}. Available: {$menu->stock}");
-            }
-        }
-
-        // Create Order
-        $order = \App\Models\Order::create([
-            'table_id' => $tableId,
-            'total_amount' => $grandTotal,
-            'status' => 'pending',
-            'payment_status' => 'pending',
-        ]);
-
-        // Create Order Items and Decrement Stock
-        foreach ($items as $item) {
-            $menu = \App\Models\Menu::find($item['id']);
-            
-            \App\Models\OrderItem::create([
-                'order_id' => $order->id,
-                'menu_id' => $item['id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
-                'note' => $request->note,
-            ]);
-
-            // Decrement stock
-            $menu->decrement('stock', $item['quantity']);
-            
-            // Update availability if stock reaches 0
-            if ($menu->stock <= 0) {
-                $menu->update(['is_available' => false]);
-            }
-        }
-
-        // Broadcast Event
-        event(new \App\Events\OrderCreated($order));
-
-        // Save active order to session for history tracking
-        session(['active_order_id' => $order->id]);
-
-        // Clear cart (frontend will handle this via redirect param or just clear it)
-        // For now, redirect to payment page (placeholder)
-        return redirect()->route('customer.payment', $order->id);
     }
 
-    public function payment(\App\Models\Order $order)
+    public function payment(Order $order)
     {
         return view('customer.payment', compact('order'));
     }
 
     public function setTable(Request $request)
     {
-        // If a table is already set in session, don't allow switching
         if (session('table_id')) {
             return redirect()->route('customer.index')->with('error', 'Meja Anda sudah terdaftar.');
         }
 
         $request->validate([
-            'table_number' => 'required|exists:tables,number'
+            'table_number' => 'required|exists:tables,number',
         ]);
-        
+
         $table = Table::where('number', $request->table_number)->first();
 
-        // Check occupancy before setting session
         if ($table->isOccupied()) {
             return redirect()->route('customer.occupied');
         }
 
         session(['table_id' => $table->id, 'table_number' => $table->number]);
-        
+
         return redirect()->route('customer.index');
     }
 
-    public function status(\App\Models\Order $order)
+    public function status(Order $order)
     {
-        // Cleanup active session if order is completed/cancelled
         if (in_array($order->status, ['completed', 'cancelled'])) {
             session()->forget('active_order_id');
         } else {
-            // Ensure session is set if viewing an active order
             session(['active_order_id' => $order->id]);
         }
 
-        // Calculate progress percentage for UI
-        $progress = 0;
-        switch ($order->status) {
-            case 'pending': $progress = 0; break;
-            case 'confirmed': $progress = 33; break;
-            case 'preparing': $progress = 66; break;
-            case 'ready': 
-            case 'completed': $progress = 100; break;
-        }
+        $progress = match ($order->status) {
+            'confirmed'           => 33,
+            'preparing'           => 66,
+            'ready', 'completed'  => 100,
+            default               => 0,
+        };
 
         return view('customer.status', compact('order', 'progress'));
     }
