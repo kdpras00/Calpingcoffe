@@ -35,11 +35,11 @@
                     </div>
                 </div>
                 
-                <form action="{{ route('barista.update-stock', $menu) }}" method="POST" class="flex gap-2">
+                <form action="{{ route('barista.update-stock', $menu) }}" method="POST" class="flex items-center gap-3 w-full">
                     @csrf
                     <input type="number" name="stock" value="{{ $menu->stock }}" min="0" 
-                           class="flex-1 px-4 py-3 text-sm font-bold text-center border border-stone-100 rounded-2xl bg-stone-50 text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-900 focus:border-transparent transition-all">
-                    <button type="submit" class="w-12 h-12 bg-stone-900 text-white rounded-2xl hover:bg-stone-800 transition-all flex items-center justify-center shrink-0">
+                           class="flex-1 min-w-0 w-full px-4 py-3 text-sm font-bold text-center border border-stone-100 rounded-2xl bg-stone-50 text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-900 focus:border-transparent transition-all m-0">
+                    <button type="submit" class="w-12 h-12 shrink-0 bg-stone-900 text-white rounded-2xl hover:bg-stone-800 transition-all flex items-center justify-center shadow-md active:scale-95">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                     </button>
                 </form>
