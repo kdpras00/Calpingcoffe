@@ -26,9 +26,9 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        <!-- Order Queue (2/3 width) -->
-        <div class="lg:col-span-2 space-y-8">
+    <div class="w-full">
+        <!-- Order Queue (Full width) -->
+        <div class="space-y-8">
             <div id="order-queue" class="space-y-8">
                 @forelse($orders as $order)
                 <div class="bg-white rounded-[40px] overflow-hidden shadow-sm border border-stone-100 transition-all duration-500 group">
@@ -123,50 +123,7 @@
             </div>
         </div>
 
-        <!-- Stock Management -->
-        <div class="space-y-8">
-            <div class="sticky top-32">
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="w-8 h-0.5 bg-stone-900"></div>
-                    <h2 class="text-xl font-bold text-stone-900 font-heading uppercase tracking-tight">Kontrol Stok</h2>
-                </div>
-                
-                <div class="bg-white rounded-[40px] overflow-hidden shadow-sm border border-stone-100">
-                    <div class="max-h-[calc(100vh-250px)] overflow-y-auto no-scrollbar">
-                        <div class="divide-y divide-stone-50">
-                            @foreach($menus as $menu)
-                            <div class="p-8 hover:bg-stone-50 transition-all duration-500">
-                                <div class="flex flex-col gap-6">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 rounded-2xl overflow-hidden shrink-0 bg-stone-100 border border-stone-100">
-                                            <img src="{{ str_starts_with($menu->image, 'http') ? $menu->image : asset('storage/' . $menu->image) }}" 
-                                                 alt="{{ $menu->name }}" 
-                                                 class="w-full h-full object-cover">
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="font-bold text-stone-900 text-sm uppercase tracking-tight truncate">{{ $menu->name }}</p>
-                                            <span class="inline-block mt-1 text-[9px] font-bold uppercase tracking-widest {{ $menu->stock > 0 ? 'text-green-500' : 'text-red-500' }}">
-                                                {{ $menu->stock > 0 ? 'Tersedia' : 'Habis' }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    
-                                    <form action="{{ route('barista.update-stock', $menu) }}" method="POST" class="flex gap-2">
-                                        @csrf
-                                        <input type="number" name="stock" value="{{ $menu->stock }}" min="0" 
-                                               class="flex-1 px-4 py-3 text-sm font-bold text-center border border-stone-100 rounded-2xl bg-stone-50 text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-900 focus:border-transparent transition-all">
-                                        <button type="submit" class="w-12 h-12 bg-stone-900 text-white rounded-2xl hover:bg-stone-800 transition-all flex items-center justify-center shrink-0">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
 

@@ -18,13 +18,18 @@ class CashierController extends Controller
             ->latest()
             ->get();
 
+        return view('cashier.dashboard', compact('orders'));
+    }
+
+    public function tables()
+    {
         // Fetch all tables for the Table Map view
         $tables = \App\Models\Table::orderBy('number')->get()->map(function($table) {
             $table->is_occupied = $table->isOccupied();
             return $table;
         });
 
-        return view('cashier.dashboard', compact('orders', 'tables'));
+        return view('cashier.tables', compact('tables'));
     }
 
     public function confirmPayment(Order $order)

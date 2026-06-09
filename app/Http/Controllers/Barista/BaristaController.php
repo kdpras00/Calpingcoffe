@@ -19,9 +19,14 @@ class BaristaController extends Controller
             ->orderBy('updated_at', 'asc') // Oldest first
             ->get();
 
+        return view('barista.dashboard', compact('orders'));
+    }
+
+    public function menus()
+    {
         $menus = Menu::all(); // For stock management
 
-        return view('barista.dashboard', compact('orders', 'menus'));
+        return view('barista.menus', compact('menus'));
     }
 
     public function updateStatus(Request $request, Order $order)
