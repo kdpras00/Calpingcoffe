@@ -10,20 +10,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
-    
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('img/calpinglogoico-removebg-preview.png') }}">
 
-    <!-- Scripts & Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; }
         h1, h2, h3, h4, h5, h6, .font-heading { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
         
-        /* Hide Scrollbar */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -31,7 +26,6 @@
 </head>
 <body class="bg-white text-stone-900 antialiased flex flex-col min-h-screen">
     
-    <!-- Sticky Navigation -->
     <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-white border-b border-stone-100" 
          x-data="{ scrolled: false, mobileNav: false }" 
          @scroll.window="scrolled = (window.pageYOffset > 50)" 
@@ -39,14 +33,12 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-300"
              :class="scrolled ? 'h-16' : 'h-20'">
             <div class="flex justify-between items-center h-full">
-                <!-- Brand -->
                 <a href="{{ route('home') }}" class="flex items-center gap-2 group">
                     <span class="font-bold text-2xl md:text-3xl tracking-tight font-heading text-stone-900 uppercase">
                         Calping Coffee
                     </span>
                 </a>
 
-                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="{{ route('home') }}" class="font-semibold transition text-xs uppercase tracking-widest text-stone-600 hover:text-stone-900">Beranda</a>
                     <a href="{{ route('ourstory') }}" class="font-semibold transition text-xs uppercase tracking-widest text-stone-600 hover:text-stone-900">Cerita Kami</a>
@@ -59,7 +51,6 @@
                     @endif
                 </div>
 
-                <!-- Mobile menu button -->
                 <div class="md:hidden flex items-center">
                     <button @click="mobileNav = !mobileNav" class="focus:outline-none text-stone-900">
                         <svg x-show="!mobileNav" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -73,7 +64,6 @@
             </div>
         </div>
 
-        <!-- Mobile Menu Panel -->
         <div x-show="mobileNav" 
              x-transition:enter="transition ease-out duration-200"
              x-transition:enter-start="opacity-0 -translate-y-2"
@@ -94,12 +84,10 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="flex-grow pt-20">
         @yield('content')
     </main>
 
-    <!-- Simple Footer -->
     <footer class="bg-stone-50 text-stone-900 py-20 border-t border-stone-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center md:items-end gap-8 text-center md:text-left">
@@ -124,7 +112,6 @@
         </div>
     </footer>
 
-    <!-- Floating Status Button -->
     @if((session('active_order_id') || (isset($activeOrder) && $activeOrder)) && !request()->routeIs('customer.order.status'))
         @php $orderId = session('active_order_id') ?? $activeOrder->id; @endphp
         <div class="fixed bottom-8 right-6 md:bottom-10 md:right-10 z-[60]">

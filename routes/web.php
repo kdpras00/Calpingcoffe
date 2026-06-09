@@ -90,6 +90,8 @@ Route::middleware(['auth', 'role:kasir'])->prefix('cashier')->group(function () 
         return redirect()->route('cashier.dashboard');
     });
     Route::get('/dashboard', [\App\Http\Controllers\Cashier\CashierController::class, 'index'])->name('cashier.dashboard');
+    Route::get('/transactions', [\App\Http\Controllers\Cashier\CashierController::class, 'transactions'])->name('cashier.transactions');
+    Route::get('/history', [\App\Http\Controllers\Cashier\CashierController::class, 'history'])->name('cashier.history');
     Route::get('/tables', [\App\Http\Controllers\Cashier\CashierController::class, 'tables'])->name('cashier.tables');
     Route::get('/orders/{order}/print', [\App\Http\Controllers\Cashier\CashierController::class, 'printReceipt'])->name('cashier.print');
     Route::post('/orders/{order}/confirm-payment', [\App\Http\Controllers\Cashier\CashierController::class, 'confirmPayment'])->name('cashier.confirm-payment');
@@ -103,6 +105,7 @@ Route::middleware(['auth', 'role:barista'])->prefix('barista')->group(function (
         return redirect()->route('barista.dashboard');
     });
     Route::get('/dashboard', [\App\Http\Controllers\Barista\BaristaController::class, 'index'])->name('barista.dashboard');
+    Route::get('/orders', [\App\Http\Controllers\Barista\BaristaController::class, 'orders'])->name('barista.orders');
     Route::get('/menus', [\App\Http\Controllers\Barista\BaristaController::class, 'menus'])->name('barista.menus');
     Route::post('/orders/{order}/status', [\App\Http\Controllers\Barista\BaristaController::class, 'updateStatus'])->name('barista.update-status');
     Route::post('/menus/{menu}/stock', [\App\Http\Controllers\Barista\BaristaController::class, 'updateStock'])->name('barista.update-stock');

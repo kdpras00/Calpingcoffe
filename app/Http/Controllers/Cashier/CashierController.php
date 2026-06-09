@@ -10,6 +10,11 @@ class CashierController extends Controller
 {
     public function index()
     {
+        return view('cashier.dashboard');
+    }
+
+    public function transactions()
+    {
         // Fetch orders with pending payment only
         // Paid orders will automatically go to barista (status: confirmed)
         $orders = Order::where('payment_status', 'pending')
@@ -18,7 +23,18 @@ class CashierController extends Controller
             ->latest()
             ->get();
 
-        return view('cashier.dashboard', compact('orders'));
+        return view('cashier.transactions', compact('orders'));
+    }
+
+    public function history()
+    {
+        // Fetch orders with paid payment status
+        $orders = Order::where('payment_status', 'paid')
+            ->with(['items.menu', 'table'])
+            ->latest()
+            ->get();
+
+        return view('cashier.history', compact('orders'));
     }
 
     public function tables()

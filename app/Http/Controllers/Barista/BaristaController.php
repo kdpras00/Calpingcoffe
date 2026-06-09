@@ -11,6 +11,11 @@ class BaristaController extends Controller
 {
     public function index()
     {
+        return view('barista.dashboard');
+    }
+
+    public function orders()
+    {
         // Fetch active orders for barista (confirmed, preparing, ready)
         // Only show PAID orders (exclude pending payment)
         $orders = Order::where('payment_status', 'paid')
@@ -19,7 +24,7 @@ class BaristaController extends Controller
             ->orderBy('updated_at', 'asc') // Oldest first
             ->get();
 
-        return view('barista.dashboard', compact('orders'));
+        return view('barista.orders', compact('orders'));
     }
 
     public function menus()

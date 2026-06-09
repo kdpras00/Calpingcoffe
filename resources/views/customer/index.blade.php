@@ -2,10 +2,8 @@
 @section('title', 'Menu - Calping Coffee')
 
 @section('content')
-<!-- Sticky Header (Search + Categories) -->
-<div id="stickyHeader" class="bg-white border-b border-stone-100 sticky top-16 md:top-20 z-30 transition-transform duration-300 will-change-transform">
+<div id="stickyHeader" class="bg-white border-b border-stone-100 sticky top-16 md:top-20 z-30 transition-transform duration-200 ease-out will-change-transform">
     <div class="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-2">
-        <!-- Search Bar -->
         <div class="relative group mb-4">
             <input type="text" id="menuSearch" onkeyup="searchMenu()" placeholder="Cari menu favoritmu..." 
                    class="w-full bg-stone-50 border-none rounded-2xl py-3.5 pl-12 pr-4 text-sm font-medium placeholder:text-stone-400 focus:ring-2 focus:ring-stone-900/5 focus:bg-white transition-all shadow-sm">
@@ -16,7 +14,6 @@
             </div>
         </div>
 
-        <!-- Categories -->
         <div class="relative">
             <div class="flex overflow-x-auto gap-2 no-scrollbar items-center pb-2 -mx-4 px-4 md:mx-0 md:px-0">
                 <button onclick="filterCategory('all', this)" class="category-pill active shrink-0 px-5 md:px-8 py-2 rounded-full bg-stone-900 text-white text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-all active:scale-95 shadow-md truncate">
@@ -48,16 +45,13 @@
 </div>
 @endif
 
-<!-- Menu Grid -->
 <div class="py-8 md:py-16 max-w-7xl mx-auto px-4 md:px-10">
     <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-14">
         @foreach($categories as $category)
             @foreach($category->menus as $index => $menu)
                 <div class="menu-card group" data-category="{{ $category->id }}">
-                    <!-- Product Card -->
                     <div class="bg-white rounded-2xl md:rounded-[32px] p-3 md:p-4 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col h-full border border-stone-50">
                         
-                        <!-- Image Container -->
                         <div class="w-full overflow-hidden bg-stone-50 rounded-xl md:rounded-[24px] mb-3 md:mb-6 relative aspect-square">
                             @if($menu->image)
                                 @php
@@ -73,13 +67,11 @@
                                 </div>
                             @endif
                             
-                            <!-- Category Badge -->
                             <div class="absolute top-2 left-2 md:top-4 md:left-4 bg-white/80 backdrop-blur-md text-stone-900 text-[7px] md:text-[9px] font-bold px-2 md:px-3 py-1 rounded-full uppercase tracking-widest border border-white/20">
                                 {{ $category->name }}
                             </div>
                         </div>
 
-                        <!-- Content Area -->
                         <div class="flex-grow px-1 md:px-2 space-y-1 md:space-y-3">
                             <h3 class="text-base md:text-3xl font-bold text-stone-900 font-heading uppercase tracking-tight group-hover:text-stone-600 transition-colors line-clamp-1 md:line-clamp-none">{{ $menu->name }}</h3>
                             <p class="text-stone-400 text-[10px] md:text-xs leading-relaxed line-clamp-2 font-medium">
@@ -87,13 +79,11 @@
                             </p>
                         </div>
 
-                        <!-- Pricing and Controls Area -->
                         <div class="mt-4 md:mt-8 px-1 md:px-2 pb-1 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
                             <div class="text-sm md:text-xl font-bold text-stone-900">
                                 <span class="text-[8px] md:text-[10px] text-stone-400 uppercase tracking-widest mr-1">IDR</span>{{ number_format($menu->price, 0, ',', '.') }}
                             </div>
  
-                            <!-- Order Controls -->
                             <div class="flex items-center justify-between md:justify-end gap-2 md:gap-3">
                                 <button onclick="updateQuantity({{ $menu->id }}, '{{ $menu->name }}', {{ $menu->price }}, -1, '{{ asset($imagePath) }}')" 
                                         class="qty-minus-btn hidden w-8 h-8 md:w-10 md:h-10 items-center justify-center bg-stone-50 text-stone-900 rounded-full hover:bg-stone-100 active:scale-90 transition-all border border-stone-100"
@@ -114,7 +104,6 @@
     </div>
 </div>
 
-<!-- Sleek Bottom Cart Bar -->
 <div id="bottomCart" class="fixed bottom-0 left-0 w-full pt-16 pb-6 px-6 z-[100] transform translate-y-full opacity-0 pointer-events-none transition-all duration-700 ease-out bg-gradient-to-t from-white via-white/90 to-transparent">
     <div class="max-w-xl mx-auto">
         <button onclick="window.location.href='{{ route('customer.cart') }}'" class="w-full bg-stone-900 text-white p-5 rounded-[24px] shadow-2xl flex justify-between items-center group active:scale-95 transition-all">
@@ -137,7 +126,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        // Menu Card Reveal Animation
         gsap.from(".menu-card", {
             y: 40,
             opacity: 0,
@@ -165,11 +153,9 @@
             cartEl.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
         }
 
-        // Reset all controls first
         document.querySelectorAll('.qty-minus-btn').forEach(el => el.classList.add('hidden'));
         document.querySelectorAll('.qty-display').forEach(el => el.classList.add('hidden'));
 
-        // Update specific items
         for (const [id, item] of Object.entries(cart)) {
             if (item.quantity > 0) {
                 const minusBtns = document.querySelectorAll(`.qty-minus-btn[data-id="${id}"]`);
@@ -199,7 +185,6 @@
         updateCartUI();
     }
 
-    // Optimized Scroll Handler for Mobile
     let lastScrollTop = 0;
     let ticking = false;
     const stickyHeader = document.getElementById('stickyHeader');
@@ -209,16 +194,13 @@
             window.requestAnimationFrame(() => {
                 let scrollTop = window.scrollY || document.documentElement.scrollTop;
                 
-                // Force show at the top of the page
                 if (scrollTop < 50) {
                     stickyHeader.style.transform = 'translateY(0)';
                 } 
-                else if (Math.abs(lastScrollTop - scrollTop) > 10) { // Add threshold to avoid jumpiness
-                    if (scrollTop > lastScrollTop && scrollTop > 150) {
-                        // Scroll Down - Hide
+                else if (Math.abs(lastScrollTop - scrollTop) > 5) {
+                    if (scrollTop > lastScrollTop && scrollTop > 100) {
                         stickyHeader.style.transform = 'translateY(-110%)';
                     } else if (scrollTop < lastScrollTop) {
-                        // Scroll Up - Show
                         stickyHeader.style.transform = 'translateY(0)';
                     }
                     lastScrollTop = scrollTop;
@@ -246,20 +228,16 @@
     }
 
     function filterCategory(catId, btn) {
-        // Clear search when filtering by category
         document.getElementById('menuSearch').value = '';
         
-        // Reset styles for ALL pills
         document.querySelectorAll('.category-pill').forEach(p => {
             p.classList.remove('bg-stone-900', 'text-white', 'shadow-md');
             p.classList.add('bg-stone-50', 'text-stone-500');
         });
         
-        // Apply Active Style to CLICKED pill
         btn.classList.add('bg-stone-900', 'text-white', 'shadow-md');
         btn.classList.remove('bg-stone-50', 'text-stone-500');
 
-        // Filter items
         const cards = document.querySelectorAll('.menu-card');
         cards.forEach(card => {
             if (catId === 'all' || card.dataset.category === catId) {
@@ -270,7 +248,6 @@
         });
     }
 
-    // Init
     updateCartUI();
 </script>
 @endpush
