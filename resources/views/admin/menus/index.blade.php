@@ -62,8 +62,8 @@
                         </td>
                         <td class="px-6 py-6 whitespace-nowrap text-right">
                             <div class="flex items-center justify-end gap-2 text-sm">
-                                <a href="{{ route('admin.menus.edit', $menu) }}" class="px-3 py-1.5 bg-white border-2 border-stone-900 text-stone-900 text-[10px] font-black uppercase tracking-widest hover:bg-tuku-mustard transition-all shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]">
-                                    Edit
+                                <a href="{{ route('admin.menus.edit', $menu) }}" title="Edit" class="p-2 bg-white border-2 border-stone-900 text-stone-900 hover:bg-tuku-mustard transition-all shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 </a>
                                 <form action="{{ route('admin.menus.destroy', $menu) }}" method="POST" class="inline" onsubmit="confirmDelete(event)">
                                     @csrf

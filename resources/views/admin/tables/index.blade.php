@@ -66,22 +66,22 @@
                         </td>
                         <td class="px-6 py-6 whitespace-nowrap text-right">
                             <div class="flex items-center justify-end gap-2">
-                                <a href="{{ route('admin.tables.print', $table) }}" target="_blank" class="px-3 py-1.5 bg-white border-2 border-stone-900 text-stone-900 text-[9px] font-black uppercase tracking-widest hover:bg-stone-900 hover:text-white transition-all">
-                                    Cetak
+                                <a href="{{ route('admin.tables.print', $table) }}" target="_blank" title="Cetak" class="p-2 bg-white border-2 border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-white transition-all shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                                 </a>
-                                <a href="{{ route('admin.tables.download', $table) }}" class="px-3 py-1.5 bg-white border-2 border-stone-900 text-stone-900 text-[9px] font-black uppercase tracking-widest hover:bg-tuku-mustard transition-all">
-                                    Unduh
+                                <a href="{{ route('admin.tables.download', $table) }}" title="Unduh" class="p-2 bg-white border-2 border-stone-900 text-stone-900 hover:bg-tuku-mustard transition-all shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                 </a>
                                 <form action="{{ route('admin.tables.clear', $table) }}" method="POST" class="inline" onsubmit="confirmClear(event)">
                                     @csrf
-                                    <button type="submit" class="px-3 py-1.5 bg-white border-2 border-stone-900 text-stone-900 text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all">
-                                        Reset
+                                    <button type="submit" title="Reset" class="p-2 bg-white border-2 border-stone-900 text-stone-900 hover:bg-red-500 hover:text-white transition-all shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                                     </button>
                                 </form>
                                 <form action="{{ route('admin.tables.destroy', $table) }}" method="POST" class="inline" onsubmit="confirmDelete(event)">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="p-2 bg-stone-900 text-white border-2 border-stone-900 hover:bg-red-600 transition-all">
+                                    <button type="submit" title="Hapus" class="p-2 bg-stone-900 text-white border-2 border-stone-900 hover:bg-red-600 transition-all shadow-[2px_2px_0px_0px_rgba(43,30,22,1)]">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     </button>
                                 </form>

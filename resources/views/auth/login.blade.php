@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="relative" x-data="{ show: false }">
-                        <label for="password" class="absolute -top-2.5 left-3 bg-white px-2 text-[10px] font-mono font-bold text-stone-500 uppercase tracking-widest">Safe Password</label>
+                        <label for="password" class="absolute -top-2.5 left-3 bg-white px-2 text-[10px] font-mono font-bold text-stone-500 uppercase tracking-widest">Password</label>
                         <input :type="show ? 'text' : 'password'" id="password" name="password" required 
                                class="w-full px-4 py-4 border-2 border-stone-900 bg-white placeholder:text-stone-200 focus:bg-stone-50 outline-none transition-all font-bold text-stone-900 pr-12"
                                placeholder="••••••••">
