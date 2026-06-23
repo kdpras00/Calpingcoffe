@@ -17,6 +17,7 @@ class AdminController extends Controller
 
         $stats = [
             'total_sales' => Order::whereDate('created_at', $today)->where('status', 'completed')->sum('total_amount'),
+            'total_sales_all' => Order::where('status', 'completed')->sum('total_amount'),
             'total_orders' => Order::whereDate('created_at', $today)->count(),
             'active_menus' => Menu::where('is_available', true)->count(),
             'active_users' => User::count(),

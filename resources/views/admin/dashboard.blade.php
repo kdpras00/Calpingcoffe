@@ -15,74 +15,53 @@
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-        <!-- Total Sales -->
-        <div class="bg-white rounded-3xl p-8 shadow-sm border border-stone-100 hover:shadow-xl transition-all duration-500 group">
-            <div class="flex flex-col gap-6">
-                <div class="w-12 h-12 rounded-2xl bg-stone-50 flex items-center justify-center text-stone-900 group-hover:bg-stone-900 group-hover:text-white transition-colors duration-500">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-[10px] font-bold text-stone-400 uppercase tracking-[0.2em] mb-2">Penjualan Hari Ini</p>
-                    <h3 class="text-3xl font-bold text-stone-900 tracking-tight">
-                        <span class="text-xs text-stone-400 font-normal mr-1">IDR</span>{{ number_format($stats['total_sales'], 0, ',', '.') }}
-                    </h3>
-                </div>
-            </div>
-        </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-16">
+        <x-stat-card 
+            title="Penjualan Hari Ini" 
+            value="{{ number_format($stats['total_sales'], 0, ',', '.') }}" 
+            color="emerald" 
+            :isCurrency="true">
+            <x-slot name="icon">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </x-slot>
+        </x-stat-card>
 
-        <!-- Total Orders -->
-        <div class="bg-white rounded-3xl p-8 shadow-sm border border-stone-100 hover:shadow-xl transition-all duration-500 group">
-            <div class="flex flex-col gap-6">
-                <div class="w-12 h-12 rounded-2xl bg-stone-50 flex items-center justify-center text-stone-900 group-hover:bg-stone-900 group-hover:text-white transition-colors duration-500">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-[10px] font-bold text-stone-400 uppercase tracking-[0.2em] mb-2">Pesanan Hari Ini</p>
-                    <h3 class="text-4xl font-bold text-stone-900 tracking-tight">
-                        {{ $stats['total_orders'] }}
-                    </h3>
-                </div>
-            </div>
-        </div>
+        <x-stat-card 
+            title="Total Penjualan" 
+            value="{{ number_format($stats['total_sales_all'], 0, ',', '.') }}" 
+            color="emerald" 
+            :isCurrency="true">
+            <x-slot name="icon">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </x-slot>
+        </x-stat-card>
 
-        <!-- Active Menus -->
-        <div class="bg-white rounded-3xl p-8 shadow-sm border border-stone-100 hover:shadow-xl transition-all duration-500 group">
-            <div class="flex flex-col gap-6">
-                <div class="w-12 h-12 rounded-2xl bg-stone-50 flex items-center justify-center text-stone-900 group-hover:bg-stone-900 group-hover:text-white transition-colors duration-500">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-[10px] font-bold text-stone-400 uppercase tracking-[0.2em] mb-2">Menu Aktif</p>
-                    <h3 class="text-4xl font-bold text-stone-900 tracking-tight">
-                        {{ $stats['active_menus'] }}
-                    </h3>
-                </div>
-            </div>
-        </div>
+        <x-stat-card 
+            title="Pesanan Hari Ini" 
+            value="{{ $stats['total_orders'] }}" 
+            color="indigo">
+            <x-slot name="icon">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            </x-slot>
+        </x-stat-card>
 
-        <!-- Total Users -->
-        <div class="bg-white rounded-3xl p-8 shadow-sm border border-stone-100 hover:shadow-xl transition-all duration-500 group">
-            <div class="flex flex-col gap-6">
-                <div class="w-12 h-12 rounded-2xl bg-stone-50 flex items-center justify-center text-stone-900 group-hover:bg-stone-900 group-hover:text-white transition-colors duration-500">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-[10px] font-bold text-stone-400 uppercase tracking-[0.2em] mb-2">Total Pengguna</p>
-                    <h3 class="text-4xl font-bold text-stone-900 tracking-tight">
-                        {{ $stats['active_users'] }}
-                    </h3>
-                </div>
-            </div>
-        </div>
+        <x-stat-card 
+            title="Menu Aktif" 
+            value="{{ $stats['active_menus'] }}" 
+            color="amber">
+            <x-slot name="icon">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            </x-slot>
+        </x-stat-card>
+
+        <x-stat-card 
+            title="Total Pengguna" 
+            value="{{ $stats['active_users'] }}" 
+            color="stone">
+            <x-slot name="icon">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </x-slot>
+        </x-stat-card>
     </div>
 
     <!-- Recent Orders History -->

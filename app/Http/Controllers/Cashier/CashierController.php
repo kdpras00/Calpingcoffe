@@ -10,7 +10,28 @@ class CashierController extends Controller
 {
     public function index()
     {
-        return view('cashier.dashboard');
+        $today = \Carbon\Carbon::today();
+        
+        $stats = [
+            'pending_orders' => Order::where('payment_status', 'pending')
+                ->whereIn('status', ['pending', 'confirmed', 'preparing', 'ready'])
+                ->count(),
+            'paid_orders_today' => Order::whereDate('created_at', $today)
+                ->where('payment_status', 'paid')
+                ->count(),
+            'income_today' => Order::whereDate('created_at', $today)
+                ->where('payment_status', 'paid')
+                ->sum('total_amount'),
+            'active_tables' => \App\Models\Table::where('status', 'occupied')->count(),
+        ];
+
+        $recentOrders = Order::with(['items.menu', 'table'])
+            ->whereIn('status', ['completed', 'cancelled'])
+            ->latest()
+            ->take(10)
+            ->get();
+
+        return view('cashier.dashboard', compact('stats', 'recentOrders'));
     }
 
     public function transactions()
