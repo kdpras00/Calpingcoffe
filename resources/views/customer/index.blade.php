@@ -2,7 +2,7 @@
 @section('title', 'Menu - Calping Coffee')
 
 @section('content')
-<div id="stickyHeader" class="bg-white border-b border-stone-100 sticky top-16 md:top-20 z-30 transition-transform duration-200 ease-out will-change-transform">
+<div id="stickyHeader" class="bg-white border-b border-stone-100 sticky top-20 z-30 transition-all duration-300 ease-in-out will-change-transform">
     <div class="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-2">
         <div class="relative group mb-4">
             <input type="text" id="menuSearch" onkeyup="searchMenu()" placeholder="Cari menu favoritmu..." 
@@ -186,19 +186,46 @@
     }
 
     let lastScrollTop = 0;
+    const scrollThreshold = 12; // ponytail: delta threshold to prevent jitter
     const stickyHeader = document.getElementById('stickyHeader');
     
-    // ponytail: simplified scroll handler to eliminate delay, direct delta comparison
+    // Set initial dynamic top positioning based on load scroll
+    const initialScroll = window.scrollY || document.documentElement.scrollTop;
+    stickyHeader.style.top = initialScroll > 50 ? '64px' : '80px';
+    lastScrollTop = initialScroll;
+    
     window.addEventListener('scroll', () => {
         const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        
+        // Prevent negative values on iOS rubber-banding
+        if (scrollTop < 0) return;
+        
+        // Synchronize top offset with main navbar collapse height (64px vs 80px)
+        if (scrollTop > 50) {
+            stickyHeader.style.top = '64px';
+        } else {
+            stickyHeader.style.top = '80px';
+        }
+        
+        // Force fully visible when near top of page
         if (scrollTop < 50) {
             stickyHeader.style.transform = 'translateY(0)';
-        } else if (scrollTop > lastScrollTop) {
-            stickyHeader.style.transform = 'translateY(-110%)';
-        } else {
-            stickyHeader.style.transform = 'translateY(0)';
+            lastScrollTop = scrollTop;
+            return;
         }
-        lastScrollTop = scrollTop;
+        
+        const delta = scrollTop - lastScrollTop;
+        
+        if (Math.abs(delta) > scrollThreshold) {
+            if (delta > 0) {
+                // Scrolling down -> Hide
+                stickyHeader.style.transform = 'translateY(-110%)';
+            } else {
+                // Scrolling up -> Show
+                stickyHeader.style.transform = 'translateY(0)';
+            }
+            lastScrollTop = scrollTop;
+        }
     }, { passive: true });
 
     function searchMenu() {
