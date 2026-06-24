@@ -5,13 +5,27 @@
 @section('content')
 <div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="mb-12">
-        <div class="flex items-center gap-4 mb-4">
-            <div class="w-8 h-0.5 bg-stone-900"></div>
-            <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Ringkasan Sistem</span>
+    <div class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+        <div>
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-8 h-0.5 bg-stone-900"></div>
+                <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 font-bold">Ringkasan Sistem</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold text-stone-900 font-heading uppercase tracking-tight">Dashboard Admin</h1>
+            <p class="text-xs font-semibold text-stone-400 uppercase tracking-widest mt-4">Selamat datang kembali, {{ Auth::user()->name }}</p>
         </div>
-        <h1 class="text-5xl md:text-6xl font-bold text-stone-900 font-heading uppercase tracking-tight">Dashboard Admin</h1>
-        <p class="text-xs font-semibold text-stone-400 uppercase tracking-widest mt-4">Selamat datang kembali, {{ Auth::user()->name }}</p>
+
+        <form action="{{ route('admin.export-sales') }}" method="GET" class="flex flex-col sm:flex-row items-end gap-3">
+            <div class="flex flex-col gap-1 w-full sm:w-auto">
+                <label for="date" class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Filter Tanggal</label>
+                <input type="date" name="date" id="date" value="{{ request('date', \Carbon\Carbon::today()->format('Y-m-d')) }}" 
+                    class="bg-white border border-stone-200 text-sm rounded-xl px-4 h-11 font-medium text-stone-600 focus:ring-2 focus:ring-stone-900 focus:border-stone-900 outline-none transition-all min-w-[160px] w-full sm:w-auto box-border">
+            </div>
+            <button type="submit" class="bg-stone-900 hover:bg-stone-800 text-white px-6 h-11 rounded-xl text-sm font-bold tracking-wide transition-all shadow-sm flex items-center justify-center gap-2 w-full sm:w-auto box-border">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Export PDF
+            </button>
+        </form>
     </div>
 
     <!-- Stats Grid -->

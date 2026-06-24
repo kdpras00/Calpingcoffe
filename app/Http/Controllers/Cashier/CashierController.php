@@ -145,4 +145,23 @@ class CashierController extends Controller
 
         return back()->with('success', 'Order cancelled successfully.');
     }
+
+    public function exportSales(Request $request)
+    {
+        $date = $request->input('date', \Carbon\Carbon::today()->format('Y-m-d'));
+        
+        // Filter from 00:00:00 to 23:59:59 of the selected date
+        $startOfDay = \Carbon\Carbon::parse($date)->startOfDay();
+        $endOfDay = \Carbon\Carbon::parse($date)->endOfDay();
+
+        $orders = Order::with(['items.menu', 'table'])
+            ->whereBetween('created_at', [$startOfDay, $endOfDay])
+            ->where('payment_status', 'paid')
+            ->latest()
+            ->get();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.sales-report', compact('orders', 'date'));
+        
+        return $pdf->download('laporan-penjualan-' . $date . '.pdf');
+    }
 }

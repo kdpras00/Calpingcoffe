@@ -60,6 +60,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         return redirect()->route('admin.dashboard');
     });
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/export-sales', [\App\Http\Controllers\Admin\AdminController::class, 'exportSales'])->name('admin.export-sales');
     Route::resource('menus', \App\Http\Controllers\Admin\MenuController::class)->names('admin.menus');
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->names('admin.users');
     
@@ -90,6 +91,7 @@ Route::middleware(['auth', 'role:kasir'])->prefix('cashier')->group(function () 
         return redirect()->route('cashier.dashboard');
     });
     Route::get('/dashboard', [\App\Http\Controllers\Cashier\CashierController::class, 'index'])->name('cashier.dashboard');
+    Route::get('/export-sales', [\App\Http\Controllers\Cashier\CashierController::class, 'exportSales'])->name('cashier.export-sales');
     Route::get('/transactions', [\App\Http\Controllers\Cashier\CashierController::class, 'transactions'])->name('cashier.transactions');
     Route::get('/history', [\App\Http\Controllers\Cashier\CashierController::class, 'history'])->name('cashier.history');
     Route::get('/tables', [\App\Http\Controllers\Cashier\CashierController::class, 'tables'])->name('cashier.tables');
