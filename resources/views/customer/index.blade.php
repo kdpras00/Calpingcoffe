@@ -186,29 +186,19 @@
     }
 
     let lastScrollTop = 0;
-    let ticking = false;
     const stickyHeader = document.getElementById('stickyHeader');
     
+    // ponytail: simplified scroll handler to eliminate delay, direct delta comparison
     window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                let scrollTop = window.scrollY || document.documentElement.scrollTop;
-                
-                if (scrollTop < 50) {
-                    stickyHeader.style.transform = 'translateY(0)';
-                } 
-                else if (Math.abs(lastScrollTop - scrollTop) > 5) {
-                    if (scrollTop > lastScrollTop && scrollTop > 100) {
-                        stickyHeader.style.transform = 'translateY(-110%)';
-                    } else if (scrollTop < lastScrollTop) {
-                        stickyHeader.style.transform = 'translateY(0)';
-                    }
-                    lastScrollTop = scrollTop;
-                }
-                ticking = false;
-            });
-            ticking = true;
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        if (scrollTop < 50) {
+            stickyHeader.style.transform = 'translateY(0)';
+        } else if (scrollTop > lastScrollTop) {
+            stickyHeader.style.transform = 'translateY(-110%)';
+        } else {
+            stickyHeader.style.transform = 'translateY(0)';
         }
+        lastScrollTop = scrollTop;
     }, { passive: true });
 
     function searchMenu() {
