@@ -40,11 +40,6 @@
         position: absolute; inset: 0; pointer-events: none; opacity: 0.06;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
-    #hero-hand {
-        image-rendering: -webkit-optimize-contrast;
-        image-rendering: crisp-edges;
-        backface-visibility: hidden;
-    }
 </style>
 @endpush
 
@@ -58,7 +53,7 @@
     
     {{-- Hand Image (Floating) --}}
     <div class="absolute inset-0 pointer-events-none z-20 perspective-1000 overflow-visible" id="hero-hand-wrapper">
-        <img src="{{ asset('img/tangan.png') }}?v={{ time() }}" id="hero-hand" class="w-[250%] max-w-none -ml-[75%] md:w-full md:max-w-full md:ml-0 h-full object-contain md:object-cover object-bottom transform-gpu origin-bottom md:-mb-10 lg:mb-0">
+        <img src="{{ asset('img/tangan.png') }}?v={{ time() }}" id="hero-hand" class="w-[250%] max-w-none -ml-[75%] md:w-full md:max-w-full md:ml-0 h-full object-contain md:object-cover object-bottom origin-bottom md:-mb-10 lg:mb-0">
     </div>
 
     {{-- Huge Background Text --}}
@@ -323,10 +318,7 @@ if (hero && hand && handWrapper) {
             gsap.to(hand, {
                 x: moveX * 40,
                 y: moveY * 40,
-                rotationX: -moveY * 12, // Tilt up/down
-                rotationY: moveX * 12,  // Tilt left/right
                 rotation: moveX * 3,    // Slight 2D rotation
-                transformPerspective: 1000,
                 duration: 1.5,
                 ease: "power3.out"
             });

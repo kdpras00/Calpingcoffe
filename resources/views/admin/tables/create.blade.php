@@ -26,9 +26,9 @@
                 <label for="number" class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">
                     Nomor Meja <span class="text-red-500">*</span>
                 </label>
-                <input type="text" id="number" name="number" value="{{ old('number') }}" required
+                <input type="number" id="number" name="number" value="{{ old('number') }}" required min="1"
                     class="w-full px-4 py-2 border border-stone-300 dark:border-stone-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-stone-800 dark:text-stone-100"
-                    placeholder="Contoh: 1, 2, A1, VIP-1">
+                    placeholder="Contoh: 1, 2, 3">
                 @error('number')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror

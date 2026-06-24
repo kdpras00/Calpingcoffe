@@ -81,23 +81,40 @@
 
             <!-- Image -->
             <div class="mb-6">
-                <label for="image" class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">
+                <label class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">
                     Gambar Menu <span class="text-red-500">*</span>
                 </label>
-                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-stone-300 dark:border-stone-600 border-dashed rounded-lg hover:border-amber-500 transition-colors">
-                    <div class="space-y-1 text-center">
-                        <svg class="mx-auto h-12 w-12 text-stone-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                
+                <div class="relative w-full h-48 sm:h-56 rounded-2xl overflow-hidden border-2 border-stone-300 dark:border-stone-600 border-dashed hover:border-amber-500 transition-colors group bg-stone-50 dark:bg-stone-800/50">
+                    
+                    <!-- Upload State -->
+                    <div id="upload-state" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                        <svg class="mx-auto h-12 w-12 text-stone-400 group-hover:text-amber-500 transition-colors" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        <div class="flex text-sm text-stone-600 dark:text-stone-400">
-                            <label for="image" class="relative cursor-pointer bg-white dark:bg-stone-800 rounded-md font-medium text-amber-600 hover:text-amber-500 focus-within:outline-none">
-                                <span>Upload gambar</span>
-                                <input id="image" name="image" type="file" class="sr-only" accept="image/*" required>
-                            </label>
-                            <p class="pl-1">atau drag and drop</p>
-                        </div>
-                        <p class="text-xs text-stone-500">PNG, JPG, WEBP hingga 2MB</p>
+                        <p class="mt-2 text-sm text-stone-600 dark:text-stone-400">
+                            <span class="font-medium text-amber-600">Pilih gambar</span> atau drag & drop ke sini
+                        </p>
+                        <p class="mt-1 text-xs text-stone-500">PNG, JPG, WEBP hingga 2MB</p>
                     </div>
+
+                    <!-- Preview State -->
+                    <div id="preview-state" class="absolute inset-0 hidden bg-white dark:bg-stone-900 z-10">
+                        <img id="image-preview" src="#" alt="Preview" class="w-full h-full object-contain p-4">
+                        
+                        <!-- Overlay controls -->
+                        <div class="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-[2px]">
+                            <button type="button" id="btn-change-image" class="px-5 py-2.5 bg-white text-stone-900 rounded-xl text-xs font-bold uppercase tracking-widest shadow-xl hover:scale-105 transition-transform border-2 border-stone-900">
+                                Ganti
+                            </button>
+                            <button type="button" id="btn-remove-image" class="px-5 py-2.5 bg-red-500 text-white rounded-xl text-xs font-bold uppercase tracking-widest shadow-xl hover:scale-105 hover:bg-red-600 transition-transform border-2 border-red-500">
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hidden Input -->
+                    <input id="image" name="image" type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-50" accept="image/*" required>
                 </div>
                 @error('image')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -127,4 +144,44 @@
         </form>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    const imageInput = document.getElementById('image');
+    const uploadState = document.getElementById('upload-state');
+    const previewState = document.getElementById('preview-state');
+    const imagePreview = document.getElementById('image-preview');
+    const btnChange = document.getElementById('btn-change-image');
+    const btnRemove = document.getElementById('btn-remove-image');
+
+    imageInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                uploadState.classList.add('hidden');
+                previewState.classList.remove('hidden');
+                // Hide input so buttons are clickable
+                imageInput.classList.add('hidden');
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    btnChange.addEventListener('click', function() {
+        imageInput.click();
+    });
+
+    btnRemove.addEventListener('click', function() {
+        imageInput.value = '';
+        imagePreview.src = '#';
+        uploadState.classList.remove('hidden');
+        previewState.classList.add('hidden');
+        
+        // Show input again
+        imageInput.classList.remove('hidden');
+    });
+</script>
+@endpush
 @endsection
